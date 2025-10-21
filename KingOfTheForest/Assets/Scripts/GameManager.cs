@@ -221,4 +221,9 @@ public class GameManager : MonoBehaviour
         stone += 5;
         money -= 5;
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }

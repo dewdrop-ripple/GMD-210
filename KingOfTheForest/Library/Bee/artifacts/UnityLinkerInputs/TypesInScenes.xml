@@ -1,12 +1,12 @@
 <linker>
 	<assembly fullname="Assembly-CSharp">
 		<type fullname="Building" preserve="nothing"/>
+		<type fullname="BuildMenu" preserve="nothing"/>
 		<type fullname="GameManager" preserve="nothing"/>
 		<type fullname="HUD" preserve="nothing"/>
 		<type fullname="Resource" preserve="nothing"/>
 	</assembly>
 	<assembly fullname="Unity.2D.Animation.Runtime">
-		<type fullname="UnityEngine.U2D.Animation.BufferManager" preserve="nothing"/>
 		<type fullname="UnityEngine.U2D.Animation.DeformationManager" preserve="nothing"/>
 		<type fullname="UnityEngine.U2D.Animation.DeformationManagerUpdater" preserve="nothing"/>
 	</assembly>

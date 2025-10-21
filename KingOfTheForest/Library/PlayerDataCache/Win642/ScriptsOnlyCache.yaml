@@ -1,6 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - BuildMenu
     - Building
     - GameManager
     - HUD
@@ -8,7 +9,6 @@ ScriptsOnlyBuild:
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.Animation.Runtime.dll:
-    - UnityEngine.U2D.Animation.BufferManager
     - UnityEngine.U2D.Animation.DeformationManager
     - UnityEngine.U2D.Animation.DeformationManagerUpdater
     Unity.2D.IK.Editor.dll:
@@ -251,17 +251,62 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Toggle/ToggleEvent
   methodsToPreserve:
   - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
     fullTypeName: GameManager
     methodName: BuyStone
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: toggleOpen
   - assembly: Assembly-CSharp
     fullTypeName: GameManager
     methodName: SellStone
   - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
     fullTypeName: GameManager
     methodName: BuyWood
   - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
     fullTypeName: GameManager
     methodName: SellWood
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: buyTarget
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: QuitGame
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
   - assembly: Unity.RenderPipelines.Core.Runtime
     fullTypeName: UnityEngine.Rendering.UI.DebugUIHandlerButton
     methodName: OnAction
@@ -333,127 +378,129 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 15544}
+      Script: {instanceID: 15546}
     - Class: 114
-      Script: {instanceID: 15566}
+      Script: {instanceID: 15568}
     - Class: 114
-      Script: {instanceID: 15734}
+      Script: {instanceID: 15736}
     - Class: 114
-      Script: {instanceID: 16014}
+      Script: {instanceID: 16016}
     - Class: 114
-      Script: {instanceID: 16064}
+      Script: {instanceID: 16066}
     - Class: 114
-      Script: {instanceID: 16284}
+      Script: {instanceID: 16286}
     - Class: 114
-      Script: {instanceID: 16442}
+      Script: {instanceID: 16444}
     - Class: 114
-      Script: {instanceID: 16568}
+      Script: {instanceID: 16570}
     - Class: 114
-      Script: {instanceID: 16780}
+      Script: {instanceID: 16782}
     - Class: 114
-      Script: {instanceID: 16920}
+      Script: {instanceID: 16922}
     - Class: 114
-      Script: {instanceID: 17202}
+      Script: {instanceID: 17204}
     - Class: 114
-      Script: {instanceID: 17436}
+      Script: {instanceID: 17438}
     - Class: 114
-      Script: {instanceID: 17814}
+      Script: {instanceID: 17816}
     - Class: 114
-      Script: {instanceID: 17878}
+      Script: {instanceID: 17880}
     - Class: 114
-      Script: {instanceID: 18046}
+      Script: {instanceID: 18048}
     - Class: 114
-      Script: {instanceID: 18290}
+      Script: {instanceID: 18292}
     - Class: 114
-      Script: {instanceID: 18386}
+      Script: {instanceID: 18388}
     - Class: 114
-      Script: {instanceID: 18426}
+      Script: {instanceID: 18428}
     - Class: 114
-      Script: {instanceID: 18486}
+      Script: {instanceID: 18488}
     - Class: 114
-      Script: {instanceID: 18516}
+      Script: {instanceID: 18518}
     - Class: 114
-      Script: {instanceID: 18552}
+      Script: {instanceID: 18554}
     - Class: 114
-      Script: {instanceID: 18852}
+      Script: {instanceID: 18854}
     - Class: 114
-      Script: {instanceID: 19494}
+      Script: {instanceID: 19496}
     - Class: 114
-      Script: {instanceID: 19824}
+      Script: {instanceID: 19826}
     - Class: 114
-      Script: {instanceID: 19834}
+      Script: {instanceID: 19836}
     - Class: 114
-      Script: {instanceID: 20606}
+      Script: {instanceID: 20608}
     - Class: 114
-      Script: {instanceID: 20662}
+      Script: {instanceID: 20664}
     - Class: 114
-      Script: {instanceID: 20698}
+      Script: {instanceID: 20700}
     - Class: 114
-      Script: {instanceID: 20954}
+      Script: {instanceID: 20956}
     - Class: 114
-      Script: {instanceID: 21050}
+      Script: {instanceID: 21052}
     - Class: 114
-      Script: {instanceID: 21118}
+      Script: {instanceID: 21120}
     - Class: 114
-      Script: {instanceID: 21200}
+      Script: {instanceID: 21202}
     - Class: 114
-      Script: {instanceID: 21298}
+      Script: {instanceID: 21300}
     - Class: 114
-      Script: {instanceID: 21418}
+      Script: {instanceID: 21420}
     - Class: 114
-      Script: {instanceID: 22080}
+      Script: {instanceID: 22082}
     - Class: 114
-      Script: {instanceID: 22300}
-    - Class: 114
-      Script: {instanceID: 22408}
+      Script: {instanceID: 22302}
     - Class: 114
       Script: {instanceID: 22410}
     - Class: 114
-      Script: {instanceID: 22678}
+      Script: {instanceID: 22412}
     - Class: 114
-      Script: {instanceID: 22998}
+      Script: {instanceID: 22680}
     - Class: 114
-      Script: {instanceID: 23480}
+      Script: {instanceID: 23000}
     - Class: 114
-      Script: {instanceID: 24128}
+      Script: {instanceID: 23482}
     - Class: 114
-      Script: {instanceID: 25196}
+      Script: {instanceID: 24130}
     - Class: 114
-      Script: {instanceID: 25646}
+      Script: {instanceID: 25198}
     - Class: 114
-      Script: {instanceID: 25702}
+      Script: {instanceID: 25648}
     - Class: 114
-      Script: {instanceID: 26002}
+      Script: {instanceID: 25676}
     - Class: 114
-      Script: {instanceID: 26082}
+      Script: {instanceID: 25706}
     - Class: 114
-      Script: {instanceID: 26182}
+      Script: {instanceID: 26006}
     - Class: 114
-      Script: {instanceID: 26644}
+      Script: {instanceID: 26086}
     - Class: 114
-      Script: {instanceID: 26762}
+      Script: {instanceID: 26186}
     - Class: 114
-      Script: {instanceID: 26764}
+      Script: {instanceID: 26648}
     - Class: 114
-      Script: {instanceID: 26874}
+      Script: {instanceID: 26766}
     - Class: 114
-      Script: {instanceID: 27012}
+      Script: {instanceID: 26768}
     - Class: 114
-      Script: {instanceID: 27108}
+      Script: {instanceID: 26878}
     - Class: 114
-      Script: {instanceID: 27138}
+      Script: {instanceID: 27016}
     - Class: 114
-      Script: {instanceID: 27284}
+      Script: {instanceID: 27112}
     - Class: 114
-      Script: {instanceID: 27314}
+      Script: {instanceID: 27142}
     - Class: 114
-      Script: {instanceID: 27602}
+      Script: {instanceID: 27288}
     - Class: 114
-      Script: {instanceID: 27690}
+      Script: {instanceID: 27318}
     - Class: 114
-      Script: {instanceID: 27930}
+      Script: {instanceID: 27606}
     - Class: 114
-      Script: {instanceID: 28112}
+      Script: {instanceID: 27694}
+    - Class: 114
+      Script: {instanceID: 27934}
+    - Class: 114
+      Script: {instanceID: 28116}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -486,9 +533,9 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 20954}
+      Script: {instanceID: 20956}
     - Class: 114
-      Script: {instanceID: 26830}
+      Script: {instanceID: 26834}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -1858,6 +1905,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.RenderPipelines.Universal.2D.Runtime
     namespaceName: UnityEngine.Rendering.Universal
     className: PixelPerfectCamera
+  - hash:
+      serializedVersion: 2
+      Hash: 1a13f4060ba43c413a802008b74f740d
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: BuildMenu
   - hash:
       serializedVersion: 2
       Hash: d771cabeaa363771c54f6c41824f7abb

@@ -1,8 +1,25 @@
 <linker>
 	<assembly fullname="Assembly-CSharp" ignoreIfMissing="1">
+		<type fullname="BuildMenu">
+			<method name="buyTarget"/>
+			<method name="target"/>
+			<method name="target"/>
+			<method name="target"/>
+			<method name="target"/>
+			<method name="target"/>
+			<method name="target"/>
+			<method name="target"/>
+			<method name="target"/>
+			<method name="target"/>
+			<method name="target"/>
+			<method name="target"/>
+			<method name="target"/>
+			<method name="toggleOpen"/>
+		</type>
 		<type fullname="GameManager">
 			<method name="BuyStone"/>
 			<method name="BuyWood"/>
+			<method name="QuitGame"/>
 			<method name="SellStone"/>
 			<method name="SellWood"/>
 		</type>
