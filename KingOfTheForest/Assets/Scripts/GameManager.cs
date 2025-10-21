@@ -1,6 +1,4 @@
 using Unity.VisualScripting;
-using UnityEditor.Media;
-using UnityEditor.Rendering.BuiltIn.ShaderGraph;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
