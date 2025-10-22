@@ -9,6 +9,7 @@ ScriptsOnlyBuild:
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.Animation.Runtime.dll:
+    - UnityEngine.U2D.Animation.BufferManager
     - UnityEngine.U2D.Animation.DeformationManager
     - UnityEngine.U2D.Animation.DeformationManagerUpdater
     Unity.2D.IK.Editor.dll:
@@ -569,7 +570,7 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
-      Hash: ed5580e576d87109d0f734c6a0a2398b
+      Hash: c4ccc240ad599b31645334da663d3fdc
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: Building
@@ -1103,7 +1104,7 @@ ScriptsOnlyBuild:
     className: MacroScriptableObject
   - hash:
       serializedVersion: 2
-      Hash: f4261c71772265a9d9c83df825ec3f74
+      Hash: c9e134198ad214f54e931a6469c359a0
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: GameManager
@@ -1583,7 +1584,7 @@ ScriptsOnlyBuild:
     className: PanelRaycaster
   - hash:
       serializedVersion: 2
-      Hash: 52df420162d3a29d6ef7b77f6b43108f
+      Hash: e9d48f6e6df7405b5874d9039d93a373
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: Resource
@@ -1907,7 +1908,7 @@ ScriptsOnlyBuild:
     className: PixelPerfectCamera
   - hash:
       serializedVersion: 2
-      Hash: 1a13f4060ba43c413a802008b74f740d
+      Hash: e6ff66ab7a5e5edc8a89c20a93e273c3
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: BuildMenu

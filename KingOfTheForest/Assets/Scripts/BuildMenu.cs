@@ -3,39 +3,70 @@ using UnityEngine;
 
 public class BuildMenu : MonoBehaviour
 {
+    // Diffrent Position
     private const int UP_POSITION = -255;
     private const int DOWN_POSITION = -445;
-    private Color GREEN = new Color(.5f, .75f, .5f);
-    private Color RED = new Color(.75f, .5f, .5f);
-    private int woodCost;
-    private int stoneCost;
     public bool isUp = false;
     public UnityEngine.UI.Image basePanel;
     public UnityEngine.UI.Image tabPanel;
     public UnityEngine.UI.Image buyButton;
+
+    // Button Colors
+    private Color GREEN = new Color(.5f, .75f, .5f);
+    private Color RED = new Color(.75f, .5f, .5f);
+
+    // Used to edit text
+    private int woodCost;
+    private int stoneCost;
     public TextMeshProUGUI tabText;
     public TextMeshProUGUI costText;
     public TextMeshProUGUI effectText;
     public TextMeshProUGUI titleText;
     public int buildingSelection = 0;
-    public GameManager manager;
-    bool canBuy = false;
 
+    // Game manager to get and edit data
+    public GameManager manager;
+
+    // Building so it can actually be built
+    public GameObject building;
+
+    // Can the building be purchased?
+    private bool canBuy = false;
+
+    // Since the editor's scaling is off
+    public bool isEditor = false;
+
+    // To turn off demo mode when building
+    public UnityEngine.UI.Toggle demoModeToggle;
+
+    // Constantly update information
     private void Update()
     {
+        // Change position based on editor
+        int actualUp = UP_POSITION;
+        int actualDown = DOWN_POSITION;
+
+        if (isEditor)
+        {
+            actualUp += 50;
+            actualDown += 50;
+        }
+
+        // Set position
         if (isUp)
         {
-            basePanel.transform.localPosition = new Vector3(0f, UP_POSITION, 0f);
-            tabPanel.transform.localPosition = new Vector3(-460f, UP_POSITION + 120, 0f);
+            basePanel.transform.localPosition = new Vector3(0f, actualUp, 0f);
+            tabPanel.transform.localPosition = new Vector3(-460f, actualUp + 120, 0f);
             tabText.text = "Close";
         }
         else
         {
-            basePanel.transform.localPosition = new Vector3(0f, DOWN_POSITION, 0f);
-            tabPanel.transform.localPosition = new Vector3(-460f, DOWN_POSITION + 120, 0f);
+            basePanel.transform.localPosition = new Vector3(0f, actualDown, 0f);
+            tabPanel.transform.localPosition = new Vector3(-460f, actualDown + 120, 0f);
             tabText.text = "Open";
         }
 
+        // Switch selection
         switch (buildingSelection)
         {
             case 0: 
@@ -125,34 +156,48 @@ public class BuildMenu : MonoBehaviour
 
         costText.text = "Wood: " + woodCost + "\nStone: " + stoneCost;
 
+        // Can the player buy it
         if (manager.wood < woodCost || manager.stone < stoneCost)
         {
             canBuy = false;
+            buyButton.enabled = false;
             buyButton.color = RED;
         }
         else
         {
             canBuy = true;
+            buyButton.enabled = true;
             buyButton.color = GREEN;
         }
     }
 
+    // Open/close pane;
     public void toggleOpen()
     {
         isUp = !isUp;
     }
 
+    // Switch target
     public void target(int t)
     {
         buildingSelection = t;
     }
 
+    // Purchase target
     public void buyTarget()
     {
         if (canBuy)
         {
-            manager.wood -= woodCost;
-            manager.stone -= stoneCost;
+            // Turn off demo mode and close panel
+            demoModeToggle.isOn = false;
+            manager.demoMode = false;
+            isUp = false;
+
+            // Create and start building
+            GameObject r = Instantiate(building);
+            r.GetComponent<Building>().manager = this.manager;
+            r.GetComponent<Building>().setBuildingType(buildingSelection);
+            r.GetComponent<Building>().StartBuild();
         }
     }
 }

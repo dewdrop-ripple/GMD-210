@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -16,6 +15,9 @@ public class GameManager : MonoBehaviour
     public bool isDay = true;
     public bool canTrade = false;
     public bool demoMode;
+    public GameObject resource;
+    int resourceNumber = 0;
+    public Building startingHouse;
 
     // So that I can quickly change this for testing purposes
     private const int WIN_POPULATION = 500;
@@ -63,6 +65,23 @@ public class GameManager : MonoBehaviour
         for (int i = 1; i < 12; i++)
         {
             buildings[i] = 0;
+        }
+
+        startingHouse.setBuildingType(0);
+        startingHouse.preBuilt();
+
+        GenerateResources();
+    }
+
+    private void GenerateResources()
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            GameObject r = Instantiate(resource);
+            r.GetComponent<Resource>().manager = this;
+            r.GetComponent<Resource>().setResourceType(resourceNumber % 6);
+            r.GetComponent<Resource>().GenerateResource();
+            resourceNumber++;
         }
     }
 
@@ -186,6 +205,35 @@ public class GameManager : MonoBehaviour
                 // CONTINUE GAME - NOT DONE YET
                 break;
         }
+    }
+
+    // Calculate effects of attack based on current stats
+    public void Attack()
+    {
+        Debug.Log("Attack");
+        //int attackStrength = (int) ((population - defense) * Random.Range(0.75f, 1.25f));
+        int attackStrength = 51;
+        Debug.Log((attackStrength / 100f) + " * " + population + " = " + (attackStrength / 100f) * population);
+        Debug.Log((attackStrength / 100f) * wood);
+        Debug.Log((attackStrength / 100f) * stone);
+        Debug.Log((attackStrength / 100f) * food);
+        Debug.Log((attackStrength / 100f) * money);
+        population -= (int)((attackStrength / 100f) * population);
+        wood -= (int)((attackStrength / 100f) * wood);
+        stone -= (int)((attackStrength / 100f) * stone);
+        food -= (int)((attackStrength / 100f) * population);
+        money -= (int)((attackStrength / 100f) * population);
+
+        if (attackStrength > 50)
+        {
+            bool canDestroyBuilding = false;
+            for (int i = 0; i < 12; i++)
+            {
+                if (buildings[i] > 1) canDestroyBuilding = true;
+            }
+        }
+
+        UpdateStats();
     }
 
     // Trade functions

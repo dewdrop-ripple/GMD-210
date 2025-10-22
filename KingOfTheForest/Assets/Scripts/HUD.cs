@@ -1,7 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class HUD : MonoBehaviour
 {
@@ -19,6 +17,7 @@ public class HUD : MonoBehaviour
     // Constantly update variables
     void Update()
     {
+        // Is day
         if (manager.isDay)
         {
             dayNightTracker.color = new Color(0.25f, 0.75f, 1.0f);
@@ -30,6 +29,7 @@ public class HUD : MonoBehaviour
             dayNumber.text = "Night " + manager.day;
         }
 
+        // Basic variables
         population.text = "Population: " + manager.population + "/" + manager.maxPopulation;
         wood.text = "Wood:       " + manager.wood;
         stone.text = "Stone:       " + manager.stone;
@@ -37,6 +37,7 @@ public class HUD : MonoBehaviour
         money.text = "Money: " + manager.money + "g";
         defense.text = "Defense: " + manager.defense;
 
+        // Set demo mode
         if (demoModeToggle.isOn) manager.demoMode = true;
         else manager.demoMode = false;
     }

@@ -109,6 +109,8 @@ MonoBehaviour:
   woodCost: 0
   maxNum: 0
   manager: {fileID: 0}
+  rendererSystem: {fileID: 6102994503985942301}
+  built: 0
 --- !u!61 &710130315506090819
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -180,5 +182,5 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
