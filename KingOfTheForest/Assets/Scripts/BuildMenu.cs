@@ -160,13 +160,11 @@ public class BuildMenu : MonoBehaviour
         if (manager.wood < woodCost || manager.stone < stoneCost)
         {
             canBuy = false;
-            buyButton.enabled = false;
             buyButton.color = RED;
         }
         else
         {
             canBuy = true;
-            buyButton.enabled = true;
             buyButton.color = GREEN;
         }
     }

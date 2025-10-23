@@ -3,11 +3,15 @@
   "WorkspaceRootPath": "C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\assets\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|c:\\users\\jorda\\source\\repos\\gmd-210\\kingoftheforest\\assets\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|c:\\users\\jorda\\source\\repos\\gmd-210\\kingoftheforest\\assets\\scripts\\resource.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\assets\\scripts\\building.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\building.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\assets\\scripts\\resource.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\resource.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -17,10 +21,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\assets\\scripts\\buildmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\buildmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\assets\\scripts\\building.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\building.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +34,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "BuildMenu.cs",
               "DocumentMoniker": "C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\Assets\\Scripts\\BuildMenu.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\BuildMenu.cs",
@@ -42,12 +42,11 @@
               "RelativeToolTip": "Assets\\Scripts\\BuildMenu.cs",
               "ViewState": "AgIAALQAAAAAAAAAAAAYwLoAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T18:42:40.952Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-21T18:42:40.952Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "HUD.cs",
               "DocumentMoniker": "C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\Assets\\Scripts\\HUD.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\HUD.cs",
@@ -55,12 +54,11 @@
               "RelativeToolTip": "Assets\\Scripts\\HUD.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-20T20:16:32.565Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-20T20:16:32.565Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Resource.cs",
               "DocumentMoniker": "C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\Assets\\Scripts\\Resource.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Resource.cs",
@@ -68,18 +66,17 @@
               "RelativeToolTip": "Assets\\Scripts\\Resource.cs",
               "ViewState": "AgIAAFEAAAAAAAAAAAAgwAQAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-20T17:31:11.153Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-20T17:31:11.153Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "Building.cs",
               "DocumentMoniker": "C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\Assets\\Scripts\\Building.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Building.cs",
               "ToolTip": "C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\Assets\\Scripts\\Building.cs",
               "RelativeToolTip": "Assets\\Scripts\\Building.cs",
-              "ViewState": "AgIAANUAAAAAAAAAAAAcwNoAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAADQAAAAAAAAAAAAUwEQAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-20T14:05:07.885Z",
               "EditorCaption": ""
@@ -92,7 +89,7 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameManager.cs",
               "ToolTip": "C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\Assets\\Scripts\\GameManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\GameManager.cs",
-              "ViewState": "AgIAANUAAAAAAAAAAAAkwOgAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAOwAAAAAAAAAAAAswAEBAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-18T21:05:44.366Z",
               "EditorCaption": ""

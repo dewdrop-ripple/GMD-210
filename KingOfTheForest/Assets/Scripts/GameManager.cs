@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -29,6 +31,9 @@ public class GameManager : MonoBehaviour
     // 6-8 - S, M, L Trade Posts
     // 9-11 - S, M, L Towers
     public int[] buildings = new int[12];
+
+    // List of all building objects
+    public List<Building> buildingsList;
 
     // So that I can quickly adjust building stats for testing purposes
     private const int SMALL_HOUSE_CAPACITY = 5;
@@ -69,6 +74,7 @@ public class GameManager : MonoBehaviour
 
         startingHouse.setBuildingType(0);
         startingHouse.preBuilt();
+        buildingsList.Add(startingHouse);
 
         GenerateResources();
     }
@@ -129,6 +135,11 @@ public class GameManager : MonoBehaviour
         // Can the player trade now?
         if (cheats) { canTrade = true; }
         else { canTrade = (buildings[6] > 0) || (buildings[7] > 0) || (buildings[8] > 0); }
+
+        if (money < 0) { money = 0; }
+        if (food < 0) { food = 0; }
+        if (wood < 0) { wood = 0; }
+        if (stone < 0) { stone = 0; }
     }
 
     // Calculate nightly changes based on current stats
@@ -210,14 +221,7 @@ public class GameManager : MonoBehaviour
     // Calculate effects of attack based on current stats
     public void Attack()
     {
-        Debug.Log("Attack");
-        //int attackStrength = (int) ((population - defense) * Random.Range(0.75f, 1.25f));
-        int attackStrength = 51;
-        Debug.Log((attackStrength / 100f) + " * " + population + " = " + (attackStrength / 100f) * population);
-        Debug.Log((attackStrength / 100f) * wood);
-        Debug.Log((attackStrength / 100f) * stone);
-        Debug.Log((attackStrength / 100f) * food);
-        Debug.Log((attackStrength / 100f) * money);
+        int attackStrength = (int) ((population - defense) * Random.Range(0.75f, 1.25f));
         population -= (int)((attackStrength / 100f) * population);
         wood -= (int)((attackStrength / 100f) * wood);
         stone -= (int)((attackStrength / 100f) * stone);
@@ -227,9 +231,28 @@ public class GameManager : MonoBehaviour
         if (attackStrength > 50)
         {
             bool canDestroyBuilding = false;
+            List<int> destroyable = new List<int>();
+
             for (int i = 0; i < 12; i++)
             {
                 if (buildings[i] > 1) canDestroyBuilding = true;
+                destroyable.Add(i);
+            }
+
+            if (canDestroyBuilding)
+            {
+                List<Building> destroyableBuildings = new List<Building>();
+
+                for (int i = 0; i < buildingsList.Count; i++)
+                {
+                    if (destroyable.Contains(buildingsList[i].buildingArrayPosition))
+                    {
+                        destroyableBuildings.Add(buildingsList[i]);
+                    }
+                }
+
+                int toDestroy = Random.Range(0, destroyableBuildings.Count - 1);
+                buildingsList[toDestroy].AttackBuilding();
             }
         }
 

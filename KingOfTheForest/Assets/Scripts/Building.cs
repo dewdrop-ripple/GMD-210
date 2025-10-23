@@ -7,7 +7,7 @@ public class Building : MonoBehaviour
     public int maxNum;
     private bool isColliding = false;
     private bool isBuilding = false;
-    int buildingArrayPosition;
+    public int buildingArrayPosition;
     public GameManager manager;
     bool isHovered = false;
     private Color spriteColor = Color.white;
@@ -44,6 +44,7 @@ public class Building : MonoBehaviour
         manager.stone -= stoneCost;
         manager.buildings[buildingArrayPosition]++;
         location = transform.position;
+        manager.buildingsList.Add(this);
 
         built = true;
     }
@@ -62,6 +63,13 @@ public class Building : MonoBehaviour
         }
 
         // Destroy
+        GameObject.Destroy(gameObject);
+    }
+
+    public void AttackBuilding()
+    {
+        manager.buildings[buildingArrayPosition]--;
+        manager.buildingsList.Remove(this);
         GameObject.Destroy(gameObject);
     }
 

@@ -264,6 +264,9 @@ ScriptsOnlyBuild:
     fullTypeName: BuildMenu
     methodName: target
   - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: Attack
+  - assembly: Assembly-CSharp
     fullTypeName: BuildMenu
     methodName: toggleOpen
   - assembly: Assembly-CSharp
@@ -570,7 +573,7 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
-      Hash: c4ccc240ad599b31645334da663d3fdc
+      Hash: 665e1c89ed79cdaa27e321ec2e98baa4
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: Building
@@ -1104,7 +1107,7 @@ ScriptsOnlyBuild:
     className: MacroScriptableObject
   - hash:
       serializedVersion: 2
-      Hash: c9e134198ad214f54e931a6469c359a0
+      Hash: 882bcaaec5e6e09fe4afbb22747241d0
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: GameManager

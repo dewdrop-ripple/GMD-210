@@ -17,6 +17,7 @@
 			<method name="toggleOpen"/>
 		</type>
 		<type fullname="GameManager">
+			<method name="Attack"/>
 			<method name="BuyStone"/>
 			<method name="BuyWood"/>
 			<method name="QuitGame"/>
