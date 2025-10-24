@@ -265,7 +265,7 @@ ScriptsOnlyBuild:
     methodName: target
   - assembly: Assembly-CSharp
     fullTypeName: GameManager
-    methodName: Attack
+    methodName: EndDay
   - assembly: Assembly-CSharp
     fullTypeName: BuildMenu
     methodName: toggleOpen
@@ -288,6 +288,9 @@ ScriptsOnlyBuild:
     fullTypeName: BuildMenu
     methodName: target
   - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: Attack
+  - assembly: Assembly-CSharp
     fullTypeName: BuildMenu
     methodName: target
   - assembly: Assembly-CSharp
@@ -299,6 +302,9 @@ ScriptsOnlyBuild:
   - assembly: Assembly-CSharp
     fullTypeName: BuildMenu
     methodName: buyTarget
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: StartNewDay
   - assembly: Assembly-CSharp
     fullTypeName: GameManager
     methodName: QuitGame
@@ -1107,7 +1113,7 @@ ScriptsOnlyBuild:
     className: MacroScriptableObject
   - hash:
       serializedVersion: 2
-      Hash: 882bcaaec5e6e09fe4afbb22747241d0
+      Hash: 62e7d9a1671ac4f1432c57dda8604408
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: GameManager

@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -62,9 +63,27 @@ public class GameManager : MonoBehaviour
     // Cheats
     private bool cheats = false;
 
+    // Night overlay data
+    public Canvas nightOverlay;
+    public TextMeshProUGUI nPeople;
+    public TextMeshProUGUI nFood;
+    public TextMeshProUGUI nMoney;
+
+    // Attack overlay data
+    public Canvas attackOverlay;
+    public TextMeshProUGUI aPeople;
+    public TextMeshProUGUI aWood;
+    public TextMeshProUGUI aStone;
+    public TextMeshProUGUI aFood;
+    public TextMeshProUGUI aMoney;
+    public TextMeshProUGUI aBuildings;
+
     // Initialize all variables
     private void Start()
     {
+        attackOverlay.enabled = false;
+        nightOverlay.enabled = false;
+
         // Start with 1 small house and nothing else
         buildings[0] = 1;
         for (int i = 1; i < 12; i++)
@@ -145,6 +164,8 @@ public class GameManager : MonoBehaviour
     // Calculate nightly changes based on current stats
     public void NightlyResourceChange()
     {
+        nightOverlay.enabled = true;
+
         // Reset variables
         goodMoney = false;
         goodFood = false;
@@ -154,16 +175,21 @@ public class GameManager : MonoBehaviour
         // Basic building changes
         int prevFood = food;
         food += (buildings[3] * SMALL_FARM_FOOD) + (buildings[4] * MED_FARM_FOOD) + (buildings[5] * LARGE_FARM_FOOD);
+        food -= population;
         if (food >= prevFood * 1.2) {  goodFood = true; }
+
+        if (food < prevFood) nFood.SetText("-" + (food - prevFood) + " Food");
+        else nFood.SetText("+" + (food - prevFood) + " Food");
 
         int prevMoney = money;
         money += (buildings[6] * SMALL_TRADE_MONEY) + (buildings[7] * MED_TRADE_MONEY) + (buildings[8] * LARGE_TRADE_MONEY);
         if (money >= prevMoney * 1.2) {  goodMoney = true; }
 
+        if (money < prevMoney) nMoney.SetText("-" + (money - prevMoney) + "g");
+        else nMoney.SetText("+" + (money - prevMoney) + "g");
+
         int prevPop = population;
 
-        // Feed people
-        food -= population;
         // Are people starving?
         if (food < 0)
         {
@@ -196,6 +222,9 @@ public class GameManager : MonoBehaviour
         // Check population change
         if (population > prevPop) {  popGrowth = true; }
 
+        if (population < prevFood) nPeople.SetText("-" + (population - prevPop) + " People");
+        else nPeople.SetText("+" + (population - prevPop) + " People");
+
         // Make sure data is valid
         UpdateStats();
 
@@ -221,25 +250,37 @@ public class GameManager : MonoBehaviour
     // Calculate effects of attack based on current stats
     public void Attack()
     {
+        nightOverlay.enabled = false;
+        attackOverlay.enabled = true; 
+
         int attackStrength = (int) ((population - defense) * Random.Range(0.75f, 1.25f));
+
+        aPeople.SetText((int)((attackStrength / 100f) * population) + " People Killed");
+        aWood.SetText((int)((attackStrength / 100f) * wood) + " Wood Stolen");
+        aStone.SetText((int)((attackStrength / 100f) * stone) + " Stone Stolen");
+        aFood.SetText((int)((attackStrength / 100f) * food) + " Food Stolen");
+        aMoney.SetText((int)((attackStrength / 100f) * money) + "g Stolen");
+
         population -= (int)((attackStrength / 100f) * population);
         wood -= (int)((attackStrength / 100f) * wood);
         stone -= (int)((attackStrength / 100f) * stone);
-        food -= (int)((attackStrength / 100f) * population);
-        money -= (int)((attackStrength / 100f) * population);
+        food -= (int)((attackStrength / 100f) * food);
+        money -= (int)((attackStrength / 100f) * money);
 
-        if (attackStrength > 50)
+        string buildingsText = "";
+
+        if (attackStrength > 10)
         {
-            bool canDestroyBuilding = false;
+            int canDestroyBuildings = 0;
             List<int> destroyable = new List<int>();
 
             for (int i = 0; i < 12; i++)
             {
-                if (buildings[i] > 1) canDestroyBuilding = true;
+                if (buildings[i] > 1) canDestroyBuildings++;
                 destroyable.Add(i);
             }
 
-            if (canDestroyBuilding)
+            if (canDestroyBuildings > 0)
             {
                 List<Building> destroyableBuildings = new List<Building>();
 
@@ -251,10 +292,70 @@ public class GameManager : MonoBehaviour
                     }
                 }
 
-                int toDestroy = Random.Range(0, destroyableBuildings.Count - 1);
-                buildingsList[toDestroy].AttackBuilding();
+                for (int i = 0; (i < canDestroyBuildings && i < attackStrength / 10); i++)
+                {
+                    int toDestroy = Random.Range(0, destroyableBuildings.Count - 1);
+                    Building destroyed = buildingsList[toDestroy];
+                    destroyableBuildings.Remove(buildingsList[toDestroy]);
+                    
+                    switch(destroyed.buildingArrayPosition)
+                    {
+                        case 0:
+                            buildingsText += "Small House\n";
+                            break;
+
+                        case 1:
+                            buildingsText += "Medium House\n";
+                            break;
+
+                        case 2:
+                            buildingsText += "Large House\n";
+                            break;
+
+                        case 3:
+                            buildingsText += "Small Farm\n";
+                            break;
+
+                        case 4:
+                            buildingsText += "Medium Farm\n";
+                            break;
+
+                        case 5:
+                            buildingsText += "Large Farm\n";
+                            break;
+
+                        case 6:
+                            buildingsText += "Small Trade Post\n";
+                            break;
+
+                        case 7:
+                            buildingsText += "Medium Trade Post\n";
+                            break;
+
+                        case 8:
+                            buildingsText += "Large Trade Post\n";
+                            break;
+
+                        case 9:
+                            buildingsText += "Small Guard Tower\n";
+                            break;
+
+                        case 10:
+                            buildingsText += "Medium Guard Tower\n";
+                            break;
+
+                        case 11:
+                            buildingsText += "Large Guard Tower\n";
+                            break;
+                    }
+
+                    destroyed.AttackBuilding();
+                }
             }
         }
+
+        if (buildingsText == "") aBuildings.SetText("None");
+        else aBuildings.SetText(buildingsText);
 
         UpdateStats();
     }
@@ -296,5 +397,18 @@ public class GameManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void EndDay()
+    {
+        isDay = false;
+        NightlyResourceChange();
+    }
+
+    public void StartNewDay()
+    {
+        attackOverlay.enabled = false;
+        isDay = true;
+        day++;
     }
 }

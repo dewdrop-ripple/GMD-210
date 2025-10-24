@@ -20,9 +20,11 @@
 			<method name="Attack"/>
 			<method name="BuyStone"/>
 			<method name="BuyWood"/>
+			<method name="EndDay"/>
 			<method name="QuitGame"/>
 			<method name="SellStone"/>
 			<method name="SellWood"/>
+			<method name="StartNewDay"/>
 		</type>
 	</assembly>
 	<assembly fullname="Unity.RenderPipelines.Core.Runtime" ignoreIfMissing="1">
