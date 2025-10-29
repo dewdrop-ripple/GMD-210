@@ -108,9 +108,11 @@ MonoBehaviour:
   stoneCost: 0
   woodCost: 0
   maxNum: 0
+  buildingArrayPosition: 0
   manager: {fileID: 0}
   rendererSystem: {fileID: 6102994503985942301}
   built: 0
+  rb: {fileID: 0}
 --- !u!61 &710130315506090819
 BoxCollider2D:
   m_ObjectHideFlags: 0

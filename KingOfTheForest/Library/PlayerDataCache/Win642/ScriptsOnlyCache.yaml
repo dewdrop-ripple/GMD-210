@@ -9,7 +9,6 @@ ScriptsOnlyBuild:
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.Animation.Runtime.dll:
-    - UnityEngine.U2D.Animation.BufferManager
     - UnityEngine.U2D.Animation.DeformationManager
     - UnityEngine.U2D.Animation.DeformationManagerUpdater
     Unity.2D.IK.Editor.dll:
@@ -29,6 +28,8 @@ ScriptsOnlyBuild:
     - UnityEngine.InputSystem.InputSystemObject
     - UnityEngine.InputSystem.RemoteInputPlayerConnection
     - UnityEngine.InputSystem.UI.InputSystemUIInputModule
+    Unity.RenderPipelines.Core.Editor.dll:
+    - UnityEditor.Rendering.ProbeVolumesOptionsEditor
     Unity.RenderPipelines.Core.Runtime:
     - UnityEngine.Rendering.UI.DebugUIHandlerBitField
     - UnityEngine.Rendering.UI.DebugUIHandlerButton
@@ -70,7 +71,19 @@ ScriptsOnlyBuild:
     - UnityEngine.Rendering.Universal.Light2D
     - UnityEngine.Rendering.Universal.Renderer2DData
     Unity.RenderPipelines.Universal.Editor.dll:
+    - UnityEditor.Rendering.Universal.BloomEditor
+    - UnityEditor.Rendering.Universal.ChannelMixerEditor
+    - UnityEditor.Rendering.Universal.ColorCurvesEditor
+    - UnityEditor.Rendering.Universal.ColorLookupEditor
+    - UnityEditor.Rendering.Universal.DepthOfFieldEditor
+    - UnityEditor.Rendering.Universal.FilmGrainEditor
+    - UnityEditor.Rendering.Universal.LiftGammaGainEditor
+    - UnityEditor.Rendering.Universal.MotionBlurEditor
+    - UnityEditor.Rendering.Universal.ScreenSpaceLensFlareEditor
+    - UnityEditor.Rendering.Universal.ShadowsMidtonesHighlightsEditor
+    - UnityEditor.Rendering.Universal.TonemappingEditor
     - UnityEditor.Rendering.Universal.UniversalProjectSettings
+    - UnityEditor.Rendering.Universal.UniversalRenderPipelineVolumeComponentEditor
     Unity.RenderPipelines.Universal.Runtime.dll:
     - UnityEngine.Rendering.Universal.Bloom
     - UnityEngine.Rendering.Universal.ChannelMixer
@@ -2273,4 +2286,4 @@ ScriptsOnlyBuild:
   scenePathNames:
   - Assets/Scenes/KingdomScene.unity
   - Assets/Scenes/MainMenu.unity
-  playerPath: C:/Users/jorda/Source/Repos/Other/KingOfTheForest.exe
+  playerPath: C:/Users/jorda/Source/Repos/KingOfTheForestMilestone1/KingOfTheForest.exe

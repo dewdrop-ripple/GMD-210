@@ -117,6 +117,8 @@ MonoBehaviour:
   manager: {fileID: 0}
   colliderSystem: {fileID: 5861600430595824266}
   rendererSystem: {fileID: 6381247744440131471}
+  rb: {fileID: 0}
+  startingHouse: {fileID: 0}
 --- !u!58 &5861600430595824266
 CircleCollider2D:
   m_ObjectHideFlags: 0

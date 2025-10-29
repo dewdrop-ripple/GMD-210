@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -78,6 +79,15 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI aMoney;
     public TextMeshProUGUI aBuildings;
 
+    // Since my grid size =/= unity grid size
+    public float scaleFactor = 0.5f;
+    public int leftX = 0;
+    public int topY = 0;
+    public int rightX = Screen.width;
+    public int bottomY = Screen.height;
+
+    public bool currentlyBuilding = false;
+
     // Initialize all variables
     private void Start()
     {
@@ -104,6 +114,7 @@ public class GameManager : MonoBehaviour
         {
             GameObject r = Instantiate(resource);
             r.GetComponent<Resource>().manager = this;
+            r.GetComponent<Resource>().startingHouse = startingHouse;
             r.GetComponent<Resource>().setResourceType(resourceNumber % 6);
             r.GetComponent<Resource>().GenerateResource();
             resourceNumber++;
@@ -173,35 +184,31 @@ public class GameManager : MonoBehaviour
         foodShortage = false;
 
         // Basic building changes
-        int prevFood = food;
-        food += (buildings[3] * SMALL_FARM_FOOD) + (buildings[4] * MED_FARM_FOOD) + (buildings[5] * LARGE_FARM_FOOD);
-        food -= population;
-        if (food >= prevFood * 1.2) {  goodFood = true; }
+        int foodChange = 0;
+        foodChange += (buildings[3] * SMALL_FARM_FOOD) + (buildings[4] * MED_FARM_FOOD) + (buildings[5] * LARGE_FARM_FOOD);
+        foodChange -= population;
+        if (foodChange >= (int) (food * 0.2)) {  goodFood = true; }
 
-        if (food < prevFood) nFood.SetText("-" + (food - prevFood) + " Food");
-        else nFood.SetText("+" + (food - prevFood) + " Food");
+        int moneyChange = 0;
+        moneyChange += (buildings[6] * SMALL_TRADE_MONEY) + (buildings[7] * MED_TRADE_MONEY) + (buildings[8] * LARGE_TRADE_MONEY);
+        if (moneyChange >= (int)(money * 0.2)) {  goodMoney = true; }
 
-        int prevMoney = money;
-        money += (buildings[6] * SMALL_TRADE_MONEY) + (buildings[7] * MED_TRADE_MONEY) + (buildings[8] * LARGE_TRADE_MONEY);
-        if (money >= prevMoney * 1.2) {  goodMoney = true; }
-
-        if (money < prevMoney) nMoney.SetText("-" + (money - prevMoney) + "g");
-        else nMoney.SetText("+" + (money - prevMoney) + "g");
-
-        int prevPop = population;
+        int popChange = 0;
 
         // Are people starving?
-        if (food < 0)
+        int newFood = food + foodChange;
+        if (newFood < 0)
         {
             foodShortage = true;
-            population += food; // Subtract from population (+ b/c food is negative)
-            food = 0; // Reset
+            popChange += newFood; // Subtract from population (+ b/c food is negative)
+            newFood = 0; // Reset
+            foodChange = food;
         }
 
         // If things are bad
         if (consecBadNights > 2)
         {
-            population -= consecBadNights * consecBadNights;
+            popChange -= consecBadNights * consecBadNights;
         }
         // If not
         else
@@ -209,42 +216,33 @@ public class GameManager : MonoBehaviour
             // Add one person for every house or farm
             for (int i = 0; i < 6; i++)
             {
-                population += buildings[i];
+                popChange += buildings[i];
             }
 
             // If things are really good
             if (consecSafeNights > 2)
             {
-                population += consecSafeNights * consecSafeNights;
+                popChange += consecSafeNights * consecSafeNights;
             }
         }
 
         // Check population change
-        if (population > prevPop) {  popGrowth = true; }
+        if (popChange > 0) {  popGrowth = true; }
 
-        if (population < prevFood) nPeople.SetText("-" + (population - prevPop) + " People");
-        else nPeople.SetText("+" + (population - prevPop) + " People");
+        // Actually change stats
+        food += foodChange;
+        money += moneyChange;
+        population += popChange;
 
-        // Make sure data is valid
-        UpdateStats();
+        // Update text
+        if (foodChange < 0) nFood.SetText(foodChange + " Food");
+        else nFood.SetText("+" + foodChange + " Food");
 
-        // Has the player won or lost the game?
-        int state = CheckWin();
+        if (moneyChange < 0) nMoney.SetText(moneyChange + "g");
+        else nMoney.SetText("+" + moneyChange + "g");
 
-        switch (state)
-        {
-            case 1:
-                // GO TO WIN SCREEN - NOT DONE YET
-                break;
-
-            case 2:
-                // GO TO LOSE SCREEN - NOT DONE YET
-                break;
-
-            default:
-                // CONTINUE GAME - NOT DONE YET
-                break;
-        }
+        if (popChange < 0) nPeople.SetText(popChange + " People");
+        else nPeople.SetText("+" + popChange + " People");
     }
 
     // Calculate effects of attack based on current stats
@@ -253,24 +251,50 @@ public class GameManager : MonoBehaviour
         nightOverlay.enabled = false;
         attackOverlay.enabled = true; 
 
-        int attackStrength = (int) ((population - defense) * Random.Range(0.75f, 1.25f));
+        // Set strength
+        int attackStrength = (int) ((population - defense) * ((Mathf.Cos(day + 3.14f) + 2) * 0.5));
+        Debug.Log(attackStrength);
 
-        aPeople.SetText((int)((attackStrength / 100f) * population) + " People Killed");
-        aWood.SetText((int)((attackStrength / 100f) * wood) + " Wood Stolen");
-        aStone.SetText((int)((attackStrength / 100f) * stone) + " Stone Stolen");
-        aFood.SetText((int)((attackStrength / 100f) * food) + " Food Stolen");
-        aMoney.SetText((int)((attackStrength / 100f) * money) + "g Stolen");
+        // Variables
+        int peopleKilled = 0;
+        int woodStolen = 0;
+        int stoneStolen = 0;
+        int foodStolen = 0;
+        int moneyStolen = 0;
 
-        population -= (int)((attackStrength / 100f) * population);
-        wood -= (int)((attackStrength / 100f) * wood);
-        stone -= (int)((attackStrength / 100f) * stone);
-        food -= (int)((attackStrength / 100f) * food);
-        money -= (int)((attackStrength / 100f) * money);
+        if (attackStrength > 0)
+        {
+            peopleKilled = (int)((attackStrength / 100f) * population);
+            woodStolen = (int)((attackStrength / 100f) * wood);
+            stoneStolen = (int)((attackStrength / 100f) * stone);
+            foodStolen = (int)((attackStrength / 100f) * food);
+            moneyStolen = (int)((attackStrength / 100f) * money);
+        }
+        else
+        {
+            consecSafeNights++;
+            consecBadNights = 0;
+        }
+
+            aPeople.SetText(peopleKilled + " People Killed");
+        aWood.SetText(woodStolen + " Wood Stolen");
+        aStone.SetText(stoneStolen + " Stone Stolen");
+        aFood.SetText(foodStolen + " Food Stolen");
+        aMoney.SetText(moneyStolen + "g Stolen");
+
+        population -= peopleKilled;
+        wood -= woodStolen;
+        stone -= stoneStolen;
+        food -= foodStolen;
+        money -= moneyStolen;
 
         string buildingsText = "";
 
         if (attackStrength > 10)
         {
+            consecSafeNights = 0;
+            consecBadNights++;
+
             int canDestroyBuildings = 0;
             List<int> destroyable = new List<int>();
 
@@ -358,6 +382,24 @@ public class GameManager : MonoBehaviour
         else aBuildings.SetText(buildingsText);
 
         UpdateStats();
+
+        // Has the player won or lost the game?
+        int state = CheckWin();
+
+        switch (state)
+        {
+            case 1:
+                // GO TO WIN SCREEN - NOT DONE YET
+                break;
+
+            case 2:
+                // GO TO LOSE SCREEN - NOT DONE YET
+                break;
+
+            default:
+                // CONTINUE GAME - NOT DONE YET
+                break;
+        }
     }
 
     // Trade functions

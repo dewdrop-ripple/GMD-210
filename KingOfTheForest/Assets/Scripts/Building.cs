@@ -15,11 +15,13 @@ public class Building : MonoBehaviour
     public bool built = false;
     public Rigidbody2D rb;
     private Vector3 location;
+    private Vector2 size = new Vector2(1, 1);
 
     // Updates data and returns true if it can be built
     public void StartBuild()
     {
         isBuilding = true;
+        manager.currentlyBuilding = true;
         rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
     }
@@ -90,12 +92,13 @@ public class Building : MonoBehaviour
         if (isBuilding)
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePosition.z = 0;
+            mousePosition = new Vector3(((int)(mousePosition.x * (1 / manager.scaleFactor)) * manager.scaleFactor), ((int)(mousePosition.y * (1 / manager.scaleFactor)) * manager.scaleFactor), 0f);
             transform.position = mousePosition;
 
             if (Input.GetMouseButtonDown(0))
             {
                 EndBuild();
+                manager.currentlyBuilding = false;
             }
         }
 
@@ -110,6 +113,7 @@ public class Building : MonoBehaviour
 
         //Colors to differentiate
         rendererSystem.color = spriteColor;
+        transform.localScale = new Vector3(manager.scaleFactor * size.x, manager.scaleFactor * size.y, 1);
     }
 
     // Check if hovered
@@ -138,6 +142,7 @@ public class Building : MonoBehaviour
                 woodCost = 10;
                 maxNum = 10;
                 spriteColor = new Color(1.0f, 0.75f, 0.0f);
+                size = new Vector2(3, 3);
                 break;
 
             case 1:
@@ -145,6 +150,7 @@ public class Building : MonoBehaviour
                 woodCost = 20;
                 maxNum = 10;
                 spriteColor = new Color(0.75f, 0.5f, 0.0f);
+                size = new Vector2(4, 4);
                 break;
 
             case 2:
@@ -152,6 +158,7 @@ public class Building : MonoBehaviour
                 woodCost = 50;
                 maxNum = 10;
                 spriteColor = new Color(0.5f, 0.25f, 0.0f);
+                size = new Vector2(5, 5);
                 break;
 
             case 3:
@@ -159,6 +166,7 @@ public class Building : MonoBehaviour
                 woodCost = 10;
                 maxNum = 10;
                 spriteColor = new Color(.5f, 1f, .5f);
+                size = new Vector2(4, 4);
                 break;
 
             case 4:
@@ -166,6 +174,7 @@ public class Building : MonoBehaviour
                 woodCost = 20;
                 maxNum = 10;
                 spriteColor = new Color(.25f, .75f, .25f);
+                size = new Vector2(5, 5);
                 break;
 
             case 5:
@@ -173,6 +182,7 @@ public class Building : MonoBehaviour
                 woodCost = 50;
                 maxNum = 10;
                 spriteColor = new Color(0f, .5f, 0f);
+                size = new Vector2(6, 6);
                 break;
 
             case 6:
@@ -180,6 +190,7 @@ public class Building : MonoBehaviour
                 woodCost = 10;
                 maxNum = 5;
                 spriteColor = new Color(1f, .5f, .5f);
+                size = new Vector2(1, 2);
                 break;
 
             case 7:
@@ -187,6 +198,7 @@ public class Building : MonoBehaviour
                 woodCost = 20;
                 maxNum = 5;
                 spriteColor = new Color(.75f, .25f, .25f);
+                size = new Vector2(2, 3);
                 break;
 
             case 8:
@@ -194,6 +206,7 @@ public class Building : MonoBehaviour
                 woodCost = 50;
                 maxNum = 5;
                 spriteColor = new Color(.5f, 0f, 0f);
+                size = new Vector2(3, 4);
                 break;
 
             case 9:
@@ -201,6 +214,7 @@ public class Building : MonoBehaviour
                 woodCost = 0;
                 maxNum = 10;
                 spriteColor = new Color(.75f, .75f, .75f);
+                size = new Vector2(1, 1);
                 break;
 
             case 10:
@@ -208,6 +222,7 @@ public class Building : MonoBehaviour
                 woodCost = 0;
                 maxNum = 10;
                 spriteColor = new Color(.5f, .5f, .5f);
+                size = new Vector2(2, 2);
                 break;
 
             case 11:
@@ -215,6 +230,7 @@ public class Building : MonoBehaviour
                 woodCost = 0;
                 maxNum = 10;
                 spriteColor = new Color(.25f, .25f, .25f);
+                size = new Vector2(3, 3);
                 break;
         }
     }
