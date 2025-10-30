@@ -18,6 +18,7 @@ public class BuildMenu : MonoBehaviour
     // Used to edit text
     private int woodCost;
     private int stoneCost;
+    public TextMeshProUGUI description;
     public TextMeshProUGUI tabText;
     public TextMeshProUGUI costText;
     public TextMeshProUGUI effectText;
@@ -74,6 +75,7 @@ public class BuildMenu : MonoBehaviour
                 stoneCost = 10;
                 titleText.text = "Small House";
                 effectText.text = "Max Population +5";
+                description.text = "";
                 break;
 
             case 1:
@@ -81,6 +83,7 @@ public class BuildMenu : MonoBehaviour
                 stoneCost = 20;
                 titleText.text = "Medium House";
                 effectText.text = "Max Population +10";
+                description.text = "";
                 break;
 
             case 2:
@@ -88,6 +91,7 @@ public class BuildMenu : MonoBehaviour
                 stoneCost = 50;
                 titleText.text = "Large House";
                 effectText.text = "Max Population +25";
+                description.text = "";
                 break;
 
             case 3:
@@ -95,6 +99,7 @@ public class BuildMenu : MonoBehaviour
                 stoneCost = 0;
                 titleText.text = "Small Farm";
                 effectText.text = "Nightly Food Increase +5";
+                description.text = "";
                 break;
 
             case 4:
@@ -102,6 +107,7 @@ public class BuildMenu : MonoBehaviour
                 stoneCost = 0;
                 titleText.text = "Medium Farm";
                 effectText.text = "Nightly Food Increase +10";
+                description.text = "";
                 break;
 
             case 5:
@@ -109,6 +115,7 @@ public class BuildMenu : MonoBehaviour
                 stoneCost = 0;
                 titleText.text = "Large Farm";
                 effectText.text = "Nightly Food Increase +25";
+                description.text = "";
                 break;
 
             case 6:
@@ -116,6 +123,7 @@ public class BuildMenu : MonoBehaviour
                 stoneCost = 5;
                 titleText.text = "Small Trade Post";
                 effectText.text = "Unlocks Trading\n\nNightly Gold Earnings +5";
+                description.text = "";
                 break;
 
             case 7:
@@ -123,6 +131,7 @@ public class BuildMenu : MonoBehaviour
                 stoneCost = 10;
                 titleText.text = "Medium Trade Post";
                 effectText.text = "Unlocks Trading\n\nNightly Gold Earnings +10";
+                description.text = "";
                 break;
 
             case 8:
@@ -130,6 +139,7 @@ public class BuildMenu : MonoBehaviour
                 stoneCost = 25;
                 titleText.text = "Large Trade Post";
                 effectText.text = "Unlocks Trading\n\nNightly Gold Earnings +25";
+                description.text = "";
                 break;
 
             case 9:
@@ -137,6 +147,7 @@ public class BuildMenu : MonoBehaviour
                 stoneCost = 10;
                 titleText.text = "Small Guard Tower";
                 effectText.text = "Defense +5";
+                description.text = "";
                 break;
 
             case 10:
@@ -144,6 +155,7 @@ public class BuildMenu : MonoBehaviour
                 stoneCost = 20;
                 titleText.text = "Medium Guard Tower";
                 effectText.text = "Defense +10";
+                description.text = "";
                 break;
 
             case 11:
@@ -151,6 +163,7 @@ public class BuildMenu : MonoBehaviour
                 stoneCost = 50;
                 titleText.text = "Large Guard Tower";
                 effectText.text = "Defense +25";
+                description.text = "";
                 break;
         }
 

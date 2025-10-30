@@ -34,12 +34,9 @@ public class Building : MonoBehaviour
         // If any issues, don't build
         if (isColliding || manager.buildings[buildingArrayPosition] >= maxNum)
         {
-            //Debug.Log("Can't Build");
             GameObject.Destroy(gameObject);
             return;
         }
-
-        //Debug.Log("Built");
 
         // Update values
         manager.wood -= woodCost;
@@ -91,7 +88,7 @@ public class Building : MonoBehaviour
         // Go to mouse pointer
         if (isBuilding)
         {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mousePosition = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePosition = new Vector3(((int)(mousePosition.x * (1 / manager.scaleFactor)) * manager.scaleFactor), ((int)(mousePosition.y * (1 / manager.scaleFactor)) * manager.scaleFactor), 0f);
             transform.position = mousePosition;
 

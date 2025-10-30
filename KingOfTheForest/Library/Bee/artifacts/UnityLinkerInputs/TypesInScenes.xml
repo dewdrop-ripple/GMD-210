@@ -2,6 +2,8 @@
 	<assembly fullname="Assembly-CSharp">
 		<type fullname="Building" preserve="nothing"/>
 		<type fullname="BuildMenu" preserve="nothing"/>
+		<type fullname="Camera" preserve="nothing"/>
+		<type fullname="FadeFromBlack" preserve="nothing"/>
 		<type fullname="GameManager" preserve="nothing"/>
 		<type fullname="HUD" preserve="nothing"/>
 		<type fullname="Resource" preserve="nothing"/>

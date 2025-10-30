@@ -13,7 +13,6 @@ public class Resource : MonoBehaviour
     public bool isColliding = true;
     private bool isHovered = false;
     public Vector2 location;
-    private Vector3 actualLocation;
     public GameManager manager;
     public Collider2D colliderSystem;
     public SpriteRenderer rendererSystem;
@@ -21,18 +20,12 @@ public class Resource : MonoBehaviour
     public Rigidbody2D rb;
     private Vector2 size = new Vector2(1, 1);
     public Building startingHouse;
-    //bool checkCollision = true;
     float timer = 0f;
-    //bool checkingRespawn = false;
-    //bool readyToRespawn = false;
     bool isPlaced = false;
 
     // Set basic variables
     public void GenerateResource()
     {
-        //checkCollision = true;
-        //timer = 0f;
-
         colliderSystem.enabled = true;
         rendererSystem.enabled = true;
 
@@ -44,11 +37,9 @@ public class Resource : MonoBehaviour
 
     private void Move()
     {
-        location = new Vector3(Random.Range(0.0f, Screen.width), Random.Range(0.0f, Screen.height - 100), 0.0f);
+        location = new Vector3(Random.Range(manager.leftX, manager.rightX), Random.Range(manager.bottomY, manager.topY), 0.0f);
         location = new Vector3(((int)(location.x * (1 / manager.scaleFactor)) * manager.scaleFactor), ((int)(location.y * (1 / manager.scaleFactor)) * manager.scaleFactor), 0f);
-        actualLocation = Camera.main.ScreenToWorldPoint(location);
-        actualLocation.z = 0.0f;
-        transform.position = actualLocation;
+        transform.position = location;
     }
 
     // Destroy item
@@ -81,23 +72,8 @@ public class Resource : MonoBehaviour
                 isPlaced = true;
             }
         }
-        /*       if (checkCollision)
-        {
-            timer += Time.deltaTime; // Increment timer
-            if (timer >= 0.25)
-            {
-                checkCollision = false;
 
-                if (checkingRespawn)
-                {
-                    checkingRespawn = false;
-                    readyToRespawn = true;
-                }
-            }
-        }
-        */
-
-        transform.position = actualLocation;
+        transform.position = location;
 
         if (manager.day == respawnDay && isDestroyed)
         {
@@ -113,31 +89,6 @@ public class Resource : MonoBehaviour
             rendererSystem.enabled = false;
             respawnDay += regenTime;
         }
-
-        /*
-        if (manager.day == respawnDay && isDestroyed && !checkingRespawn && !readyToRespawn)
-        {
-            colliderSystem.enabled = true;
-            checkingRespawn = true;
-            timer = 0;
-        }
-
-        if (readyToRespawn)
-        {
-            if (!isColliding)
-            {
-                rendererSystem.enabled = true;
-                isDestroyed = false;
-            }
-            else
-            {
-                colliderSystem.enabled = false;
-                respawnDay += regenTime;
-            }
-
-            readyToRespawn = false;  
-        }
-        */
 
         // Check click
         if (Input.GetMouseButtonDown(0) && isHovered)
@@ -157,13 +108,11 @@ public class Resource : MonoBehaviour
     public void OnCollisionEnter2D(Collision2D collision) 
     {
         isColliding = true;
-        //if (checkCollision) Move();
         if (!manager.currentlyBuilding && !isPlaced) { Move(); }
     }
     public void OnCollisionStay2D(Collision2D collision)
     {
         isColliding = true;
-        //if (checkCollision) Move();
         if (!manager.currentlyBuilding && !isPlaced) { Move(); }
     }
 

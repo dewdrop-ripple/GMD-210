@@ -56,22 +56,31 @@ public class GameManager : MonoBehaviour
     private int consecBadNights = 0;
 
     // All possible nightly states for display text
-    private bool goodMoney = false;
-    private bool goodFood = false;
-    private bool popGrowth = false;
-    private bool foodShortage = false;
+    private bool goodMoney = false; 
+    private bool goodFood = false; 
+    private bool popGrowthBig = false; 
+    private bool popGrowthSmall = false; 
+    private bool foodShortage = false; 
+    private bool popAfraid = false; 
+    private bool popTiny = false; 
+    private bool notWorthAttack = false; 
+    private bool scaredOff = false; 
+    private bool tinyAttack = false;
+    private bool bigAttack = false; 
 
     // Cheats
     private bool cheats = false;
 
     // Night overlay data
     public Canvas nightOverlay;
+    public TextMeshProUGUI nText;
     public TextMeshProUGUI nPeople;
     public TextMeshProUGUI nFood;
     public TextMeshProUGUI nMoney;
 
     // Attack overlay data
     public Canvas attackOverlay;
+    public TextMeshProUGUI aText;
     public TextMeshProUGUI aPeople;
     public TextMeshProUGUI aWood;
     public TextMeshProUGUI aStone;
@@ -80,13 +89,33 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI aBuildings;
 
     // Since my grid size =/= unity grid size
-    public float scaleFactor = 0.5f;
-    public int leftX = 0;
-    public int topY = 0;
-    public int rightX = Screen.width;
-    public int bottomY = Screen.height;
+    public float scaleFactor = 0.35f;
+    public int leftX = -20;
+    public int rightX = 20;
+    public int bottomY = -5;
+    public int topY = 5;
 
     public bool currentlyBuilding = false;
+
+    private string[] nightTextOptions =
+    {
+        "It's a quiet night.",
+        "Your traders have been working hard all night. Business is booming!",
+        "Your people celebrated the harvest with a feast in your honor!",
+        "People are attracted to such a safe kingdom. Your town grows rapidly overnight.",
+        "The population grows steadily.",
+        "As food supplies run short, your people starve, and many more leave in the night.",
+        "The recent attacks have spread fear through the town. People leave town in the night.",
+        "Your ‘kingdom’ is a ghost town. The council scoffs at your efforts."
+    };
+
+    private string[] attackTextOptions =
+    {
+        "The bandits couldn’t be bothered to attack such a small kingdom. Your people slept soundly through the night.",
+        "A group of bandits wandered the forest nearby, but were scared off by your defenses and avoided the town. Your people slept soundly through the night.",
+        "A group of bandits attacked the town in the night. Your people are scared, but the damage was minimal.",
+        "A large group of bandits attacked the town in the night. Your people will bury their dead this morning, but they may not stay the night."
+    };
 
     // Initialize all variables
     private void Start()
@@ -110,7 +139,7 @@ public class GameManager : MonoBehaviour
 
     private void GenerateResources()
     {
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 75; i++)
         {
             GameObject r = Instantiate(resource);
             r.GetComponent<Resource>().manager = this;
@@ -177,12 +206,6 @@ public class GameManager : MonoBehaviour
     {
         nightOverlay.enabled = true;
 
-        // Reset variables
-        goodMoney = false;
-        goodFood = false;
-        popGrowth = false;
-        foodShortage = false;
-
         // Basic building changes
         int foodChange = 0;
         foodChange += (buildings[3] * SMALL_FARM_FOOD) + (buildings[4] * MED_FARM_FOOD) + (buildings[5] * LARGE_FARM_FOOD);
@@ -209,6 +232,7 @@ public class GameManager : MonoBehaviour
         if (consecBadNights > 2)
         {
             popChange -= consecBadNights * consecBadNights;
+            popAfraid = true;
         }
         // If not
         else
@@ -227,12 +251,15 @@ public class GameManager : MonoBehaviour
         }
 
         // Check population change
-        if (popChange > 0) {  popGrowth = true; }
+        if (popChange > 0 && popChange < (int) (population * 0.2)) {  popGrowthSmall = true; }
+        else if (popChange >= (int)(population * 0.2)) { popGrowthBig = true; }
 
         // Actually change stats
         food += foodChange;
         money += moneyChange;
         population += popChange;
+
+        if (population <= 3) { popTiny = true; }
 
         // Update text
         if (foodChange < 0) nFood.SetText(foodChange + " Food");
@@ -243,6 +270,15 @@ public class GameManager : MonoBehaviour
 
         if (popChange < 0) nPeople.SetText(popChange + " People");
         else nPeople.SetText("+" + popChange + " People");
+
+        if (popTiny) { nText.SetText(nightTextOptions[7]); }
+        else if (foodShortage) { nText.SetText(nightTextOptions[5]); }
+        else if (popAfraid) { nText.SetText(nightTextOptions[6]); }
+        else if (popGrowthBig) { nText.SetText(nightTextOptions[3]); }
+        else if (goodFood) { nText.SetText(nightTextOptions[2]); }
+        else if (goodMoney) { nText.SetText(nightTextOptions[1]); }
+        else if (popGrowthSmall) { nText.SetText(nightTextOptions[4]); }
+        else { nText.SetText(nightTextOptions[0]); }
     }
 
     // Calculate effects of attack based on current stats
@@ -254,6 +290,12 @@ public class GameManager : MonoBehaviour
         // Set strength
         int attackStrength = (int) ((population - defense) * ((Mathf.Cos(day + 3.14f) + 2) * 0.5));
         Debug.Log(attackStrength);
+
+        if (population < 20) 
+        { 
+            attackStrength = 0; 
+            notWorthAttack = true;
+        }
 
         // Variables
         int peopleKilled = 0;
@@ -269,14 +311,20 @@ public class GameManager : MonoBehaviour
             stoneStolen = (int)((attackStrength / 100f) * stone);
             foodStolen = (int)((attackStrength / 100f) * food);
             moneyStolen = (int)((attackStrength / 100f) * money);
+            tinyAttack = true;
         }
         else
         {
             consecSafeNights++;
             consecBadNights = 0;
+
+            if (!notWorthAttack)
+            {
+                scaredOff = true;
+            }
         }
 
-            aPeople.SetText(peopleKilled + " People Killed");
+        aPeople.SetText(peopleKilled + " People Killed");
         aWood.SetText(woodStolen + " Wood Stolen");
         aStone.SetText(stoneStolen + " Stone Stolen");
         aFood.SetText(foodStolen + " Food Stolen");
@@ -294,6 +342,9 @@ public class GameManager : MonoBehaviour
         {
             consecSafeNights = 0;
             consecBadNights++;
+
+            tinyAttack = false;
+            bigAttack = true;
 
             int canDestroyBuildings = 0;
             List<int> destroyable = new List<int>();
@@ -400,6 +451,11 @@ public class GameManager : MonoBehaviour
                 // CONTINUE GAME - NOT DONE YET
                 break;
         }
+
+        if (notWorthAttack) { aText.SetText(attackTextOptions[0]); }
+        else if (scaredOff) { aText.SetText(attackTextOptions[1]); }
+        else if (bigAttack) { aText.SetText(attackTextOptions[3]); }
+        else { aText.SetText(attackTextOptions[2]); }
     }
 
     // Trade functions
@@ -444,6 +500,17 @@ public class GameManager : MonoBehaviour
     public void EndDay()
     {
         isDay = false;
+        goodMoney = false;
+        goodFood = false;
+        popGrowthBig = false;
+        popGrowthSmall = false;
+        foodShortage = false;
+        popAfraid = false;
+        popTiny = false;
+        notWorthAttack = false;
+        scaredOff = false;
+        tinyAttack = false;
+        bigAttack = false;
         NightlyResourceChange();
     }
 
