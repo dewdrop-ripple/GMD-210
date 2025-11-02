@@ -1,8 +1,7 @@
-using NUnit.Framework;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,14 +12,20 @@ public class GameManager : MonoBehaviour
     public int day = 1;
     public int wood = 0;
     public int stone = 0; 
-    public int food = 25;
+    public int food = 50;
     public int money = 0;
     public int defense = 0;
+
+    // States
     public bool isDay = true;
     public bool canTrade = false;
-    public bool demoMode;
-    public GameObject resource;
+    public bool demoMode = true;
     int resourceNumber = 0;
+    public bool currentlyBuilding = false;
+    public bool freePlay = false;
+
+    // Game objects to access
+    public GameObject resource;
     public Building startingHouse;
 
     // So that I can quickly change this for testing purposes
@@ -44,9 +49,9 @@ public class GameManager : MonoBehaviour
     private const int SMALL_TOWER_DEFENSE = 5;
     private const int MED_TOWER_DEFENSE = 25;
     private const int LARGE_TOWER_DEFENSE = 50;
-    private const int SMALL_FARM_FOOD = 5;
-    private const int MED_FARM_FOOD = 25;
-    private const int LARGE_FARM_FOOD = 50;
+    private const int SMALL_FARM_FOOD = 10;
+    private const int MED_FARM_FOOD = 50;
+    private const int LARGE_FARM_FOOD = 100;
     private const int SMALL_TRADE_MONEY = 5;
     private const int MED_TRADE_MONEY = 25;
     private const int LARGE_TRADE_MONEY = 50;
@@ -88,6 +93,16 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI aMoney;
     public TextMeshProUGUI aBuildings;
 
+    // "Pause" Menu
+    public Canvas pauseOverlay;
+
+    // Win/Loss
+    public Canvas winScreen;
+    public Canvas loseScreen;
+
+    // Build menu
+    public Canvas buildMenu;
+
     // Since my grid size =/= unity grid size
     public float scaleFactor = 0.35f;
     public int leftX = -20;
@@ -95,8 +110,7 @@ public class GameManager : MonoBehaviour
     public int bottomY = -5;
     public int topY = 5;
 
-    public bool currentlyBuilding = false;
-
+    // Text options
     private string[] nightTextOptions =
     {
         "It's a quiet night.",
@@ -117,11 +131,24 @@ public class GameManager : MonoBehaviour
         "A large group of bandits attacked the town in the night. Your people will bury their dead this morning, but they may not stay the night."
     };
 
+    // Settings object
+    public Settings settings;
+
+    // Set settings object
+    private void Awake()
+    {
+        settings = GameObject.Find("Settings").GetComponent<Settings>();
+    }
+
     // Initialize all variables
     private void Start()
     {
+        // UIs
         attackOverlay.enabled = false;
         nightOverlay.enabled = false;
+        pauseOverlay.enabled = false;
+        winScreen.enabled = false;
+        loseScreen.enabled = false;
 
         // Start with 1 small house and nothing else
         buildings[0] = 1;
@@ -130,22 +157,31 @@ public class GameManager : MonoBehaviour
             buildings[i] = 0;
         }
 
+        // Set starting house data
         startingHouse.setBuildingType(0);
         startingHouse.preBuilt();
         buildingsList.Add(startingHouse);
 
+        // Generate all resources
         GenerateResources();
     }
 
+    // Generate all resources
     private void GenerateResources()
     {
+        // Resources
         for (int i = 0; i < 75; i++)
         {
+            // Instantiate
             GameObject r = Instantiate(resource);
+
+            // Set variables
             r.GetComponent<Resource>().manager = this;
             r.GetComponent<Resource>().startingHouse = startingHouse;
-            r.GetComponent<Resource>().setResourceType(resourceNumber % 6);
+            r.GetComponent<Resource>().typeID = resourceNumber % 6;
             r.GetComponent<Resource>().GenerateResource();
+
+            // Not random, one of each
             resourceNumber++;
         }
     }
@@ -195,6 +231,7 @@ public class GameManager : MonoBehaviour
         if (cheats) { canTrade = true; }
         else { canTrade = (buildings[6] > 0) || (buildings[7] > 0) || (buildings[8] > 0); }
 
+        // Make sure no negative stats
         if (money < 0) { money = 0; }
         if (food < 0) { food = 0; }
         if (wood < 0) { wood = 0; }
@@ -208,13 +245,13 @@ public class GameManager : MonoBehaviour
 
         // Basic building changes
         int foodChange = 0;
-        foodChange += (buildings[3] * SMALL_FARM_FOOD) + (buildings[4] * MED_FARM_FOOD) + (buildings[5] * LARGE_FARM_FOOD);
+        foodChange += (int)((buildings[3] * SMALL_FARM_FOOD) + (buildings[4] * MED_FARM_FOOD) + (buildings[5] * LARGE_FARM_FOOD) * (1 / settings.difficultyScaler));
         foodChange -= population;
-        if (foodChange >= (int) (food * 0.2)) {  goodFood = true; }
+        if (foodChange > (int) (food * 0.2)) {  goodFood = true; }
 
         int moneyChange = 0;
-        moneyChange += (buildings[6] * SMALL_TRADE_MONEY) + (buildings[7] * MED_TRADE_MONEY) + (buildings[8] * LARGE_TRADE_MONEY);
-        if (moneyChange >= (int)(money * 0.2)) {  goodMoney = true; }
+        moneyChange += (int)((buildings[6] * SMALL_TRADE_MONEY) + (buildings[7] * MED_TRADE_MONEY) + (buildings[8] * LARGE_TRADE_MONEY) * (1 / settings.difficultyScaler));
+        if (moneyChange > (int)(money * 0.2)) {  goodMoney = true; }
 
         int popChange = 0;
 
@@ -223,7 +260,7 @@ public class GameManager : MonoBehaviour
         if (newFood < 0)
         {
             foodShortage = true;
-            popChange += newFood; // Subtract from population (+ b/c food is negative)
+            popChange += (int)(newFood * (1 / settings.difficultyScaler)); // Subtract from population (+ b/c food is negative)
             newFood = 0; // Reset
             foodChange = food;
         }
@@ -250,9 +287,24 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if ((population + popChange) < 0)
+        {
+            popChange = 0 - population;
+        }
+
+        if ((population + popChange) > maxPopulation)
+        {
+            popChange = maxPopulation - population;
+        }
+
         // Check population change
         if (popChange > 0 && popChange < (int) (population * 0.2)) {  popGrowthSmall = true; }
-        else if (popChange >= (int)(population * 0.2)) { popGrowthBig = true; }
+        else if (popChange > (int)(population * 0.2)) { popGrowthBig = true; }
+
+        if (population + popChange == 1)
+        {
+            popChange--;
+        }
 
         // Actually change stats
         food += foodChange;
@@ -279,6 +331,22 @@ public class GameManager : MonoBehaviour
         else if (goodMoney) { nText.SetText(nightTextOptions[1]); }
         else if (popGrowthSmall) { nText.SetText(nightTextOptions[4]); }
         else { nText.SetText(nightTextOptions[0]); }
+
+        // During free play, don't stop game
+        if (!freePlay)
+        {
+            // Has the player won or lost the game?
+            int state = CheckWin();
+
+            if (state == 1)
+            {
+                winScreen.enabled = true;
+            }
+            else if (state == 2)
+            {
+                loseScreen.enabled = true;
+            }
+        }
     }
 
     // Calculate effects of attack based on current stats
@@ -288,9 +356,9 @@ public class GameManager : MonoBehaviour
         attackOverlay.enabled = true; 
 
         // Set strength
-        int attackStrength = (int) ((population - defense) * ((Mathf.Cos(day + 3.14f) + 2) * 0.5));
-        Debug.Log(attackStrength);
+        int attackStrength = (int) ((population - defense) * ((Mathf.Cos(day + 3.14f) + 2) * 0.5) * settings.difficultyScaler);
 
+        // If tiny pop, don't bother
         if (population < 20) 
         { 
             attackStrength = 0; 
@@ -315,29 +383,35 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            consecSafeNights++;
+            consecSafeNights = 0;
             consecBadNights = 0;
 
             if (!notWorthAttack)
             {
                 scaredOff = true;
+                consecSafeNights++;
+                consecBadNights = 0;
             }
         }
 
+        // Set text
         aPeople.SetText(peopleKilled + " People Killed");
         aWood.SetText(woodStolen + " Wood Stolen");
         aStone.SetText(stoneStolen + " Stone Stolen");
         aFood.SetText(foodStolen + " Food Stolen");
         aMoney.SetText(moneyStolen + "g Stolen");
 
+        // Update data
         population -= peopleKilled;
         wood -= woodStolen;
         stone -= stoneStolen;
         food -= foodStolen;
         money -= moneyStolen;
 
+        // Buildings destroyed
         string buildingsText = "";
 
+        // Destroy buildings
         if (attackStrength > 10)
         {
             consecSafeNights = 0;
@@ -429,33 +503,33 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        // Update building text
         if (buildingsText == "") aBuildings.SetText("None");
         else aBuildings.SetText(buildingsText);
 
         UpdateStats();
 
-        // Has the player won or lost the game?
-        int state = CheckWin();
-
-        switch (state)
-        {
-            case 1:
-                // GO TO WIN SCREEN - NOT DONE YET
-                break;
-
-            case 2:
-                // GO TO LOSE SCREEN - NOT DONE YET
-                break;
-
-            default:
-                // CONTINUE GAME - NOT DONE YET
-                break;
-        }
-
+        // Set blurb
         if (notWorthAttack) { aText.SetText(attackTextOptions[0]); }
         else if (scaredOff) { aText.SetText(attackTextOptions[1]); }
         else if (bigAttack) { aText.SetText(attackTextOptions[3]); }
         else { aText.SetText(attackTextOptions[2]); }
+
+        // No win checking in free play
+        if (!freePlay)
+        {
+            // Has the player won or lost the game?
+            int state = CheckWin();
+
+            if (state == 1)
+            {
+                winScreen.enabled = true;
+            }
+            else if (state == 2)
+            {
+                loseScreen.enabled = true;
+            }
+        }
     }
 
     // Trade functions
@@ -492,13 +566,28 @@ public class GameManager : MonoBehaviour
         money -= 5;
     }
 
+    // To main menu
     public void QuitGame()
     {
-        Application.Quit();
+        SceneManager.LoadScene("MainMenu");
     }
 
+    // Close quit menu
+    public void DontQuit()
+    {
+        pauseOverlay.enabled = false;
+    }
+
+    // Open quit menu
+    public void Pause()
+    {
+        pauseOverlay.enabled = true;
+    }
+
+    // Start end of day
     public void EndDay()
     {
+        // Reset text options
         isDay = false;
         goodMoney = false;
         goodFood = false;
@@ -511,13 +600,33 @@ public class GameManager : MonoBehaviour
         scaredOff = false;
         tinyAttack = false;
         bigAttack = false;
+
+        // Start nightly resource change
         NightlyResourceChange();
     }
 
+    // New day
     public void StartNewDay()
     {
+        // Close menu
         attackOverlay.enabled = false;
+
+        // New day
         isDay = true;
         day++;
+    }
+
+    // Start free play mode
+    public void StartFreePlay()
+    {
+        // Close win screen and turn on free play
+        freePlay = true;
+        winScreen.enabled = false;
+    }
+
+    // Reload level
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

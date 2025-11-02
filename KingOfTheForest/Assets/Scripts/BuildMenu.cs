@@ -4,12 +4,15 @@ using UnityEngine;
 public class BuildMenu : MonoBehaviour
 {
     // Diffrent Position
-    private const int UP_POSITION = -255;
-    private const int DOWN_POSITION = -445;
+    private const int UP_POSITION = 170;
+    private const int DOWN_POSITION = 365;
     public bool isUp = false;
+
+    // Panels
     public UnityEngine.UI.Image basePanel;
     public UnityEngine.UI.Image tabPanel;
     public UnityEngine.UI.Image buyButton;
+    public UnityEngine.UI.Image lowFoodPanel;
 
     // Button Colors
     private Color GREEN = new Color(.5f, .75f, .5f);
@@ -37,8 +40,14 @@ public class BuildMenu : MonoBehaviour
     // Since the editor's scaling is off
     public bool isEditor = false;
 
-    // To turn off demo mode when building
-    public UnityEngine.UI.Toggle demoModeToggle;
+    // Access game settings
+    public Settings settings;
+
+    // Get settings component
+    private void Awake()
+    {
+        settings = GameObject.Find("Settings").GetComponent<Settings>();
+    }
 
     // Constantly update information
     private void Update()
@@ -49,124 +58,148 @@ public class BuildMenu : MonoBehaviour
 
         if (isEditor)
         {
-            actualUp += 50;
-            actualDown += 50;
+            actualUp -= 50;
+            actualDown -= 50;
         }
 
         // Set position
         if (isUp)
         {
             basePanel.transform.localPosition = new Vector3(0f, actualUp, 0f);
-            tabPanel.transform.localPosition = new Vector3(-460f, actualUp + 120, 0f);
-            tabText.text = "Close";
+            tabPanel.transform.localPosition = new Vector3(-370f, actualUp - 125, 0f);
+
+            if (manager.food < 10)
+            {
+                lowFoodPanel.transform.localPosition = new Vector3(-100f, actualUp - 125, 0f);
+            }
+            else
+            {
+                lowFoodPanel.transform.localPosition = new Vector3(-100f, actualUp, 0f);
+            }
+
+            manager.demoMode = false;
+            tabText.text = "Close Menu";
         }
         else
         {
             basePanel.transform.localPosition = new Vector3(0f, actualDown, 0f);
-            tabPanel.transform.localPosition = new Vector3(-460f, actualDown + 120, 0f);
-            tabText.text = "Open";
+            tabPanel.transform.localPosition = new Vector3(-370f, actualDown - 125, 0f);
+
+            if (manager.food < 10)
+            {
+                lowFoodPanel.transform.localPosition = new Vector3(-100f, actualDown - 125, 0f);
+            }
+            else 
+            {
+                lowFoodPanel.transform.localPosition = new Vector3(-100f, actualDown, 0f);
+            }
+
+            manager.demoMode = true;
+            tabText.text = "Build Menu";
         }
 
+        
         // Switch selection
         switch (buildingSelection)
         {
             case 0: 
-                woodCost = 10;
-                stoneCost = 10;
-                titleText.text = "Small House";
+                woodCost = (int) (10 * settings.difficultyScaler);
+                stoneCost = (int)(10 * settings.difficultyScaler);
+                titleText.text = "Small Cottage";
                 effectText.text = "Max Population +5";
-                description.text = "";
+                description.text = "A peaceful little home for a small family.";
                 break;
 
             case 1:
-                woodCost = 20;
-                stoneCost = 20;
-                titleText.text = "Medium House";
+                woodCost = (int)(20 * settings.difficultyScaler);
+                stoneCost = (int)(20 * settings.difficultyScaler);
+                titleText.text = "Family Home";
                 effectText.text = "Max Population +10";
-                description.text = "";
+                description.text = "A nice house for a growing family.";
                 break;
 
             case 2:
-                woodCost = 50;
-                stoneCost = 50;
-                titleText.text = "Large House";
+                woodCost = (int)(50 * settings.difficultyScaler);
+                stoneCost = (int)(20 * settings.difficultyScaler);
+                titleText.text = "Appartment Complex";
                 effectText.text = "Max Population +25";
-                description.text = "";
+                description.text = "A large complex to house a growing population, crucial to all kingdoms of the council.";
                 break;
 
             case 3:
-                woodCost = 10;
+                woodCost = (int)(10 * settings.difficultyScaler);
                 stoneCost = 0;
-                titleText.text = "Small Farm";
+                titleText.text = "Garden";
                 effectText.text = "Nightly Food Increase +5";
-                description.text = "";
+                description.text = "A small plot of land for a family to grow food.";
                 break;
 
             case 4:
-                woodCost = 20;
+                woodCost = (int)(20 * settings.difficultyScaler);
                 stoneCost = 0;
-                titleText.text = "Medium Farm";
+                titleText.text = "Local Farm";
                 effectText.text = "Nightly Food Increase +10";
-                description.text = "";
+                description.text = "A small farm, perfect for a growing village.";
                 break;
 
             case 5:
-                woodCost = 50;
+                woodCost = (int)(50 * settings.difficultyScaler);
                 stoneCost = 0;
-                titleText.text = "Large Farm";
+                titleText.text = "Industrial Farm";
                 effectText.text = "Nightly Food Increase +25";
-                description.text = "";
+                description.text = "A farm fit to feed a kingdom.";
                 break;
 
             case 6:
-                woodCost = 10;
-                stoneCost = 5;
-                titleText.text = "Small Trade Post";
+                woodCost = (int)(10 * settings.difficultyScaler);
+                stoneCost = (int)(5 * settings.difficultyScaler);
+                titleText.text = "Trade Post";
                 effectText.text = "Unlocks Trading\n\nNightly Gold Earnings +5";
-                description.text = "";
+                description.text = "A small stand for locals to sell their produce.";
                 break;
 
             case 7:
-                woodCost = 20;
-                stoneCost = 10;
-                titleText.text = "Medium Trade Post";
+                woodCost = (int)(20 * settings.difficultyScaler);
+                stoneCost = (int)(10 * settings.difficultyScaler);
+                titleText.text = "Local Market";
                 effectText.text = "Unlocks Trading\n\nNightly Gold Earnings +10";
-                description.text = "";
+                description.text = "A large market for many locals to sell their products. A great way to attract traders to your village.";
                 break;
 
             case 8:
-                woodCost = 50;
-                stoneCost = 25;
-                titleText.text = "Large Trade Post";
+                woodCost = (int)(50 * settings.difficultyScaler);
+                stoneCost = (int)(25 * settings.difficultyScaler);
+                titleText.text = "Bank";
                 effectText.text = "Unlocks Trading\n\nNightly Gold Earnings +25";
-                description.text = "";
+                description.text = "What better way to expand businesses in your town?";
                 break;
 
             case 9:
                 woodCost = 0;
-                stoneCost = 10;
-                titleText.text = "Small Guard Tower";
+                stoneCost = (int)(10 * settings.difficultyScaler);
+                titleText.text = "Archer Tower";
                 effectText.text = "Defense +5";
-                description.text = "";
+                description.text = "A small tower local archers can use to defend your town at night.";
                 break;
 
             case 10:
                 woodCost = 0;
-                stoneCost = 20;
-                titleText.text = "Medium Guard Tower";
+                stoneCost = (int)(20 * settings.difficultyScaler);
+                titleText.text = "Army Barracks";
                 effectText.text = "Defense +10";
-                description.text = "";
+                description.text = "Somewhere soldiers can rest while not defending the town. A great way to attrack warriors to your town.";
                 break;
 
             case 11:
                 woodCost = 0;
-                stoneCost = 50;
-                titleText.text = "Large Guard Tower";
+                stoneCost = (int)(50 * settings.difficultyScaler);
+                titleText.text = "Keep";
                 effectText.text = "Defense +25";
-                description.text = "";
+                description.text = "A large, defendable tower. It times or crisis, your people can hide here to stay safe.";
                 break;
         }
 
+        // Set cost text
         costText.text = "Wood: " + woodCost + "\nStone: " + stoneCost;
 
         // Can the player buy it
@@ -200,13 +233,13 @@ public class BuildMenu : MonoBehaviour
         if (canBuy)
         {
             // Turn off demo mode and close panel
-            demoModeToggle.isOn = false;
             manager.demoMode = false;
             isUp = false;
 
             // Create and start building
             GameObject r = Instantiate(building);
             r.GetComponent<Building>().manager = this.manager;
+            r.GetComponent<Building>().buildMenu = this;
             r.GetComponent<Building>().setBuildingType(buildingSelection);
             r.GetComponent<Building>().StartBuild();
         }

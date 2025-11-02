@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class HUD : MonoBehaviour
 {
+    // Game Mananger
     public GameManager manager;
+
+    // HUD stuff to edit
     public UnityEngine.UI.Image dayNightTracker;
     public TextMeshProUGUI dayNumber;
     public TextMeshProUGUI population;
@@ -12,7 +15,6 @@ public class HUD : MonoBehaviour
     public TextMeshProUGUI food;
     public TextMeshProUGUI money;
     public TextMeshProUGUI defense;
-    public UnityEngine.UI.Toggle demoModeToggle;
 
     // Constantly update variables
     void Update()
@@ -36,9 +38,5 @@ public class HUD : MonoBehaviour
         food.text = "Food: " + manager.food;
         money.text = "Money: " + manager.money + "g";
         defense.text = "Defense: " + manager.defense;
-
-        // Set demo mode
-        if (demoModeToggle.isOn) manager.demoMode = true;
-        else manager.demoMode = false;
     }
 }

@@ -1,5 +1,11 @@
 <linker>
 	<assembly fullname="Assembly-CSharp" ignoreIfMissing="1">
+		<type fullname="Building">
+			<method name="NoDestroy"/>
+			<method name="NoDestroy"/>
+			<method name="YesDestroy"/>
+			<method name="YesDestroy"/>
+		</type>
 		<type fullname="BuildMenu">
 			<method name="buyTarget"/>
 			<method name="target"/>
@@ -20,11 +26,26 @@
 			<method name="Attack"/>
 			<method name="BuyStone"/>
 			<method name="BuyWood"/>
+			<method name="DontQuit"/>
 			<method name="EndDay"/>
+			<method name="Pause"/>
 			<method name="QuitGame"/>
+			<method name="QuitGame"/>
+			<method name="QuitGame"/>
+			<method name="Restart"/>
 			<method name="SellStone"/>
 			<method name="SellWood"/>
+			<method name="StartFreePlay"/>
 			<method name="StartNewDay"/>
+		</type>
+		<type fullname="MenuButtons">
+			<method name="GoToScene"/>
+			<method name="GoToScene"/>
+			<method name="GoToScene"/>
+			<method name="QuitApp"/>
+		</type>
+		<type fullname="SettingsButtons">
+			<method name="changeDifficulty"/>
 		</type>
 	</assembly>
 	<assembly fullname="Unity.RenderPipelines.Core.Runtime" ignoreIfMissing="1">

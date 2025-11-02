@@ -41,14 +41,20 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: UI
+  - name: BuildMenu
     uniqueID: 506146123
+    locked: 0
+  - name: HUD
+    uniqueID: 914549247
     locked: 0
   - name: Overlay
     uniqueID: 1219704987
     locked: 0
   - name: Fade
     uniqueID: 3206759423
+    locked: 0
+  - name: PauseMenu
+    uniqueID: 4231685279
     locked: 0
   m_RenderingLayers:
   - Default

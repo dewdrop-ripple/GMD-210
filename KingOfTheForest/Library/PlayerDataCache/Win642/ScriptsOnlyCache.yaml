@@ -3,14 +3,18 @@ ScriptsOnlyBuild:
     Assembly-CSharp.dll:
     - BuildMenu
     - Building
-    - Camera
+    - CameraController
     - FadeFromBlack
     - GameManager
     - HUD
+    - MenuButtons
     - Resource
+    - Settings
+    - SettingsButtons
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.Animation.Runtime.dll:
+    - UnityEngine.U2D.Animation.BufferManager
     - UnityEngine.U2D.Animation.DeformationManager
     - UnityEngine.U2D.Animation.DeformationManagerUpdater
     Unity.2D.IK.Editor.dll:
@@ -134,8 +138,6 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
-    - UnityEngine.UI.Text
-    - UnityEngine.UI.Toggle
   serializedClasses:
     Unity.InputSystem:
     - UnityEngine.InputSystem.InputAction
@@ -253,71 +255,14 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Toggle/ToggleEvent
   methodsToPreserve:
   - assembly: Assembly-CSharp
-    fullTypeName: BuildMenu
-    methodName: target
+    fullTypeName: MenuButtons
+    methodName: GoToScene
   - assembly: Assembly-CSharp
-    fullTypeName: GameManager
-    methodName: BuyStone
+    fullTypeName: MenuButtons
+    methodName: QuitApp
   - assembly: Assembly-CSharp
-    fullTypeName: BuildMenu
-    methodName: target
-  - assembly: Assembly-CSharp
-    fullTypeName: BuildMenu
-    methodName: target
-  - assembly: Assembly-CSharp
-    fullTypeName: GameManager
-    methodName: EndDay
-  - assembly: Assembly-CSharp
-    fullTypeName: BuildMenu
-    methodName: toggleOpen
-  - assembly: Assembly-CSharp
-    fullTypeName: GameManager
-    methodName: SellStone
-  - assembly: Assembly-CSharp
-    fullTypeName: BuildMenu
-    methodName: target
-  - assembly: Assembly-CSharp
-    fullTypeName: GameManager
-    methodName: BuyWood
-  - assembly: Assembly-CSharp
-    fullTypeName: BuildMenu
-    methodName: target
-  - assembly: Assembly-CSharp
-    fullTypeName: BuildMenu
-    methodName: target
-  - assembly: Assembly-CSharp
-    fullTypeName: BuildMenu
-    methodName: target
-  - assembly: Assembly-CSharp
-    fullTypeName: GameManager
-    methodName: Attack
-  - assembly: Assembly-CSharp
-    fullTypeName: BuildMenu
-    methodName: target
-  - assembly: Assembly-CSharp
-    fullTypeName: BuildMenu
-    methodName: target
-  - assembly: Assembly-CSharp
-    fullTypeName: GameManager
-    methodName: SellWood
-  - assembly: Assembly-CSharp
-    fullTypeName: BuildMenu
-    methodName: buyTarget
-  - assembly: Assembly-CSharp
-    fullTypeName: GameManager
-    methodName: StartNewDay
-  - assembly: Assembly-CSharp
-    fullTypeName: GameManager
-    methodName: QuitGame
-  - assembly: Assembly-CSharp
-    fullTypeName: BuildMenu
-    methodName: target
-  - assembly: Assembly-CSharp
-    fullTypeName: BuildMenu
-    methodName: target
-  - assembly: Assembly-CSharp
-    fullTypeName: BuildMenu
-    methodName: target
+    fullTypeName: MenuButtons
+    methodName: GoToScene
   - assembly: Unity.RenderPipelines.Core.Runtime
     fullTypeName: UnityEngine.Rendering.UI.DebugUIHandlerButton
     methodName: OnAction
@@ -360,6 +305,108 @@ ScriptsOnlyBuild:
   - assembly: Unity.RenderPipelines.Core.Runtime
     fullTypeName: UnityEngine.Rendering.UI.DebugUIHandlerPanel
     methodName: ResetDebugManager
+  - assembly: Assembly-CSharp
+    fullTypeName: Building
+    methodName: NoDestroy
+  - assembly: Assembly-CSharp
+    fullTypeName: Building
+    methodName: YesDestroy
+  - assembly: Assembly-CSharp
+    fullTypeName: Building
+    methodName: YesDestroy
+  - assembly: Assembly-CSharp
+    fullTypeName: Building
+    methodName: NoDestroy
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: BuyStone
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: Restart
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: QuitGame
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: EndDay
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: DontQuit
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: toggleOpen
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: SellStone
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: QuitGame
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: BuyWood
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: Attack
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: QuitGame
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: SellWood
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: buyTarget
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: StartNewDay
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: Pause
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: BuildMenu
+    methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: StartFreePlay
+  - assembly: Assembly-CSharp
+    fullTypeName: SettingsButtons
+    methodName: changeDifficulty
+  - assembly: Assembly-CSharp
+    fullTypeName: MenuButtons
+    methodName: GoToScene
   sceneClasses:
     Assets/Scenes/KingdomScene.unity:
     - Class: 1
@@ -374,8 +421,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 48
       Script: {instanceID: 0}
-    - Class: 49
-      Script: {instanceID: 0}
     - Class: 50
       Script: {instanceID: 0}
     - Class: 58
@@ -389,133 +434,41 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 15550}
+      Script: {instanceID: 15558}
     - Class: 114
-      Script: {instanceID: 15572}
+      Script: {instanceID: 15580}
     - Class: 114
-      Script: {instanceID: 15740}
+      Script: {instanceID: 16078}
     - Class: 114
-      Script: {instanceID: 16020}
+      Script: {instanceID: 16934}
     - Class: 114
-      Script: {instanceID: 16070}
+      Script: {instanceID: 17450}
     - Class: 114
-      Script: {instanceID: 16290}
+      Script: {instanceID: 17810}
     - Class: 114
-      Script: {instanceID: 16448}
+      Script: {instanceID: 17894}
     - Class: 114
-      Script: {instanceID: 16574}
+      Script: {instanceID: 18868}
     - Class: 114
-      Script: {instanceID: 16786}
+      Script: {instanceID: 19840}
     - Class: 114
-      Script: {instanceID: 16926}
+      Script: {instanceID: 20972}
     - Class: 114
-      Script: {instanceID: 17208}
+      Script: {instanceID: 22230}
     - Class: 114
-      Script: {instanceID: 17442}
+      Script: {instanceID: 22698}
     - Class: 114
-      Script: {instanceID: 17802}
+      Script: {instanceID: 23018}
     - Class: 114
-      Script: {instanceID: 17822}
+      Script: {instanceID: 25696}
     - Class: 114
-      Script: {instanceID: 17886}
+      Script: {instanceID: 26788}
     - Class: 114
-      Script: {instanceID: 18054}
+      Script: {instanceID: 26898}
     - Class: 114
-      Script: {instanceID: 18298}
+      Script: {instanceID: 27308}
     - Class: 114
-      Script: {instanceID: 18394}
-    - Class: 114
-      Script: {instanceID: 18434}
-    - Class: 114
-      Script: {instanceID: 18494}
-    - Class: 114
-      Script: {instanceID: 18524}
-    - Class: 114
-      Script: {instanceID: 18560}
-    - Class: 114
-      Script: {instanceID: 18860}
-    - Class: 114
-      Script: {instanceID: 19502}
-    - Class: 114
-      Script: {instanceID: 19832}
-    - Class: 114
-      Script: {instanceID: 19842}
-    - Class: 114
-      Script: {instanceID: 20614}
-    - Class: 114
-      Script: {instanceID: 20670}
-    - Class: 114
-      Script: {instanceID: 20706}
-    - Class: 114
-      Script: {instanceID: 20962}
-    - Class: 114
-      Script: {instanceID: 21058}
-    - Class: 114
-      Script: {instanceID: 21126}
-    - Class: 114
-      Script: {instanceID: 21208}
-    - Class: 114
-      Script: {instanceID: 21306}
-    - Class: 114
-      Script: {instanceID: 21426}
-    - Class: 114
-      Script: {instanceID: 22088}
-    - Class: 114
-      Script: {instanceID: 22220}
-    - Class: 114
-      Script: {instanceID: 22310}
-    - Class: 114
-      Script: {instanceID: 22418}
-    - Class: 114
-      Script: {instanceID: 22420}
-    - Class: 114
-      Script: {instanceID: 22688}
-    - Class: 114
-      Script: {instanceID: 23008}
-    - Class: 114
-      Script: {instanceID: 23490}
-    - Class: 114
-      Script: {instanceID: 24138}
-    - Class: 114
-      Script: {instanceID: 25206}
-    - Class: 114
-      Script: {instanceID: 25656}
-    - Class: 114
-      Script: {instanceID: 25684}
-    - Class: 114
-      Script: {instanceID: 25714}
-    - Class: 114
-      Script: {instanceID: 26014}
-    - Class: 114
-      Script: {instanceID: 26094}
-    - Class: 114
-      Script: {instanceID: 26194}
-    - Class: 114
-      Script: {instanceID: 26656}
-    - Class: 114
-      Script: {instanceID: 26774}
-    - Class: 114
-      Script: {instanceID: 26776}
-    - Class: 114
-      Script: {instanceID: 26886}
-    - Class: 114
-      Script: {instanceID: 27024}
-    - Class: 114
-      Script: {instanceID: 27120}
-    - Class: 114
-      Script: {instanceID: 27150}
-    - Class: 114
-      Script: {instanceID: 27296}
-    - Class: 114
-      Script: {instanceID: 27326}
-    - Class: 114
-      Script: {instanceID: 27614}
-    - Class: 114
-      Script: {instanceID: 27702}
-    - Class: 114
-      Script: {instanceID: 27942}
-    - Class: 114
-      Script: {instanceID: 28124}
+      Script: {instanceID: 27714}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -541,21 +494,214 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 20
       Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
     - Class: 28
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 49
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 20962}
+      Script: {instanceID: 15558}
     - Class: 114
-      Script: {instanceID: 26842}
+      Script: {instanceID: 15748}
+    - Class: 114
+      Script: {instanceID: 16028}
+    - Class: 114
+      Script: {instanceID: 16078}
+    - Class: 114
+      Script: {instanceID: 16298}
+    - Class: 114
+      Script: {instanceID: 16456}
+    - Class: 114
+      Script: {instanceID: 16582}
+    - Class: 114
+      Script: {instanceID: 16794}
+    - Class: 114
+      Script: {instanceID: 16934}
+    - Class: 114
+      Script: {instanceID: 17216}
+    - Class: 114
+      Script: {instanceID: 17450}
+    - Class: 114
+      Script: {instanceID: 17830}
+    - Class: 114
+      Script: {instanceID: 17894}
+    - Class: 114
+      Script: {instanceID: 18062}
+    - Class: 114
+      Script: {instanceID: 18306}
+    - Class: 114
+      Script: {instanceID: 18402}
+    - Class: 114
+      Script: {instanceID: 18442}
+    - Class: 114
+      Script: {instanceID: 18502}
+    - Class: 114
+      Script: {instanceID: 18532}
+    - Class: 114
+      Script: {instanceID: 18568}
+    - Class: 114
+      Script: {instanceID: 19510}
+    - Class: 114
+      Script: {instanceID: 19840}
+    - Class: 114
+      Script: {instanceID: 19850}
+    - Class: 114
+      Script: {instanceID: 19874}
+    - Class: 114
+      Script: {instanceID: 20624}
+    - Class: 114
+      Script: {instanceID: 20680}
+    - Class: 114
+      Script: {instanceID: 20716}
+    - Class: 114
+      Script: {instanceID: 20972}
+    - Class: 114
+      Script: {instanceID: 21068}
+    - Class: 114
+      Script: {instanceID: 21136}
+    - Class: 114
+      Script: {instanceID: 21218}
+    - Class: 114
+      Script: {instanceID: 21316}
+    - Class: 114
+      Script: {instanceID: 21436}
+    - Class: 114
+      Script: {instanceID: 22098}
+    - Class: 114
+      Script: {instanceID: 22320}
+    - Class: 114
+      Script: {instanceID: 22428}
+    - Class: 114
+      Script: {instanceID: 22430}
+    - Class: 114
+      Script: {instanceID: 22698}
+    - Class: 114
+      Script: {instanceID: 23500}
+    - Class: 114
+      Script: {instanceID: 24148}
+    - Class: 114
+      Script: {instanceID: 24274}
+    - Class: 114
+      Script: {instanceID: 25218}
+    - Class: 114
+      Script: {instanceID: 25668}
+    - Class: 114
+      Script: {instanceID: 25726}
+    - Class: 114
+      Script: {instanceID: 26026}
+    - Class: 114
+      Script: {instanceID: 26106}
+    - Class: 114
+      Script: {instanceID: 26206}
+    - Class: 114
+      Script: {instanceID: 26668}
+    - Class: 114
+      Script: {instanceID: 26786}
+    - Class: 114
+      Script: {instanceID: 26788}
+    - Class: 114
+      Script: {instanceID: 26854}
+    - Class: 114
+      Script: {instanceID: 26898}
+    - Class: 114
+      Script: {instanceID: 27036}
+    - Class: 114
+      Script: {instanceID: 27132}
+    - Class: 114
+      Script: {instanceID: 27162}
+    - Class: 114
+      Script: {instanceID: 27338}
+    - Class: 114
+      Script: {instanceID: 27626}
+    - Class: 114
+      Script: {instanceID: 27714}
+    - Class: 114
+      Script: {instanceID: 27954}
+    - Class: 114
+      Script: {instanceID: 28136}
     - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
       Script: {instanceID: 0}
     - Class: 157
       Script: {instanceID: 0}
     - Class: 196
+      Script: {instanceID: 0}
+    - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
+      Script: {instanceID: 0}
+    Assets/Scenes/Settings.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 20
+      Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 81
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 114
+      Script: {instanceID: 15558}
+    - Class: 114
+      Script: {instanceID: 16078}
+    - Class: 114
+      Script: {instanceID: 16934}
+    - Class: 114
+      Script: {instanceID: 17450}
+    - Class: 114
+      Script: {instanceID: 17894}
+    - Class: 114
+      Script: {instanceID: 19840}
+    - Class: 114
+      Script: {instanceID: 20972}
+    - Class: 114
+      Script: {instanceID: 22698}
+    - Class: 114
+      Script: {instanceID: 24274}
+    - Class: 114
+      Script: {instanceID: 26788}
+    - Class: 114
+      Script: {instanceID: 26854}
+    - Class: 114
+      Script: {instanceID: 26898}
+    - Class: 114
+      Script: {instanceID: 27714}
+    - Class: 114
+      Script: {instanceID: 28156}
+    - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
+      Script: {instanceID: 0}
+    - Class: 157
+      Script: {instanceID: 0}
+    - Class: 196
+      Script: {instanceID: 0}
+    - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
       Script: {instanceID: 0}
   scriptHashData:
   - hash:
@@ -584,7 +730,7 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
-      Hash: 665e1c89ed79cdaa27e321ec2e98baa4
+      Hash: 85431df6a9b47644a6c99c54a12d8677
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: Building
@@ -1124,7 +1270,7 @@ ScriptsOnlyBuild:
     className: MacroScriptableObject
   - hash:
       serializedVersion: 2
-      Hash: aa8cba46efac72a08c7afb0fd8d24967
+      Hash: da369154251967bc8a5669f955908a43
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: GameManager
@@ -1272,6 +1418,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.RenderPipelines.Core.Runtime
     namespaceName: UnityEngine.Rendering
     className: ProbeVolume
+  - hash:
+      serializedVersion: 2
+      Hash: 8f910cf93f9454801e123350d9253407
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: Settings
   - hash:
       serializedVersion: 2
       Hash: 40be2ad159aa1a2b72ecc74cb38c7824
@@ -1520,10 +1672,10 @@ ScriptsOnlyBuild:
     className: Scrollbar
   - hash:
       serializedVersion: 2
-      Hash: 12c4416b3ede3b7ec3c4f1553f74628b
+      Hash: a28f5a294ac5afd9809e27b5ff808363
     assemblyName: Assembly-CSharp
     namespaceName: 
-    className: Camera
+    className: CameraController
   - hash:
       serializedVersion: 2
       Hash: 80aeb876b0e95f6256bbfcbf33e26e84
@@ -1610,7 +1762,7 @@ ScriptsOnlyBuild:
     className: PanelRaycaster
   - hash:
       serializedVersion: 2
-      Hash: bdb5d50b1a806aec77a6425fed2f1dac
+      Hash: 79eb8d7a8b889f0e77618a0dc1d91ad2
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: Resource
@@ -1778,6 +1930,12 @@ ScriptsOnlyBuild:
     className: UnityOnScrollMessageListener
   - hash:
       serializedVersion: 2
+      Hash: 2308e9c35b7e95acf481eca8494dacee
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: MenuButtons
+  - hash:
+      serializedVersion: 2
       Hash: 3594d8e9fcbd74e51eec80efbf16c599
     assemblyName: Unity.RenderPipelines.Universal.Runtime
     namespaceName: UnityEngine.Rendering.Universal
@@ -1934,7 +2092,7 @@ ScriptsOnlyBuild:
     className: PixelPerfectCamera
   - hash:
       serializedVersion: 2
-      Hash: 9f0ab6a7112cd52a5031ea8545c3a39f
+      Hash: 9a6291738de945008eaef50c93b280e0
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: BuildMenu
@@ -2162,7 +2320,7 @@ ScriptsOnlyBuild:
     className: UnityOnJointBreak2DMessageListener
   - hash:
       serializedVersion: 2
-      Hash: 7f8fa25af9c864a15ed6e9dd68a4b154
+      Hash: 5ca3e5796634a66e833dbadcdb9c6502
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: HUD
@@ -2228,6 +2386,12 @@ ScriptsOnlyBuild:
     className: Toggle
   - hash:
       serializedVersion: 2
+      Hash: e8b77c9f7613c0f595f40d66aa2b168a
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: SettingsButtons
+  - hash:
+      serializedVersion: 2
       Hash: 58f6c91dc9977217e7536afccdb74f71
     assemblyName: Unity.RenderPipelines.Core.Runtime
     namespaceName: UnityEngine.Rendering
@@ -2288,6 +2452,7 @@ ScriptsOnlyBuild:
     className: PlayableTrack
   platform: 19
   scenePathNames:
-  - Assets/Scenes/KingdomScene.unity
   - Assets/Scenes/MainMenu.unity
+  - Assets/Scenes/KingdomScene.unity
+  - Assets/Scenes/Settings.unity
   playerPath: C:/Users/jorda/Source/Repos/KingOfTheForestMilestone1/KingOfTheForest.exe

@@ -25,7 +25,7 @@
         {
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
-            "fullManagedTypeName": "Camera",
+            "fullManagedTypeName": "CameraController",
             "moduleName": "",
             "usedInScenes": []
         },
@@ -43,7 +43,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -60,7 +61,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -91,8 +93,16 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "MenuButtons",
+            "moduleName": "",
+            "usedInScenes": []
         },
         {
             "managedAssemblyName": "",
@@ -108,7 +118,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -125,7 +136,8 @@
             "moduleName": "AI",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -154,6 +166,20 @@
             "nativeClass": "RuntimeInitializeOnLoadManager",
             "fullManagedTypeName": "",
             "moduleName": "Core",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "Settings",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "SettingsButtons",
+            "moduleName": "",
             "usedInScenes": []
         },
         {
@@ -233,7 +259,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -285,7 +312,8 @@
             "moduleName": "Audio",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -295,7 +323,8 @@
             "moduleName": "Audio",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -305,7 +334,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -324,7 +354,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -333,7 +364,9 @@
             "fullManagedTypeName": "UnityEngine.Canvas",
             "moduleName": "UI",
             "usedInScenes": [
-                "Assets/Scenes/KingdomScene.unity"
+                "Assets/Scenes/KingdomScene.unity",
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -342,7 +375,9 @@
             "fullManagedTypeName": "UnityEngine.CanvasRenderer",
             "moduleName": "UI",
             "usedInScenes": [
-                "Assets/Scenes/KingdomScene.unity"
+                "Assets/Scenes/KingdomScene.unity",
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -370,7 +405,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -409,7 +445,9 @@
             "fullManagedTypeName": "UnityEngine.Font",
             "moduleName": "TextRendering",
             "usedInScenes": [
-                "Assets/Scenes/KingdomScene.unity"
+                "Assets/Scenes/KingdomScene.unity",
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -419,7 +457,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -471,7 +510,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -480,7 +520,9 @@
             "fullManagedTypeName": "UnityEngine.Material",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/KingdomScene.unity"
+                "Assets/Scenes/KingdomScene.unity",
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -490,7 +532,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -500,7 +543,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -516,7 +560,9 @@
             "fullManagedTypeName": "UnityEngine.RectTransform",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/KingdomScene.unity"
+                "Assets/Scenes/KingdomScene.unity",
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -955,7 +1001,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -973,7 +1020,9 @@
             "fullManagedTypeName": "UnityEngine.Shader",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/KingdomScene.unity"
+                "Assets/Scenes/KingdomScene.unity",
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -982,7 +1031,9 @@
             "fullManagedTypeName": "UnityEngine.Sprite",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/KingdomScene.unity"
+                "Assets/Scenes/KingdomScene.unity",
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -1001,7 +1052,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -1011,7 +1063,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -1021,7 +1074,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
         },
         {
@@ -1031,8 +1085,16 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/KingdomScene.unity",
-                "Assets/Scenes/MainMenu.unity"
+                "Assets/Scenes/MainMenu.unity",
+                "Assets/Scenes/Settings.unity"
             ]
+        },
+        {
+            "managedAssemblyName": "Unity.2D.Animation.Runtime.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "UnityEngine.U2D.Animation.BufferManager",
+            "moduleName": "",
+            "usedInScenes": []
         },
         {
             "managedAssemblyName": "Unity.2D.Animation.Runtime.dll",

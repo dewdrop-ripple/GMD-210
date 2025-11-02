@@ -360,11 +360,14 @@
 -analyzer:"C:/Program Files/Unity/Hub/Editor/6000.2.8f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.UIToolkit.SourceGenerator.dll"
 "Assets/Scripts/Building.cs"
 "Assets/Scripts/BuildMenu.cs"
-"Assets/Scripts/Camera.cs"
+"Assets/Scripts/CameraController.cs"
 "Assets/Scripts/FadeFromBlack.cs"
 "Assets/Scripts/GameManager.cs"
 "Assets/Scripts/HUD.cs"
+"Assets/Scripts/MenuButtons.cs"
 "Assets/Scripts/Resource.cs"
+"Assets/Scripts/Settings.cs"
+"Assets/Scripts/SettingsButtons.cs"
 -langversion:9.0
 /deterministic
 /optimize+

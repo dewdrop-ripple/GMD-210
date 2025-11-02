@@ -2,13 +2,17 @@
 	<assembly fullname="Assembly-CSharp">
 		<type fullname="Building" preserve="nothing"/>
 		<type fullname="BuildMenu" preserve="nothing"/>
-		<type fullname="Camera" preserve="nothing"/>
+		<type fullname="CameraController" preserve="nothing"/>
 		<type fullname="FadeFromBlack" preserve="nothing"/>
 		<type fullname="GameManager" preserve="nothing"/>
 		<type fullname="HUD" preserve="nothing"/>
+		<type fullname="MenuButtons" preserve="nothing"/>
 		<type fullname="Resource" preserve="nothing"/>
+		<type fullname="Settings" preserve="nothing"/>
+		<type fullname="SettingsButtons" preserve="nothing"/>
 	</assembly>
 	<assembly fullname="Unity.2D.Animation.Runtime">
+		<type fullname="UnityEngine.U2D.Animation.BufferManager" preserve="nothing"/>
 		<type fullname="UnityEngine.U2D.Animation.DeformationManager" preserve="nothing"/>
 		<type fullname="UnityEngine.U2D.Animation.DeformationManagerUpdater" preserve="nothing"/>
 	</assembly>
