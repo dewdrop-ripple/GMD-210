@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -48,6 +49,9 @@ public class GameManager : MonoBehaviour
     // 9-11 - S, M, L Towers
     public int[] buildings = new int[12];
 
+    private int[] prevBuildings = new int[12];
+    private int lameDays = 0;
+
     // List of all building objects
     public List<Building> buildingsList;
 
@@ -81,6 +85,7 @@ public class GameManager : MonoBehaviour
     private bool scaredOff = false;
     private bool bigAttack = false;
     private bool overpopulated = false;
+    private bool lame = false;
 
     // Cheats
     private bool cheats = false;
@@ -130,7 +135,8 @@ public class GameManager : MonoBehaviour
         "As food supplies run short, your people starve, and many more leave in the night.",
         "The recent attacks have spread fear through the town. People leave town in the night.",
         "Your ‘kingdom’ is a ghost town. The council scoffs at your efforts.",
-        "Some people tried to move in overnight, but the kingdom is completely full."
+        "Some people tried to move in overnight, but the kingdom is completely full.",
+        "The lack of recent growth in your kingdom has caused you to fade from public view."
     };
 
     private string[] attackTextOptions =
@@ -170,9 +176,11 @@ public class GameManager : MonoBehaviour
 
         // Start with 1 small house and nothing else
         buildings[0] = 1;
+        prevBuildings[0] = 1;
         for (int i = 1; i < 12; i++)
         {
             buildings[i] = 0;
+            prevBuildings[i] = 0;
         }
 
         // Set starting house data
@@ -207,6 +215,7 @@ public class GameManager : MonoBehaviour
     // Constantly update stats
     private void Update()
     {
+        Debug.Log("Current: " + Input.mousePosition.y + "\nMax: " + (Screen.height - 150));
         UpdateStats();
 
         // Cheats
@@ -347,6 +356,16 @@ public class GameManager : MonoBehaviour
     {
         nightOverlay.enabled = true;
 
+        // Check if player did nothing that day
+        bool didNothing = true;
+        for (int i = 0; i < 12; i++)
+        {
+            if (prevBuildings[i] != buildings[i])
+            {
+                didNothing = false;
+            }
+        }
+
         // Basic building changes
         int foodChange = 0;
         foodChange += (int)((buildings[3] * SMALL_FARM_FOOD) + (buildings[4] * MED_FARM_FOOD) + (buildings[5] * LARGE_FARM_FOOD) * (1 / settings.difficultyScaler));
@@ -362,20 +381,20 @@ public class GameManager : MonoBehaviour
         // Give the player some help early on, then make it harder
         if (population < 50)
         {
-            food += 10;
-            population++;
+            foodChange += 25;
+            popChange += 2;
         }
         else if (population < 100)
         {
-            food += 5;
+            foodChange += 15;
         }
         else if (population > 400)
         {
-            food -= 50;
+            foodChange -= 125;
         }
         else if (population > 200)
         {
-            food -= 25;
+            foodChange -= 50;
         }
 
         // Are people starving?
@@ -384,7 +403,7 @@ public class GameManager : MonoBehaviour
         {
             foodShortage = true;
             popChange += (int)(newFood * (1 / settings.difficultyScaler)); // Subtract from population (+ b/c food is negative)
-            popChange -= 2;
+            popChange -= (int)((float)population * 0.025);
             newFood = 0; // Reset
             foodChange = food;
         }
@@ -431,6 +450,23 @@ public class GameManager : MonoBehaviour
             popChange--;
         }
 
+        if (didNothing)
+        {
+            popChange -= lameDays * (int)(day / 3);
+            moneyChange -= lameDays * (int)(day / 3);
+            foodChange += lameDays * (int)(day / 3);
+            lameDays++;
+        }
+        else
+        {
+            lameDays = 0;
+        }
+
+        if (lameDays > 3)
+        {
+            lame = true;
+        }
+
         // Actually change stats
         food += foodChange;
         money += moneyChange;
@@ -451,6 +487,7 @@ public class GameManager : MonoBehaviour
         if (popTiny) { nText.SetText(nightTextOptions[7]); }
         else if (foodShortage) { nText.SetText(nightTextOptions[5]); }
         else if (popAfraid) { nText.SetText(nightTextOptions[6]); }
+        else if (lame) { nText.SetText(nightTextOptions[9]); }
         else if (overpopulated) { nText.SetText(nightTextOptions[8]); }
         else if (popGrowthBig) { nText.SetText(nightTextOptions[3]); }
         else if (goodFood) { nText.SetText(nightTextOptions[2]); }
@@ -479,16 +516,32 @@ public class GameManager : MonoBehaviour
     public void Attack()
     {
         nightOverlay.enabled = false;
-        attackOverlay.enabled = true; 
+        attackOverlay.enabled = true;
 
         // Set strength
-        int attackStrength = (int) ((population - defense) * ((Mathf.Cos(day + 3.14f) + 2) * 0.5) * settings.difficultyScaler);
+        int attackStrength;
 
         // If tiny pop, don't bother
-        if (population <= 10) 
-        { 
-            attackStrength = 0; 
+        if (population <= 10 && day < 5)
+        {
+            attackStrength = 0;
             notWorthAttack = true;
+        }
+        else
+        {
+            attackStrength = population - (int)(2.5 * defense);
+            attackStrength += (int)(day / 3);
+            for (int i = 0; i < 12; i++)
+            {
+                attackStrength += buildings[i];
+            }
+            attackStrength = (int)(attackStrength * ((Mathf.Cos(day + 3.14f) + 2) * 0.5));
+            attackStrength = (int)(attackStrength * settings.difficultyScaler);
+        }
+
+        if (population >= 500)
+        {
+            attackStrength = (int)(attackStrength / 4);
         }
 
         // Increase difficulty over time
@@ -702,9 +755,9 @@ public class GameManager : MonoBehaviour
         else
         {
             if (!canTrade) return;
-            if (money < 5) return;
-            wood += 5;
-            money -= 5;
+            if (money < 10) return;
+            wood += 10;
+            money -= 10;
         }
     }
     public void SellStone()
@@ -718,9 +771,9 @@ public class GameManager : MonoBehaviour
         else
         {
             if (!canTrade) return;
-            if (stone < 5) return;
-            stone -= 5;
-            money += 5;
+            if (stone < 10) return;
+            stone -= 10;
+            money += 10;
         }
     }
     public void BuyStone()
@@ -734,9 +787,9 @@ public class GameManager : MonoBehaviour
         else
         {
             if (!canTrade) return;
-            if (money < 5) return;
-            stone += 5;
-            money -= 5;
+            if (money < 10) return;
+            stone += 10;
+            money -= 10;
         }
     }
     public void SellFood()
@@ -810,6 +863,7 @@ public class GameManager : MonoBehaviour
         scaredOff = false;
         bigAttack = false;
         overpopulated = false;
+        lame = false;
 
         // Start nightly resource change
         NightlyResourceChange();
@@ -818,6 +872,11 @@ public class GameManager : MonoBehaviour
     // New day
     public void StartNewDay()
     {
+        for (int i = 0; i < 12; i++)
+        {
+            prevBuildings[i] = buildings[i];
+        }
+
         // Close menu
         attackOverlay.enabled = false;
 

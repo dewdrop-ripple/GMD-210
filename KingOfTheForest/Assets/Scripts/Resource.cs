@@ -138,7 +138,7 @@ public class Resource : MonoBehaviour
         }
 
         // Check click
-        if (Input.GetMouseButtonDown(0) && isHovered)
+        if (Input.GetMouseButtonDown(0) && isHovered && Input.mousePosition.y < Screen.height - 100)
         {
             if (manager.demoMode)
             {
@@ -150,7 +150,7 @@ public class Resource : MonoBehaviour
         Color newColor;
 
         // Turn red when colliding with something or ready to be destroyed
-        if (isColliding || (isHovered && manager.demoMode))
+        if (isColliding || (isHovered && manager.demoMode && Input.mousePosition.y < Screen.height - 100))
         {
             float red = ((spriteColor.r * 3f) + 1.0f) / 4f;
             float green = (spriteColor.g * 3f) / 4f;
@@ -187,7 +187,7 @@ public class Resource : MonoBehaviour
     {
         isHovered = true;
 
-        if (manager.demoMode)
+        if (manager.demoMode && Input.mousePosition.y < Screen.height - 100)
         {
             if (resourceType == 0)
             {
