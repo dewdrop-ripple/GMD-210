@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class GameManager : MonoBehaviour
     public int maxPopulation = 5;
     public int day = 1;
     public int wood = 0;
-    public int stone = 0; 
+    public int stone = 0;
     public int food = 50;
     public int money = 0;
     public int defense = 0;
@@ -19,10 +20,18 @@ public class GameManager : MonoBehaviour
     // States
     public bool isDay = true;
     public bool canTrade = false;
-    public bool demoMode = true;
     int resourceNumber = 0;
-    public bool currentlyBuilding = false;
     public bool freePlay = false;
+
+    // When to enable/disable demo mode
+    public bool demoMode = true;
+    public bool buildMenuOpen = false;
+    public bool pauseOverlayOpen = false;
+    public bool nightScreenOpen = false;
+    public bool buildingOverlayOpen = false;
+    public bool currentlyBuilding = false;
+
+    public bool canScroll = true;
 
     // Game objects to access
     public GameObject resource;
@@ -49,9 +58,9 @@ public class GameManager : MonoBehaviour
     private const int SMALL_TOWER_DEFENSE = 5;
     private const int MED_TOWER_DEFENSE = 25;
     private const int LARGE_TOWER_DEFENSE = 50;
-    private const int SMALL_FARM_FOOD = 10;
-    private const int MED_FARM_FOOD = 50;
-    private const int LARGE_FARM_FOOD = 100;
+    private const int SMALL_FARM_FOOD = 7;
+    private const int MED_FARM_FOOD = 12;
+    private const int LARGE_FARM_FOOD = 30;
     private const int SMALL_TRADE_MONEY = 5;
     private const int MED_TRADE_MONEY = 25;
     private const int LARGE_TRADE_MONEY = 50;
@@ -61,17 +70,17 @@ public class GameManager : MonoBehaviour
     private int consecBadNights = 0;
 
     // All possible nightly states for display text
-    private bool goodMoney = false; 
-    private bool goodFood = false; 
-    private bool popGrowthBig = false; 
-    private bool popGrowthSmall = false; 
-    private bool foodShortage = false; 
-    private bool popAfraid = false; 
-    private bool popTiny = false; 
-    private bool notWorthAttack = false; 
-    private bool scaredOff = false; 
-    private bool tinyAttack = false;
-    private bool bigAttack = false; 
+    private bool goodMoney = false;
+    private bool goodFood = false;
+    private bool popGrowthBig = false;
+    private bool popGrowthSmall = false;
+    private bool foodShortage = false;
+    private bool popAfraid = false;
+    private bool popTiny = false;
+    private bool notWorthAttack = false;
+    private bool scaredOff = false;
+    private bool bigAttack = false;
+    private bool overpopulated = false;
 
     // Cheats
     private bool cheats = false;
@@ -120,7 +129,8 @@ public class GameManager : MonoBehaviour
         "The population grows steadily.",
         "As food supplies run short, your people starve, and many more leave in the night.",
         "The recent attacks have spread fear through the town. People leave town in the night.",
-        "Your ‘kingdom’ is a ghost town. The council scoffs at your efforts."
+        "Your ‘kingdom’ is a ghost town. The council scoffs at your efforts.",
+        "Some people tried to move in overnight, but the kingdom is completely full."
     };
 
     private string[] attackTextOptions =
@@ -133,6 +143,14 @@ public class GameManager : MonoBehaviour
 
     // Settings object
     public Settings settings;
+
+    // Trade buttons
+    public Button b1;
+    public Button b2;
+    public Button b3;
+    public Button b4;
+    public Button b5;
+    public Button b6;
 
     // Set settings object
     private void Awake()
@@ -193,17 +211,103 @@ public class GameManager : MonoBehaviour
 
         // Cheats
         if (Input.GetKeyDown(KeyCode.B)) { cheats = !cheats; }
-        if (Input.GetKeyDown(KeyCode.N) && cheats) { food += 25; }
-        if (Input.GetKeyDown(KeyCode.M) && cheats) { money += 25; }
-        if (Input.GetKeyDown(KeyCode.K) && cheats) 
-        { 
-            food -= 25; 
+        if (Input.GetKeyDown(KeyCode.N) && cheats) { food += 100; }
+        if (Input.GetKeyDown(KeyCode.M) && cheats) { money += 100; }
+        if (Input.GetKeyDown(KeyCode.K) && cheats)
+        {
+            food -= 100;
             if (food < 0) food = 0;
         }
-        if (Input.GetKeyDown(KeyCode.L) && cheats) 
-        { 
-            money -= 25; 
+        if (Input.GetKeyDown(KeyCode.L) && cheats)
+        {
+            money -= 100;
             if (money < 0) money = 0;
+        }
+
+        if (buildMenuOpen || pauseOverlayOpen || nightScreenOpen || buildingOverlayOpen || currentlyBuilding)
+        {
+            demoMode = false;
+        }
+        else
+        {
+            demoMode = true;
+        }
+
+        if (buildMenuOpen || pauseOverlayOpen || nightScreenOpen || buildingOverlayOpen)
+        {
+            canScroll = false;
+        }
+        else
+        {
+            canScroll = true;
+        }
+
+        if (canTrade)
+        {
+            b1.interactable = true;
+            b2.interactable = true;
+            b3.interactable = true;
+            b4.interactable = true;
+            b5.interactable = true;
+            b6.interactable = true;
+
+            if (cheats)
+            {
+                if (money < 50)
+                {
+                    b2.interactable = false;
+                    b4.interactable = false;
+                }
+                if (money < 100)
+                {
+                    b6.interactable= false;
+                }
+                if (wood < 50)
+                {
+                    b1.interactable = false;
+                }
+                if (stone < 50)
+                {
+                    b3.interactable = false;
+                }
+                if (food < 100)
+                {
+                    b5.interactable = false;
+                }
+            }
+            else
+            {
+                if (money < 5)
+                {
+                    b2.interactable = false;
+                    b4.interactable = false;
+                }
+                if (money < 10)
+                {
+                    b6.interactable = false;
+                }
+                if (wood < 5)
+                {
+                    b1.interactable = false;
+                }
+                if (stone < 5)
+                {
+                    b3.interactable = false;
+                }
+                if (food < 10)
+                {
+                    b5.interactable = false;
+                }
+            }
+        }
+        else
+        {
+            b1.interactable = false;
+            b2.interactable = false;
+            b3.interactable = false;    
+            b4.interactable = false;
+            b5.interactable = false;
+            b6.interactable = false;
         }
     }
 
@@ -255,12 +359,32 @@ public class GameManager : MonoBehaviour
 
         int popChange = 0;
 
+        // Give the player some help early on, then make it harder
+        if (population < 50)
+        {
+            food += 10;
+            population++;
+        }
+        else if (population < 100)
+        {
+            food += 5;
+        }
+        else if (population > 400)
+        {
+            food -= 50;
+        }
+        else if (population > 200)
+        {
+            food -= 25;
+        }
+
         // Are people starving?
         int newFood = food + foodChange;
         if (newFood < 0)
         {
             foodShortage = true;
             popChange += (int)(newFood * (1 / settings.difficultyScaler)); // Subtract from population (+ b/c food is negative)
+            popChange -= 2;
             newFood = 0; // Reset
             foodChange = food;
         }
@@ -295,6 +419,7 @@ public class GameManager : MonoBehaviour
         if ((population + popChange) > maxPopulation)
         {
             popChange = maxPopulation - population;
+            overpopulated = true;
         }
 
         // Check population change
@@ -326,26 +451,27 @@ public class GameManager : MonoBehaviour
         if (popTiny) { nText.SetText(nightTextOptions[7]); }
         else if (foodShortage) { nText.SetText(nightTextOptions[5]); }
         else if (popAfraid) { nText.SetText(nightTextOptions[6]); }
+        else if (overpopulated) { nText.SetText(nightTextOptions[8]); }
         else if (popGrowthBig) { nText.SetText(nightTextOptions[3]); }
         else if (goodFood) { nText.SetText(nightTextOptions[2]); }
         else if (goodMoney) { nText.SetText(nightTextOptions[1]); }
         else if (popGrowthSmall) { nText.SetText(nightTextOptions[4]); }
         else { nText.SetText(nightTextOptions[0]); }
 
-        // During free play, don't stop game
-        if (!freePlay)
-        {
-            // Has the player won or lost the game?
-            int state = CheckWin();
+        // Has the player won or lost the game?
+        int state = CheckWin();
 
-            if (state == 1)
+        if (state == 1)
+        {
+            // No win screen in free play
+            if (!freePlay)
             {
                 winScreen.enabled = true;
             }
-            else if (state == 2)
-            {
-                loseScreen.enabled = true;
-            }
+        }
+        else if (state == 2)
+        {
+            loseScreen.enabled = true;
         }
     }
 
@@ -359,10 +485,28 @@ public class GameManager : MonoBehaviour
         int attackStrength = (int) ((population - defense) * ((Mathf.Cos(day + 3.14f) + 2) * 0.5) * settings.difficultyScaler);
 
         // If tiny pop, don't bother
-        if (population < 20) 
+        if (population <= 10) 
         { 
             attackStrength = 0; 
             notWorthAttack = true;
+        }
+
+        // Increase difficulty over time
+        if (population < 50)
+        {
+            attackStrength -= 10;
+        }
+        else if (population < 100)
+        {
+            attackStrength -= 5;
+        }
+        else if (population > 400)
+        {
+            attackStrength += 50;
+        }
+        else if (population > 200)
+        {
+            attackStrength += 25;
         }
 
         // Variables
@@ -379,7 +523,6 @@ public class GameManager : MonoBehaviour
             stoneStolen = (int)((attackStrength / 100f) * stone);
             foodStolen = (int)((attackStrength / 100f) * food);
             moneyStolen = (int)((attackStrength / 100f) * money);
-            tinyAttack = true;
         }
         else
         {
@@ -417,7 +560,6 @@ public class GameManager : MonoBehaviour
             consecSafeNights = 0;
             consecBadNights++;
 
-            tinyAttack = false;
             bigAttack = true;
 
             int canDestroyBuildings = 0;
@@ -515,55 +657,119 @@ public class GameManager : MonoBehaviour
         else if (bigAttack) { aText.SetText(attackTextOptions[3]); }
         else { aText.SetText(attackTextOptions[2]); }
 
-        // No win checking in free play
-        if (!freePlay)
-        {
-            // Has the player won or lost the game?
-            int state = CheckWin();
+        // Has the player won or lost the game?
+        int state = CheckWin();
 
-            if (state == 1)
+        if (state == 1)
+        {
+            // No win screen in free play
+            if (!freePlay)
             {
                 winScreen.enabled = true;
             }
-            else if (state == 2)
-            {
-                loseScreen.enabled = true;
-            }
+        }
+        else if (state == 2)
+        {
+            loseScreen.enabled = true;
         }
     }
 
     // Trade functions
     public void SellWood()
     {
-        if (!canTrade) return;
-        if (wood < 5) return;
-
-        wood -= 5;
-        money += 5;
+        if (cheats)
+        {
+            if (wood < 50) return;
+            wood -= 50;
+            money += 50;
+        }
+        else
+        {
+            if (!canTrade) return;
+            if (wood < 5) return;
+            wood -= 5;
+            money += 5;
+        }    
     }
     public void BuyWood()
     {
-        if (!canTrade) return;
-        if (money < 5) return;
-
-        wood += 5;
-        money -= 5;
+        if (cheats)
+        {
+            if (money < 50) return;
+            wood += 50;
+            money -= 50;
+        }
+        else
+        {
+            if (!canTrade) return;
+            if (money < 5) return;
+            wood += 5;
+            money -= 5;
+        }
     }
     public void SellStone()
     {
-        if (!canTrade) return;
-        if (stone < 5) return;
-
-        stone -= 5;
-        money += 5;
+        if (cheats)
+        {
+            if (stone < 50) return;
+            stone -= 50;
+            money += 50;
+        }
+        else
+        {
+            if (!canTrade) return;
+            if (stone < 5) return;
+            stone -= 5;
+            money += 5;
+        }
     }
     public void BuyStone()
     {
-        if (!canTrade) return;
-        if (money < 5) return;
-
-        stone += 5;
-        money -= 5;
+        if (cheats)
+        {
+            if (money < 50) return;
+            stone += 50;
+            money -= 50;
+        }
+        else
+        {
+            if (!canTrade) return;
+            if (money < 5) return;
+            stone += 5;
+            money -= 5;
+        }
+    }
+    public void SellFood()
+    {
+        if (cheats)
+        {
+            if (food < 100) return;
+            food -= 100;
+            money += 50;
+        }
+        else
+        {
+            if (!canTrade) return;
+            if (food < 10) return;
+            food -= 10;
+            money += 5;
+        }
+    }
+    public void BuyFood()
+    {
+        if (cheats)
+        {
+            if (money < 100) return;
+            food += 50;
+            money -= 100;
+        }
+        else
+        {
+            if (!canTrade) return;
+            if (money < 10) return;
+            food += 5;
+            money -= 10;
+        }
     }
 
     // To main menu
@@ -575,18 +781,22 @@ public class GameManager : MonoBehaviour
     // Close quit menu
     public void DontQuit()
     {
+        pauseOverlayOpen = false;
         pauseOverlay.enabled = false;
     }
 
     // Open quit menu
     public void Pause()
     {
+        pauseOverlayOpen = true;
         pauseOverlay.enabled = true;
     }
 
     // Start end of day
     public void EndDay()
     {
+        nightScreenOpen = true;
+
         // Reset text options
         isDay = false;
         goodMoney = false;
@@ -598,8 +808,8 @@ public class GameManager : MonoBehaviour
         popTiny = false;
         notWorthAttack = false;
         scaredOff = false;
-        tinyAttack = false;
         bigAttack = false;
+        overpopulated = false;
 
         // Start nightly resource change
         NightlyResourceChange();
@@ -614,6 +824,8 @@ public class GameManager : MonoBehaviour
         // New day
         isDay = true;
         day++;
+
+        nightScreenOpen = false;
     }
 
     // Start free play mode

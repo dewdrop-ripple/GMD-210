@@ -35,7 +35,7 @@ public class HUD : MonoBehaviour
         population.text = "Population: " + manager.population + "/" + manager.maxPopulation;
         wood.text = "Wood:       " + manager.wood;
         stone.text = "Stone:       " + manager.stone;
-        food.text = "Food: " + manager.food;
+        food.text = "Food:       " + manager.food;
         money.text = "Money: " + manager.money + "g";
         defense.text = "Defense: " + manager.defense;
     }

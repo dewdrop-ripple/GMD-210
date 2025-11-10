@@ -64,7 +64,9 @@ public class Resource : MonoBehaviour
     private void Move()
     {
         location = new Vector3(Random.Range(manager.leftX, manager.rightX), Random.Range(manager.bottomY, manager.topY), 0.0f);
+        location = new Vector3(location.x - ((size.x * manager.scaleFactor) / 2), location.y - ((size.y * manager.scaleFactor) / 2), 0f);
         location = new Vector3(((int)(location.x * (1 / manager.scaleFactor)) * manager.scaleFactor), ((int)(location.y * (1 / manager.scaleFactor)) * manager.scaleFactor), 0f);
+        location = new Vector3(location.x + ((size.x * manager.scaleFactor) / 2), location.y + ((size.y * manager.scaleFactor) / 2), 0f);
         transform.position = location;
     }
 

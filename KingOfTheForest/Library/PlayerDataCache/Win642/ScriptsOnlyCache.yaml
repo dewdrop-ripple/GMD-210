@@ -14,7 +14,6 @@ ScriptsOnlyBuild:
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.Animation.Runtime.dll:
-    - UnityEngine.U2D.Animation.BufferManager
     - UnityEngine.U2D.Animation.DeformationManager
     - UnityEngine.U2D.Animation.DeformationManagerUpdater
     Unity.2D.IK.Editor.dll:
@@ -254,15 +253,6 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.SpriteState
     - UnityEngine.UI.Toggle/ToggleEvent
   methodsToPreserve:
-  - assembly: Assembly-CSharp
-    fullTypeName: MenuButtons
-    methodName: GoToScene
-  - assembly: Assembly-CSharp
-    fullTypeName: MenuButtons
-    methodName: QuitApp
-  - assembly: Assembly-CSharp
-    fullTypeName: MenuButtons
-    methodName: GoToScene
   - assembly: Unity.RenderPipelines.Core.Runtime
     fullTypeName: UnityEngine.Rendering.UI.DebugUIHandlerButton
     methodName: OnAction
@@ -306,6 +296,15 @@ ScriptsOnlyBuild:
     fullTypeName: UnityEngine.Rendering.UI.DebugUIHandlerPanel
     methodName: ResetDebugManager
   - assembly: Assembly-CSharp
+    fullTypeName: MenuButtons
+    methodName: GoToScene
+  - assembly: Assembly-CSharp
+    fullTypeName: MenuButtons
+    methodName: QuitApp
+  - assembly: Assembly-CSharp
+    fullTypeName: MenuButtons
+    methodName: GoToScene
+  - assembly: Assembly-CSharp
     fullTypeName: Building
     methodName: NoDestroy
   - assembly: Assembly-CSharp
@@ -329,6 +328,9 @@ ScriptsOnlyBuild:
   - assembly: Assembly-CSharp
     fullTypeName: GameManager
     methodName: Restart
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: SellFood
   - assembly: Assembly-CSharp
     fullTypeName: BuildMenu
     methodName: target
@@ -392,6 +394,9 @@ ScriptsOnlyBuild:
   - assembly: Assembly-CSharp
     fullTypeName: BuildMenu
     methodName: target
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: BuyFood
   - assembly: Assembly-CSharp
     fullTypeName: BuildMenu
     methodName: target
@@ -487,7 +492,7 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 224
       Script: {instanceID: 0}
-    Assets/Scenes/MainMenu.unity:
+    Assets/Scenes/LoadScene.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -504,16 +509,14 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
+    - Class: 89
+      Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
-    - Class: 114
-      Script: {instanceID: 15558}
     - Class: 114
       Script: {instanceID: 15748}
     - Class: 114
       Script: {instanceID: 16028}
-    - Class: 114
-      Script: {instanceID: 16078}
     - Class: 114
       Script: {instanceID: 16298}
     - Class: 114
@@ -526,8 +529,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 16934}
     - Class: 114
       Script: {instanceID: 17216}
-    - Class: 114
-      Script: {instanceID: 17450}
     - Class: 114
       Script: {instanceID: 17830}
     - Class: 114
@@ -548,8 +549,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 18568}
     - Class: 114
       Script: {instanceID: 19510}
-    - Class: 114
-      Script: {instanceID: 19840}
     - Class: 114
       Script: {instanceID: 19850}
     - Class: 114
@@ -587,8 +586,6 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 24148}
     - Class: 114
-      Script: {instanceID: 24274}
-    - Class: 114
       Script: {instanceID: 25218}
     - Class: 114
       Script: {instanceID: 25668}
@@ -604,10 +601,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 26668}
     - Class: 114
       Script: {instanceID: 26786}
-    - Class: 114
-      Script: {instanceID: 26788}
-    - Class: 114
-      Script: {instanceID: 26854}
     - Class: 114
       Script: {instanceID: 26898}
     - Class: 114
@@ -626,6 +619,67 @@ ScriptsOnlyBuild:
       Script: {instanceID: 27954}
     - Class: 114
       Script: {instanceID: 28136}
+    - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
+      Script: {instanceID: 0}
+    - Class: 157
+      Script: {instanceID: 0}
+    - Class: 196
+      Script: {instanceID: 0}
+    - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
+      Script: {instanceID: 0}
+    Assets/Scenes/MainMenu.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 20
+      Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 81
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 114
+      Script: {instanceID: 15558}
+    - Class: 114
+      Script: {instanceID: 16078}
+    - Class: 114
+      Script: {instanceID: 16934}
+    - Class: 114
+      Script: {instanceID: 17450}
+    - Class: 114
+      Script: {instanceID: 17810}
+    - Class: 114
+      Script: {instanceID: 17894}
+    - Class: 114
+      Script: {instanceID: 19840}
+    - Class: 114
+      Script: {instanceID: 20972}
+    - Class: 114
+      Script: {instanceID: 22698}
+    - Class: 114
+      Script: {instanceID: 24274}
+    - Class: 114
+      Script: {instanceID: 26788}
+    - Class: 114
+      Script: {instanceID: 26854}
+    - Class: 114
+      Script: {instanceID: 26898}
+    - Class: 114
+      Script: {instanceID: 27714}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -730,7 +784,7 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
-      Hash: 85431df6a9b47644a6c99c54a12d8677
+      Hash: 289dc7174d856669f458129657a90933
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: Building
@@ -1270,7 +1324,7 @@ ScriptsOnlyBuild:
     className: MacroScriptableObject
   - hash:
       serializedVersion: 2
-      Hash: da369154251967bc8a5669f955908a43
+      Hash: c12043454e95680ae246225ddd00b2f5
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: GameManager
@@ -2452,7 +2506,8 @@ ScriptsOnlyBuild:
     className: PlayableTrack
   platform: 19
   scenePathNames:
+  - Assets/Scenes/LoadScene.unity
   - Assets/Scenes/MainMenu.unity
   - Assets/Scenes/KingdomScene.unity
   - Assets/Scenes/Settings.unity
-  playerPath: C:/Users/jorda/Source/Repos/KingOfTheForestMilestone1/KingOfTheForest.exe
+  playerPath: C:/Users/jorda/Source/Repos/KingOfTheForestMilestone3/King of the Forest.exe

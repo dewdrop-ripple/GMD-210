@@ -9,8 +9,8 @@ public class FadeFromBlack : MonoBehaviour
     {
         timer += Time.deltaTime; // Update time
 
-        float opacity = Mathf.Pow(0.5f, timer - 0.5f); // Slowly fade out
-        if (opacity < 0.15) GameObject.Destroy(gameObject); // Delete
+        float opacity = Mathf.Pow(0.25f, timer); // Slowly fade out
+        if (opacity < 0.25) GameObject.Destroy(gameObject); // Delete
         overlayColor.color = new Color(0, 0, 0, opacity);
     }
 }

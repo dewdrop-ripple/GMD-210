@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -7,6 +8,8 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        if (!manager.canScroll) return;
+
         // Camera bounds
         int minX = 0;
         int maxX = Screen.width;
@@ -19,21 +22,21 @@ public class CameraController : MonoBehaviour
         // Move left/right
         if (mousePos.x < minX + 10 && transform.position.x > manager.leftX + 8)
         {
-            transform.position = new Vector3(transform.position.x - 0.01f, transform.position.y, -10f);
+            transform.position = new Vector3(transform.position.x - 0.025f, transform.position.y, -10f);
         }
         else if (mousePos.x > maxX - 10 && transform.position.x < manager.rightX - 8)
         {
-            transform.position = new Vector3(transform.position.x + 0.01f, transform.position.y, -10f);
+            transform.position = new Vector3(transform.position.x + 0.025f, transform.position.y, -10f);
         }
 
         // Move up/down
         if (mousePos.y < minY + 10 && transform.position.y > manager.bottomY + 3)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y - 0.01f, -10f);
+            transform.position = new Vector3(transform.position.x, transform.position.y - 0.025f, -10f);
         }
         else if (mousePos.y > maxY - 10 && transform.position.y < manager.topY - 3)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y + 0.01f, -10f);
+            transform.position = new Vector3(transform.position.x, transform.position.y + 0.025f, -10f);
         }
     }
 }

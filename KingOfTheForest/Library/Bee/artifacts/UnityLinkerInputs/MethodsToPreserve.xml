@@ -24,6 +24,7 @@
 		</type>
 		<type fullname="GameManager">
 			<method name="Attack"/>
+			<method name="BuyFood"/>
 			<method name="BuyStone"/>
 			<method name="BuyWood"/>
 			<method name="DontQuit"/>
@@ -33,6 +34,7 @@
 			<method name="QuitGame"/>
 			<method name="QuitGame"/>
 			<method name="Restart"/>
+			<method name="SellFood"/>
 			<method name="SellStone"/>
 			<method name="SellWood"/>
 			<method name="StartFreePlay"/>

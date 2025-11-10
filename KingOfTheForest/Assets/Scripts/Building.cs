@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public class Building : MonoBehaviour
     // Stats
     public int stoneCost;
     public int woodCost;
+    public int foodCost;
     public int buildingArrayPosition;
 
     // Current state
@@ -30,6 +32,7 @@ public class Building : MonoBehaviour
 
     // UI
     public Canvas wait;
+    public TextMeshProUGUI waitText;
     public BuildMenu buildMenu;
 
     // Settings object
@@ -46,7 +49,6 @@ public class Building : MonoBehaviour
     {
         wait.enabled = false;
         isBuilding = true;
-        manager.demoMode = false;
         manager.currentlyBuilding = true;
         rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
@@ -68,13 +70,13 @@ public class Building : MonoBehaviour
         // Update values
         manager.wood -= woodCost;
         manager.stone -= stoneCost;
+        manager.food -= foodCost;
         manager.buildings[buildingArrayPosition]++;
         location = transform.position;
         manager.buildingsList.Add(this);
 
         // Update state
         built = true;
-        manager.demoMode = true;
     }
 
     // Destroy building
@@ -131,7 +133,9 @@ public class Building : MonoBehaviour
         if (isBuilding)
         {
             Vector3 mousePosition = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition = new Vector3(mousePosition.x - ((size.x * manager.scaleFactor) / 2), mousePosition.y - ((size.y * manager.scaleFactor) / 2), 0f);
             mousePosition = new Vector3(((int)(mousePosition.x * (1 / manager.scaleFactor)) * manager.scaleFactor), ((int)(mousePosition.y * (1 / manager.scaleFactor)) * manager.scaleFactor), 0f);
+            mousePosition = new Vector3(mousePosition.x + ((size.x * manager.scaleFactor) / 2), mousePosition.y + ((size.y * manager.scaleFactor) / 2), 0f);
             transform.position = mousePosition;
 
             // Build when mouse clicked
@@ -179,7 +183,8 @@ public class Building : MonoBehaviour
             if (canDestroy)
             {
                 wait.enabled = true;
-                manager.demoMode = false;
+                Debug.Log("Destroy");
+                manager.buildingOverlayOpen = true;
             }
         }
 
@@ -234,6 +239,8 @@ public class Building : MonoBehaviour
             case 0:
                 stoneCost = (int)(10 * settings.difficultyScaler);
                 woodCost = (int)(10 * settings.difficultyScaler);
+                foodCost = (int)(5 * settings.difficultyScaler);
+                waitText.text = "Are you sure you want to destroy this Small Cottage?";
                 spriteColor = new Color(1.0f, 0.75f, 0.0f);
                 size = new Vector2(3, 3);
                 break;
@@ -241,6 +248,8 @@ public class Building : MonoBehaviour
             case 1:
                 stoneCost = (int)(20 * settings.difficultyScaler);
                 woodCost = (int)(20 * settings.difficultyScaler);
+                foodCost = (int)(7 * settings.difficultyScaler);
+                waitText.text = "Are you sure you want to destroy this Family Home?";
                 spriteColor = new Color(0.75f, 0.5f, 0.0f);
                 size = new Vector2(4, 4);
                 break;
@@ -248,27 +257,35 @@ public class Building : MonoBehaviour
             case 2:
                 stoneCost = (int)(50 * settings.difficultyScaler);
                 woodCost = (int)(50 * settings.difficultyScaler);
+                foodCost = (int)(10 * settings.difficultyScaler);
+                waitText.text = "Are you sure you want to destroy this Appartment Complex?";
                 spriteColor = new Color(0.5f, 0.25f, 0.0f);
                 size = new Vector2(5, 5);
                 break;
 
             case 3:
                 stoneCost = 0;
-                woodCost = (int)(10 * settings.difficultyScaler);
+                woodCost = (int)(15 * settings.difficultyScaler);
+                foodCost = (int)(5 * settings.difficultyScaler);
+                waitText.text = "Are you sure you want to destroy this Garden?";
                 spriteColor = new Color(.5f, 1f, .5f);
                 size = new Vector2(4, 4);
                 break;
 
             case 4:
                 stoneCost = 0;
-                woodCost = (int)(20 * settings.difficultyScaler);
+                woodCost = (int)(30 * settings.difficultyScaler);
+                foodCost = (int)(7 * settings.difficultyScaler);
+                waitText.text = "Are you sure you want to destroy this Local Farm?";
                 spriteColor = new Color(.25f, .75f, .25f);
                 size = new Vector2(5, 5);
                 break;
 
             case 5:
                 stoneCost = 0;
-                woodCost = (int)(50 * settings.difficultyScaler);
+                woodCost = (int)(75 * settings.difficultyScaler);
+                foodCost = (int)(10 * settings.difficultyScaler);
+                waitText.text = "Are you sure you want to destroy this Industrial Farm?";
                 spriteColor = new Color(0f, .5f, 0f);
                 size = new Vector2(6, 6);
                 break;
@@ -276,6 +293,8 @@ public class Building : MonoBehaviour
             case 6:
                 stoneCost = (int)(5 * settings.difficultyScaler);
                 woodCost = (int)(10 * settings.difficultyScaler);
+                foodCost = (int)(5 * settings.difficultyScaler);
+                waitText.text = "Are you sure you want to destroy this Trade Post?";
                 spriteColor = new Color(1f, .5f, .5f);
                 size = new Vector2(1, 2);
                 break;
@@ -283,6 +302,8 @@ public class Building : MonoBehaviour
             case 7:
                 stoneCost = (int)(10 * settings.difficultyScaler);
                 woodCost = (int)(20 * settings.difficultyScaler);
+                foodCost = (int)(7 * settings.difficultyScaler);
+                waitText.text = "Are you sure you want to destroy this Local Market?";
                 spriteColor = new Color(.75f, .25f, .25f);
                 size = new Vector2(2, 3);
                 break;
@@ -290,27 +311,35 @@ public class Building : MonoBehaviour
             case 8:
                 stoneCost = (int)(25 * settings.difficultyScaler);
                 woodCost = (int)(50 * settings.difficultyScaler);
+                foodCost = (int)(10 * settings.difficultyScaler);
+                waitText.text = "Are you sure you want to destroy this Bank?";
                 spriteColor = new Color(.5f, 0f, 0f);
                 size = new Vector2(3, 4);
                 break;
 
             case 9:
-                stoneCost = (int)(10 * settings.difficultyScaler);
+                stoneCost = (int)(20 * settings.difficultyScaler);
                 woodCost = 0;
+                foodCost = (int)(5 * settings.difficultyScaler);
+                waitText.text = "Are you sure you want to destroy this Archer Tower?";
                 spriteColor = new Color(.75f, .75f, .75f);
                 size = new Vector2(1, 1);
                 break;
 
             case 10:
-                stoneCost = (int)(20 * settings.difficultyScaler);
+                stoneCost = (int)(40 * settings.difficultyScaler);
                 woodCost = 0;
+                foodCost = (int)(7 * settings.difficultyScaler);
+                waitText.text = "Are you sure you want to destroy this Army Barrack?";
                 spriteColor = new Color(.5f, .5f, .5f);
                 size = new Vector2(2, 2);
                 break;
 
             case 11:
-                stoneCost = (int)(50 * settings.difficultyScaler);
+                stoneCost = (int)(100 * settings.difficultyScaler);
                 woodCost = 0;
+                foodCost = (int)(10 * settings.difficultyScaler);
+                waitText.text = "Are you sure you want to destroy this Keep?";
                 spriteColor = new Color(.25f, .25f, .25f);
                 size = new Vector2(3, 3);
                 break;
@@ -323,7 +352,7 @@ public class Building : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
         isBuilding = false;
-        manager.demoMode = true;
+        manager.buildingOverlayOpen = false;
         location = transform.position;
         built = true;
         wait.enabled = false;
@@ -333,7 +362,7 @@ public class Building : MonoBehaviour
     public void YesDestroy()
     {
         wait.enabled = false;
-        manager.demoMode = true;
+        manager.buildingOverlayOpen = false;
         DestroyBuilding();
     }
 
@@ -341,6 +370,6 @@ public class Building : MonoBehaviour
     public void NoDestroy()
     {
         wait.enabled = false;
-        manager.demoMode = true;
+        manager.buildingOverlayOpen = false;
     }
 }
