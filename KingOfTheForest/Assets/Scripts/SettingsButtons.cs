@@ -24,19 +24,19 @@ public class SettingsButtons : MonoBehaviour
 
     private void Start()
     {
-        if (settings.difficultyScaler == 0.5f)
+        if (settings.difficultyScaler == 0.75f)
         {
             difficulty = 0;
         }
-        else if (settings.difficultyScaler == 0.75f)
+        else if (settings.difficultyScaler == 1.0f)
         {
             difficulty = 1;
         }
-        else if (settings.difficultyScaler == 1.0f)
+        else if (settings.difficultyScaler == 1.25f)
         {
             difficulty = 2;
         }
-        else if (settings.difficultyScaler == 1.25f)
+        else if (settings.difficultyScaler == 1.5f)
         {
             difficulty = 3;
         }
@@ -52,28 +52,28 @@ public class SettingsButtons : MonoBehaviour
         {
             case 0:
                 difficultyText.text = "Difficulty: Beginner";
-                settings.difficultyScaler = 0.5f;
+                settings.difficultyScaler = 0.75f;
                 break;
 
             case 1:
                 difficultyText.text = "Difficulty: Easy";
-                settings.difficultyScaler = 0.75f;
+                settings.difficultyScaler = 1.0f;
                 break;
 
             case 3:
                 difficultyText.text = "Difficulty: Hard";
-                settings.difficultyScaler = 1.25f;
+                settings.difficultyScaler = 1.50f;
                 break;
 
             case 4:
                 difficultyText.text = "Difficulty: Impossible";
-                settings.difficultyScaler = 1.5f;
+                settings.difficultyScaler = 2f;
                 break;
 
             case 2:
             default:
                 difficultyText.text = "Difficulty: Normal";
-                settings.difficultyScaler = 1.0f;
+                settings.difficultyScaler = 1.25f;
                 break;
         }
     }

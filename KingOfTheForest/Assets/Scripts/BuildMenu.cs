@@ -15,8 +15,8 @@ public class BuildMenu : MonoBehaviour
     public UnityEngine.UI.Image lowFoodPanel;
 
     // Button Colors
-    private Color GREEN = new Color(.5f, .75f, .5f);
-    private Color RED = new Color(.75f, .5f, .5f);
+    private Color GREEN = new Color(.5f, 1.0f, .5f);
+    private Color RED = new Color(.25f, .1f, .1f);
 
     // Used to edit text
     private int woodCost;
@@ -113,20 +113,20 @@ public class BuildMenu : MonoBehaviour
                 break;
 
             case 1:
-                woodCost = (int)(20 * settings.difficultyScaler);
-                stoneCost = (int)(20 * settings.difficultyScaler);
+                woodCost = (int)(40 * settings.difficultyScaler);
+                stoneCost = (int)(40 * settings.difficultyScaler);
                 foodCost = (int)(3 * settings.difficultyScaler);
                 titleText.text = "Family Home";
-                effectText.text = "Max Population +10";
+                effectText.text = "Max Population +25";
                 description.text = "A nice house for a growing family.";
                 break;
 
             case 2:
-                woodCost = (int)(50 * settings.difficultyScaler);
-                stoneCost = (int)(20 * settings.difficultyScaler);
+                woodCost = (int)(120 * settings.difficultyScaler);
+                stoneCost = (int)(120 * settings.difficultyScaler);
                 foodCost = (int)(5 * settings.difficultyScaler);
                 titleText.text = "Appartment Complex";
-                effectText.text = "Max Population +25";
+                effectText.text = "Max Population +80";
                 description.text = "A large complex to house a growing population, crucial to all kingdoms of the council.";
                 break;
 
@@ -140,20 +140,20 @@ public class BuildMenu : MonoBehaviour
                 break;
 
             case 4:
-                woodCost = (int)(40 * settings.difficultyScaler);
+                woodCost = (int)(80 * settings.difficultyScaler);
                 stoneCost = 0;
                 foodCost = (int)(3 * settings.difficultyScaler);
                 titleText.text = "Local Farm";
-                effectText.text = "Nightly Food Increase +12";
+                effectText.text = "Nightly Food Increase +32";
                 description.text = "A small farm, perfect for a growing village.";
                 break;
 
             case 5:
-                woodCost = (int)(90 * settings.difficultyScaler);
+                woodCost = (int)(240 * settings.difficultyScaler);
                 stoneCost = 0;
                 foodCost = (int)(5 * settings.difficultyScaler);
                 titleText.text = "Industrial Farm";
-                effectText.text = "Nightly Food Increase +30";
+                effectText.text = "Nightly Food Increase +120";
                 description.text = "A farm fit to feed a kingdom.";
                 break;
 
@@ -167,20 +167,20 @@ public class BuildMenu : MonoBehaviour
                 break;
 
             case 7:
-                woodCost = (int)(40 * settings.difficultyScaler);
-                stoneCost = (int)(10 * settings.difficultyScaler);
+                woodCost = (int)(80 * settings.difficultyScaler);
+                stoneCost = (int)(40 * settings.difficultyScaler);
                 foodCost = (int)(3 * settings.difficultyScaler);
                 titleText.text = "Local Market";
-                effectText.text = "Unlocks Trading\n\nNightly Gold Earnings +10";
+                effectText.text = "Unlocks Trading\n\nNightly Gold Earnings +25";
                 description.text = "A large market for many locals to sell their products. A great way to attract traders to your village.";
                 break;
 
             case 8:
-                woodCost = (int)(100 * settings.difficultyScaler);
-                stoneCost = (int)(50 * settings.difficultyScaler);
+                woodCost = (int)(240 * settings.difficultyScaler);
+                stoneCost = (int)(120 * settings.difficultyScaler);
                 foodCost = (int)(5 * settings.difficultyScaler);
                 titleText.text = "Bank";
-                effectText.text = "Unlocks Trading\n\nNightly Gold Earnings +25";
+                effectText.text = "Unlocks Trading\n\nNightly Gold Earnings +80";
                 description.text = "What better way to expand businesses in your town?";
                 break;
 
@@ -195,19 +195,19 @@ public class BuildMenu : MonoBehaviour
 
             case 10:
                 woodCost = 0;
-                stoneCost = (int)(40 * settings.difficultyScaler);
+                stoneCost = (int)(80 * settings.difficultyScaler);
                 foodCost = (int)(3 * settings.difficultyScaler);
                 titleText.text = "Army Barracks";
-                effectText.text = "Defense +10";
+                effectText.text = "Defense +25";
                 description.text = "Somewhere soldiers can rest while not defending the town. A great way to attrack warriors to your town.";
                 break;
 
             case 11:
                 woodCost = 0;
-                stoneCost = (int)(100 * settings.difficultyScaler);
+                stoneCost = (int)(240 * settings.difficultyScaler);
                 foodCost = (int)(5 * settings.difficultyScaler);
                 titleText.text = "Keep";
-                effectText.text = "Defense +25";
+                effectText.text = "Defense +80";
                 description.text = "A large, defendable tower. It times or crisis, your people can hide here to stay safe.";
                 break;
         }

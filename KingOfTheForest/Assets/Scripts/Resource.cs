@@ -11,6 +11,7 @@ public class Resource : MonoBehaviour
     public int resourceMax = 5;
     public int resourceType = 0; // 0 for wood, 1 for stone
     public int typeID;
+    int foodCost;
 
     // Current state
     public bool isDestroyed = false;
@@ -39,6 +40,8 @@ public class Resource : MonoBehaviour
 
     // Settings
     public Settings settings;
+
+    public TextBox textBox;
 
     // Set settings object
     private void Awake()
@@ -77,9 +80,7 @@ public class Resource : MonoBehaviour
         if (isDestroyed) return;
 
         // Check food
-        if ((typeID == 0 || typeID == 3) && manager.food < 1) { return; }
-        if ((typeID == 1 || typeID == 4) && manager.food < 3) { return; }
-        if ((typeID == 2 || typeID == 5) && manager.food < 5) { return; }
+        if (manager.food < foodCost) { return; }
 
         // Set respawn data
         dayDestroyed = manager.day;
@@ -87,13 +88,34 @@ public class Resource : MonoBehaviour
         respawnDay = dayDestroyed + regenTime;
 
         // Increase stats
-        if (resourceType == 0) { manager.wood += (int)(Random.Range(resourceMin, resourceMax) * (1f / settings.difficultyScaler)); }
-        else { manager.stone += (int)(Random.Range(resourceMin, resourceMax) * (1f / settings.difficultyScaler)); }
-        
+        int resourceIncrease = (int)(Random.Range(resourceMin, resourceMax));
+        if (resourceType == 0) 
+        {
+            manager.wood += resourceIncrease;
+            textBox.addText("+" + resourceIncrease + " wood");
+        }
+        else 
+        { 
+            manager.stone += resourceIncrease;
+            textBox.addText("+" + resourceIncrease + " stone");
+        }
+
         // Decrease food
-        if (typeID == 0 || typeID == 3) { manager.food -= 1; }
-        if (typeID == 1 || typeID == 4) { manager.food -= 2; }
-        if (typeID == 2 || typeID == 5) { manager.food -= 3; }
+        if (typeID == 0 || typeID == 3) 
+        { 
+            manager.food -= 1;
+            textBox.addText("-1 food");
+        }
+        if (typeID == 1 || typeID == 4) 
+        { 
+            manager.food -= 2;
+            textBox.addText("-2 food");
+        }
+        if (typeID == 2 || typeID == 5) 
+        { 
+            manager.food -= 3;
+            textBox.addText("-3 food");
+        }
 
         // Hide and disable collisions
         colliderSystem.enabled = false;
@@ -138,7 +160,7 @@ public class Resource : MonoBehaviour
         }
 
         // Check click
-        if (Input.GetMouseButtonDown(0) && isHovered && Input.mousePosition.y < Screen.height - 100)
+        if (Input.GetMouseButtonDown(0) && isHovered && Input.mousePosition.y < Screen.height - 300)
         {
             if (manager.demoMode)
             {
@@ -150,11 +172,11 @@ public class Resource : MonoBehaviour
         Color newColor;
 
         // Turn red when colliding with something or ready to be destroyed
-        if (isColliding || (isHovered && manager.demoMode && Input.mousePosition.y < Screen.height - 100))
+        if (isColliding || (isHovered && manager.demoMode && manager.food >= foodCost && Input.mousePosition.y < Screen.height - 300))
         {
-            float red = ((spriteColor.r * 3f) + 1.0f) / 4f;
-            float green = (spriteColor.g * 3f) / 4f;
-            float blue = (spriteColor.b * 3f) / 4f;
+            float red = spriteColor.r * 1.75f;
+            float green = spriteColor.g * 1.75f;
+            float blue = spriteColor.b * 1.75f;
             newColor = new Color(red, green, blue);
         }
         else
@@ -187,7 +209,7 @@ public class Resource : MonoBehaviour
     {
         isHovered = true;
 
-        if (manager.demoMode && Input.mousePosition.y < Screen.height - 100)
+        if (manager.demoMode && manager.food >= foodCost && Input.mousePosition.y < Screen.height - 300)
         {
             if (resourceType == 0)
             {
@@ -214,57 +236,63 @@ public class Resource : MonoBehaviour
         switch (typeID)
         {
             case 0:
-                regenTime = (int)(3 * settings.difficultyScaler);
+                regenTime = (int)(2 * settings.difficultyScaler);
                 resourceMin = (int)(2 * (1 / settings.difficultyScaler));
                 resourceMax = (int)(5 * (1 / settings.difficultyScaler));
                 resourceType = 0;
                 spriteColor = new Color(.5f, 1f, .5f);
                 size = new Vector2(1, 1);
+                foodCost = 1;
                 break;
 
             case 1:
-                regenTime = (int)(8 * settings.difficultyScaler);
+                regenTime = (int)(5 * settings.difficultyScaler);
                 resourceMin = (int)(5 * (1 / settings.difficultyScaler));
                 resourceMax = (int)(8 * (1 / settings.difficultyScaler));
                 resourceType = 0;
                 spriteColor = new Color(.25f, .75f, .25f);
                 size = new Vector2(2, 2);
+                foodCost = 3;
                 break;
 
             case 2:
-                regenTime = (int)(12 * settings.difficultyScaler);
+                regenTime = (int)(9 * settings.difficultyScaler);
                 resourceMin = (int)(8 * (1 / settings.difficultyScaler));
                 resourceMax = (int)(12 * (1 / settings.difficultyScaler));
                 resourceType = 0;
                 spriteColor = new Color(0f, .5f, 0f);
                 size = new Vector2(3, 3);
+                foodCost = 5;
                 break;
 
             case 3:
-                regenTime = (int)(8 * settings.difficultyScaler);
+                regenTime = (int)(3 * settings.difficultyScaler);
                 resourceMin = (int)(2 * (1 / settings.difficultyScaler));
                 resourceMax = (int)(5 * (1 / settings.difficultyScaler));
                 resourceType = 1;
                 spriteColor = new Color(.75f, .75f, .75f);
                 size = new Vector2(1, 2);
+                foodCost = 1;
                 break;
 
             case 4:
-                regenTime = (int)(12 * settings.difficultyScaler);
+                regenTime = (int)(7 * settings.difficultyScaler);
                 resourceMin = (int)(5 * (1 / settings.difficultyScaler));
                 resourceMax = (int)(8 * (1 / settings.difficultyScaler));
                 resourceType = 1;
                 spriteColor = new Color(.5f, .5f, .5f);
                 size = new Vector2(2, 3);
+                foodCost = 3;
                 break;
 
             case 5:
-                regenTime = (int)(18 * settings.difficultyScaler);
+                regenTime = (int)(12 * settings.difficultyScaler);
                 resourceMin = (int)(8 * (1 / settings.difficultyScaler));
                 resourceMax = (int)(12 * (1 / settings.difficultyScaler));
                 resourceType = 1;
                 spriteColor = new Color(.25f, .25f, .25f);
                 size = new Vector2(3, 4);
+                foodCost = 5;
                 break;
         }
     }

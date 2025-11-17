@@ -6,7 +6,7 @@ public class Settings : MonoBehaviour
 {
     // Used to set the difficulty
     // Lower = Easier
-    public float difficultyScaler = 1.0f;
+    public float difficultyScaler = 1.25f;
 
     // Set Cursor Texture
     public Texture2D cursorTextureHand;

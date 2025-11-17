@@ -58,16 +58,16 @@ public class GameManager : MonoBehaviour
     // So that I can quickly adjust building stats for testing purposes
     private const int SMALL_HOUSE_CAPACITY = 5;
     private const int MED_HOUSE_CAPACITY = 25;
-    private const int LARGE_HOUSE_CAPACITY = 50;
+    private const int LARGE_HOUSE_CAPACITY = 80;
     private const int SMALL_TOWER_DEFENSE = 5;
     private const int MED_TOWER_DEFENSE = 25;
-    private const int LARGE_TOWER_DEFENSE = 50;
+    private const int LARGE_TOWER_DEFENSE = 80;
     private const int SMALL_FARM_FOOD = 7;
-    private const int MED_FARM_FOOD = 12;
-    private const int LARGE_FARM_FOOD = 30;
+    private const int MED_FARM_FOOD = 32;
+    private const int LARGE_FARM_FOOD = 120;
     private const int SMALL_TRADE_MONEY = 5;
     private const int MED_TRADE_MONEY = 25;
-    private const int LARGE_TRADE_MONEY = 50;
+    private const int LARGE_TRADE_MONEY = 80;
 
     // Used to track attacks
     private int consecSafeNights = 0;
@@ -118,11 +118,13 @@ public class GameManager : MonoBehaviour
     public Canvas buildMenu;
 
     // Since my grid size =/= unity grid size
-    public float scaleFactor = 0.35f;
+    public float scaleFactor = 0.2f;
     public int leftX = -20;
     public int rightX = 20;
     public int bottomY = -5;
     public int topY = 5;
+
+    public TextBox textBox;
 
     // Text options
     private string[] nightTextOptions =
@@ -206,6 +208,7 @@ public class GameManager : MonoBehaviour
             r.GetComponent<Resource>().startingHouse = startingHouse;
             r.GetComponent<Resource>().typeID = resourceNumber % 6;
             r.GetComponent<Resource>().GenerateResource();
+            r.GetComponent<Resource>().textBox = textBox;
 
             // Not random, one of each
             resourceNumber++;
@@ -215,7 +218,6 @@ public class GameManager : MonoBehaviour
     // Constantly update stats
     private void Update()
     {
-        Debug.Log("Current: " + Input.mousePosition.y + "\nMax: " + (Screen.height - 150));
         UpdateStats();
 
         // Cheats
@@ -286,20 +288,17 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                if (money < 5)
+                if (money < 10)
                 {
                     b2.interactable = false;
                     b4.interactable = false;
-                }
-                if (money < 10)
-                {
                     b6.interactable = false;
                 }
-                if (wood < 5)
+                if (wood < 10)
                 {
                     b1.interactable = false;
                 }
-                if (stone < 5)
+                if (stone < 10)
                 {
                     b3.interactable = false;
                 }
@@ -494,22 +493,6 @@ public class GameManager : MonoBehaviour
         else if (goodMoney) { nText.SetText(nightTextOptions[1]); }
         else if (popGrowthSmall) { nText.SetText(nightTextOptions[4]); }
         else { nText.SetText(nightTextOptions[0]); }
-
-        // Has the player won or lost the game?
-        int state = CheckWin();
-
-        if (state == 1)
-        {
-            // No win screen in free play
-            if (!freePlay)
-            {
-                winScreen.enabled = true;
-            }
-        }
-        else if (state == 2)
-        {
-            loseScreen.enabled = true;
-        }
     }
 
     // Calculate effects of attack based on current stats
@@ -529,7 +512,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            attackStrength = population - (int)(2.5 * defense);
+            attackStrength = population;
             attackStrength += (int)(day / 3);
             for (int i = 0; i < 12; i++)
             {
@@ -561,6 +544,19 @@ public class GameManager : MonoBehaviour
         {
             attackStrength += 25;
         }
+
+        int numBuildings = 0;
+        for (int i = 0; i < 12; i++)
+        {
+            numBuildings += buildings[i];
+        }
+
+        attackStrength -= (int)(1.75 * defense);
+
+        if (attackStrength > 0) attackStrength = (int)Mathf.Pow(attackStrength, 0.9f);
+        else attackStrength = 0;
+
+        //Debug.Log("Attack Strength = ((" + population + " - (2.5 * " + defense + ") + (" + day + " / 3 ) + " + numBuildings + ") * " + ((Mathf.Cos(day + 3.14f) + 2) * 0.5) + " * " + settings.difficultyScaler + " * " + Mathf.Pow(attackStrength, 0.9f) + " = " + attackStrength);
 
         // Variables
         int peopleKilled = 0;
@@ -709,22 +705,6 @@ public class GameManager : MonoBehaviour
         else if (scaredOff) { aText.SetText(attackTextOptions[1]); }
         else if (bigAttack) { aText.SetText(attackTextOptions[3]); }
         else { aText.SetText(attackTextOptions[2]); }
-
-        // Has the player won or lost the game?
-        int state = CheckWin();
-
-        if (state == 1)
-        {
-            // No win screen in free play
-            if (!freePlay)
-            {
-                winScreen.enabled = true;
-            }
-        }
-        else if (state == 2)
-        {
-            loseScreen.enabled = true;
-        }
     }
 
     // Trade functions
@@ -739,9 +719,9 @@ public class GameManager : MonoBehaviour
         else
         {
             if (!canTrade) return;
-            if (wood < 5) return;
-            wood -= 5;
-            money += 5;
+            if (wood < 10) return;
+            wood -= 10;
+            money += 10;
         }    
     }
     public void BuyWood()
@@ -872,6 +852,22 @@ public class GameManager : MonoBehaviour
     // New day
     public void StartNewDay()
     {
+        // Has the player won or lost the game?
+        int state = CheckWin();
+
+        if (state == 1)
+        {
+            // No win screen in free play
+            if (!freePlay)
+            {
+                winScreen.enabled = true;
+            }
+        }
+        else if (state == 2)
+        {
+            loseScreen.enabled = true;
+        }
+
         for (int i = 0; i < 12; i++)
         {
             prevBuildings[i] = buildings[i];

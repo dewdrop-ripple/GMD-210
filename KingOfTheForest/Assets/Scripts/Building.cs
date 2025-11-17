@@ -15,6 +15,7 @@ public class Building : MonoBehaviour
     private bool isBuilding = false;
     bool isHovered = false;
     public bool built = false;
+    bool canDestroy = true;
 
     // Game Manager
     public GameManager manager;
@@ -38,10 +39,14 @@ public class Building : MonoBehaviour
     // Settings object
     public Settings settings;
 
+    // Text object
+    public TextBox textBox;
+
     // Get settings object
     private void Awake()
     {
         settings = GameObject.Find("Settings").GetComponent<Settings>();
+        textBox = GameObject.Find("TextOverlay").GetComponent<TextBox>();
     }
 
     // Updates data
@@ -75,6 +80,10 @@ public class Building : MonoBehaviour
         location = transform.position;
         manager.buildingsList.Add(this);
 
+        textBox.addText("-" + woodCost + " wood");
+        textBox.addText("-" + stoneCost + " stone");
+        textBox.addText("-" + foodCost + " food");
+
         // Update state
         built = true;
     }
@@ -89,6 +98,10 @@ public class Building : MonoBehaviour
             manager.stone += (int)(stoneCost / (2 * settings.difficultyScaler));
             manager.buildings[buildingArrayPosition]--;
             manager.food -= 10;
+
+            textBox.addText("+" + (int)(woodCost / (2 * settings.difficultyScaler)) + " wood");
+            textBox.addText("+" + (int)(stoneCost / (2 * settings.difficultyScaler)) + " stone");
+            textBox.addText("-10 food");
         }
 
         // Destroy
@@ -153,44 +166,48 @@ public class Building : MonoBehaviour
             }
         }
 
-        // Check click
-        if (Input.GetMouseButtonDown(0) && isHovered && Input.mousePosition.y < Screen.height - 100)
+        // Check all the reasons a play may not be able to destroy it
+        canDestroy = true;
+
+        // Don't destroy only house
+        if (buildingArrayPosition == 0 || buildingArrayPosition == 1 || buildingArrayPosition == 2)
         {
-            // Check all the reasons a play may not be able to destroy it
-            bool canDestroy = true;
-
-            // Don't destroy only house
-            if (buildingArrayPosition == 0 || buildingArrayPosition == 1 || buildingArrayPosition == 2)
-            {
-                int numHouses = manager.buildings[0] + manager.buildings[1] + manager.buildings[2];
-                if (numHouses < 2)
-                {
-                    canDestroy = false;
-                }
-            }
-
-            // Don't destroy if not demo mode
-            if (!manager.demoMode)
+            int numHouses = manager.buildings[0] + manager.buildings[1] + manager.buildings[2];
+            if (numHouses < 2)
             {
                 canDestroy = false;
             }
+        }
 
-            // Don't destroy if loading in
-            if (recentlyBuilt)
-            {
-                canDestroy = false;
-            }
+        // Don't destroy if not demo mode
+        if (!manager.demoMode)
+        {
+            canDestroy = false;
+        }
 
-            if (manager.food < 10)
-            {
-                canDestroy = false;
-            }
+        // Don't destroy if loading in
+        if (recentlyBuilt)
+        {
+            canDestroy = false;
+        }
 
+        if (manager.food < 10)
+        {
+            canDestroy = false;
+        }
+
+        if (Input.mousePosition.y > Screen.height - 300)
+        {
+            canDestroy = false;
+        }
+
+        // Check click
+        if (Input.GetMouseButtonDown(0) && isHovered)
+        {
             // Destroy
             if (canDestroy)
             {
                 wait.enabled = true;
-                Debug.Log("Destroy");
                 manager.buildingOverlayOpen = true;
             }
         }
@@ -199,11 +216,11 @@ public class Building : MonoBehaviour
         Color newColor;
 
         // If colliding with something or hovered
-        if (isColliding || (isHovered && manager.demoMode && !manager.currentlyBuilding && Input.mousePosition.y < Screen.height - 100))
+        if (isColliding || (isHovered && canDestroy))
         {
-            float red = ((spriteColor.r * 3f) + 1.0f) / 4f;
-            float green = (spriteColor.g * 3f) / 4f;
-            float blue = (spriteColor.b * 3f) / 4f;
+            float red = spriteColor.r * 1.75f;
+            float green = spriteColor.g * 1.75f;
+            float blue = spriteColor.b * 1.75f;
             newColor = new Color(red, green, blue);
         }
         else
@@ -221,7 +238,7 @@ public class Building : MonoBehaviour
     {
         isHovered = true;
 
-        if (manager.demoMode && Input.mousePosition.y < Screen.height - 100)
+        if (canDestroy)
         {
             settings.cHammer = true;
         }
@@ -253,8 +270,8 @@ public class Building : MonoBehaviour
                 break;
 
             case 1:
-                stoneCost = (int)(20 * settings.difficultyScaler);
-                woodCost = (int)(20 * settings.difficultyScaler);
+                stoneCost = (int)(40 * settings.difficultyScaler);
+                woodCost = (int)(40 * settings.difficultyScaler);
                 foodCost = (int)(3 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Family Home?";
                 spriteColor = new Color(0.75f, 0.5f, 0.0f);
@@ -262,8 +279,8 @@ public class Building : MonoBehaviour
                 break;
 
             case 2:
-                stoneCost = (int)(50 * settings.difficultyScaler);
-                woodCost = (int)(50 * settings.difficultyScaler);
+                stoneCost = (int)(120 * settings.difficultyScaler);
+                woodCost = (int)(120 * settings.difficultyScaler);
                 foodCost = (int)(5 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Appartment Complex?";
                 spriteColor = new Color(0.5f, 0.25f, 0.0f);
@@ -272,7 +289,7 @@ public class Building : MonoBehaviour
 
             case 3:
                 stoneCost = 0;
-                woodCost = (int)(15 * settings.difficultyScaler);
+                woodCost = (int)(20 * settings.difficultyScaler);
                 foodCost = (int)(1 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Garden?";
                 spriteColor = new Color(.5f, 1f, .5f);
@@ -281,7 +298,7 @@ public class Building : MonoBehaviour
 
             case 4:
                 stoneCost = 0;
-                woodCost = (int)(30 * settings.difficultyScaler);
+                woodCost = (int)(80 * settings.difficultyScaler);
                 foodCost = (int)(3 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Local Farm?";
                 spriteColor = new Color(.25f, .75f, .25f);
@@ -290,7 +307,7 @@ public class Building : MonoBehaviour
 
             case 5:
                 stoneCost = 0;
-                woodCost = (int)(75 * settings.difficultyScaler);
+                woodCost = (int)(240 * settings.difficultyScaler);
                 foodCost = (int)(5 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Industrial Farm?";
                 spriteColor = new Color(0f, .5f, 0f);
@@ -298,8 +315,8 @@ public class Building : MonoBehaviour
                 break;
 
             case 6:
-                stoneCost = (int)(5 * settings.difficultyScaler);
-                woodCost = (int)(10 * settings.difficultyScaler);
+                stoneCost = (int)(10 * settings.difficultyScaler);
+                woodCost = (int)(20 * settings.difficultyScaler);
                 foodCost = (int)(1 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Trade Post?";
                 spriteColor = new Color(1f, .5f, .5f);
@@ -307,8 +324,8 @@ public class Building : MonoBehaviour
                 break;
 
             case 7:
-                stoneCost = (int)(10 * settings.difficultyScaler);
-                woodCost = (int)(20 * settings.difficultyScaler);
+                stoneCost = (int)(40 * settings.difficultyScaler);
+                woodCost = (int)(80 * settings.difficultyScaler);
                 foodCost = (int)(3 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Local Market?";
                 spriteColor = new Color(.75f, .25f, .25f);
@@ -316,8 +333,8 @@ public class Building : MonoBehaviour
                 break;
 
             case 8:
-                stoneCost = (int)(25 * settings.difficultyScaler);
-                woodCost = (int)(50 * settings.difficultyScaler);
+                stoneCost = (int)(120 * settings.difficultyScaler);
+                woodCost = (int)(240 * settings.difficultyScaler);
                 foodCost = (int)(5 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Bank?";
                 spriteColor = new Color(.5f, 0f, 0f);
@@ -334,7 +351,7 @@ public class Building : MonoBehaviour
                 break;
 
             case 10:
-                stoneCost = (int)(40 * settings.difficultyScaler);
+                stoneCost = (int)(80 * settings.difficultyScaler);
                 woodCost = 0;
                 foodCost = (int)(3 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Army Barrack?";
@@ -343,7 +360,7 @@ public class Building : MonoBehaviour
                 break;
 
             case 11:
-                stoneCost = (int)(100 * settings.difficultyScaler);
+                stoneCost = (int)(240 * settings.difficultyScaler);
                 woodCost = 0;
                 foodCost = (int)(5 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Keep?";
