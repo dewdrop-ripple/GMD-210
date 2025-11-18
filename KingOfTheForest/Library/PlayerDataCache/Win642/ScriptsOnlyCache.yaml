@@ -15,6 +15,7 @@ ScriptsOnlyBuild:
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.Animation.Runtime.dll:
+    - UnityEngine.U2D.Animation.BufferManager
     - UnityEngine.U2D.Animation.DeformationManager
     - UnityEngine.U2D.Animation.DeformationManagerUpdater
     Unity.2D.IK.Editor.dll:
@@ -312,6 +313,12 @@ ScriptsOnlyBuild:
     fullTypeName: Building
     methodName: YesDestroy
   - assembly: Assembly-CSharp
+    fullTypeName: Building
+    methodName: YesDestroy
+  - assembly: Assembly-CSharp
+    fullTypeName: Building
+    methodName: NoDestroy
+  - assembly: Assembly-CSharp
     fullTypeName: BuildMenu
     methodName: target
   - assembly: Assembly-CSharp
@@ -401,12 +408,6 @@ ScriptsOnlyBuild:
   - assembly: Assembly-CSharp
     fullTypeName: GameManager
     methodName: StartFreePlay
-  - assembly: Assembly-CSharp
-    fullTypeName: Building
-    methodName: YesDestroy
-  - assembly: Assembly-CSharp
-    fullTypeName: Building
-    methodName: NoDestroy
   - assembly: Assembly-CSharp
     fullTypeName: SettingsButtons
     methodName: changeDifficulty
@@ -1327,7 +1328,7 @@ ScriptsOnlyBuild:
     className: MacroScriptableObject
   - hash:
       serializedVersion: 2
-      Hash: 2f2c803c4a29cc2aaf2862fc13cc3dd0
+      Hash: 5216a418d18b92573efe4299a968738f
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: GameManager
@@ -2519,4 +2520,4 @@ ScriptsOnlyBuild:
   - Assets/Scenes/MainMenu.unity
   - Assets/Scenes/KingdomScene.unity
   - Assets/Scenes/Settings.unity
-  playerPath: C:/Users/jorda/Source/Repos/KingOfTheForestMilestone3/King of the Forest.exe
+  playerPath: C:/Users/jorda/Source/Repos/KingOfTheForestMilestone4/King of the Forest.exe

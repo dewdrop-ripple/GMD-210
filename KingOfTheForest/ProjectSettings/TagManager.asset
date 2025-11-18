@@ -41,6 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Vingette
+    uniqueID: 2624624821
+    locked: 0
   - name: BuildMenu
     uniqueID: 506146123
     locked: 0

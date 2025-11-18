@@ -246,7 +246,7 @@ public class Resource : MonoBehaviour
                 break;
 
             case 1:
-                regenTime = (int)(5 * settings.difficultyScaler);
+                regenTime = (int)(3 * settings.difficultyScaler);
                 resourceMin = (int)(5 * (1 / settings.difficultyScaler));
                 resourceMax = (int)(8 * (1 / settings.difficultyScaler));
                 resourceType = 0;
@@ -256,7 +256,7 @@ public class Resource : MonoBehaviour
                 break;
 
             case 2:
-                regenTime = (int)(9 * settings.difficultyScaler);
+                regenTime = (int)(5 * settings.difficultyScaler);
                 resourceMin = (int)(8 * (1 / settings.difficultyScaler));
                 resourceMax = (int)(12 * (1 / settings.difficultyScaler));
                 resourceType = 0;
@@ -276,7 +276,7 @@ public class Resource : MonoBehaviour
                 break;
 
             case 4:
-                regenTime = (int)(7 * settings.difficultyScaler);
+                regenTime = (int)(5 * settings.difficultyScaler);
                 resourceMin = (int)(5 * (1 / settings.difficultyScaler));
                 resourceMax = (int)(8 * (1 / settings.difficultyScaler));
                 resourceType = 1;
@@ -286,7 +286,7 @@ public class Resource : MonoBehaviour
                 break;
 
             case 5:
-                regenTime = (int)(12 * settings.difficultyScaler);
+                regenTime = (int)(7 * settings.difficultyScaler);
                 resourceMin = (int)(8 * (1 / settings.difficultyScaler));
                 resourceMax = (int)(12 * (1 / settings.difficultyScaler));
                 resourceType = 1;

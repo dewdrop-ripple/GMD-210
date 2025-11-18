@@ -117,6 +117,9 @@ public class GameManager : MonoBehaviour
     // Build menu
     public Canvas buildMenu;
 
+    // Vingette
+    public Image vingette;
+
     // Since my grid size =/= unity grid size
     public float scaleFactor = 0.2f;
     public int leftX = -20;
@@ -219,6 +222,11 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         UpdateStats();
+
+        float vingetteOpacity = (100.0f - ((float)food * 3.0f)) / 100.0f;
+        if (vingetteOpacity < 0) { vingetteOpacity = 0; }
+        vingette.color = new Color(0, 0, 0, vingetteOpacity);
+        Debug.Log(vingetteOpacity);
 
         // Cheats
         if (Input.GetKeyDown(KeyCode.B)) { cheats = !cheats; }
