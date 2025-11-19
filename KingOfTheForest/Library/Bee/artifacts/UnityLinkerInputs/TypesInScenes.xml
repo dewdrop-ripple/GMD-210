@@ -1,5 +1,6 @@
 <linker>
 	<assembly fullname="Assembly-CSharp">
+		<type fullname="Advisor" preserve="nothing"/>
 		<type fullname="Building" preserve="nothing"/>
 		<type fullname="BuildMenu" preserve="nothing"/>
 		<type fullname="CameraController" preserve="nothing"/>

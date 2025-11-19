@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\Resource.cs" />
     <Compile Include="Assets\Scripts\FadeFromBlack.cs" />
     <Compile Include="Assets\Scripts\Settings.cs" />
+    <Compile Include="Assets\Scripts\Advisor.cs" />
     <Compile Include="Assets\Scripts\SettingsButtons.cs" />
     <Compile Include="Assets\Scripts\MenuButtons.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />

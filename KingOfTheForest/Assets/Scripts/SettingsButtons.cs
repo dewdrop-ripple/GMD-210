@@ -5,6 +5,7 @@ public class SettingsButtons : MonoBehaviour
 {
     // Text to edit
     public TextMeshProUGUI difficultyText;
+    public TextMeshProUGUI tutorialText;
 
     // Access game settings
     public Settings settings;
@@ -76,11 +77,19 @@ public class SettingsButtons : MonoBehaviour
                 settings.difficultyScaler = 1.25f;
                 break;
         }
+
+        if (settings.tutorialEnabled) { tutorialText.text = "Tutoral ON"; }
+        else { tutorialText.text = "Tutoral OFF"; }
     }
 
     public void changeDifficulty()
     {
         difficulty++;
         if (difficulty > 4) difficulty = 0;
+    }
+
+    public void changeTutorial()
+    {
+        settings.tutorialEnabled = !settings.tutorialEnabled;
     }
 }

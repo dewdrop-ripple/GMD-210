@@ -1,6 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - Advisor
     - BuildMenu
     - Building
     - CameraController
@@ -400,6 +401,9 @@ ScriptsOnlyBuild:
     fullTypeName: GameManager
     methodName: BuyFood
   - assembly: Assembly-CSharp
+    fullTypeName: Advisor
+    methodName: continueButtonPressed
+  - assembly: Assembly-CSharp
     fullTypeName: BuildMenu
     methodName: target
   - assembly: Assembly-CSharp
@@ -411,6 +415,9 @@ ScriptsOnlyBuild:
   - assembly: Assembly-CSharp
     fullTypeName: SettingsButtons
     methodName: changeDifficulty
+  - assembly: Assembly-CSharp
+    fullTypeName: SettingsButtons
+    methodName: changeTutorial
   - assembly: Assembly-CSharp
     fullTypeName: MenuButtons
     methodName: GoToScene
@@ -476,6 +483,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 27312}
     - Class: 114
       Script: {instanceID: 27718}
+    - Class: 114
+      Script: {instanceID: 50344}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1326,7 +1335,7 @@ ScriptsOnlyBuild:
     className: MacroScriptableObject
   - hash:
       serializedVersion: 2
-      Hash: 5216a418d18b92573efe4299a968738f
+      Hash: fc41573db0a14f15630d183ff8115175
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: GameManager
@@ -1476,7 +1485,7 @@ ScriptsOnlyBuild:
     className: ProbeVolume
   - hash:
       serializedVersion: 2
-      Hash: 8f910cf93f9454801e123350d9253407
+      Hash: 337cc7eabea57f3208d6422b038bf8ef
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: Settings
@@ -2448,7 +2457,7 @@ ScriptsOnlyBuild:
     className: Toggle
   - hash:
       serializedVersion: 2
-      Hash: e8b77c9f7613c0f595f40d66aa2b168a
+      Hash: 2882b4ffd23a0a5fe68ad29551fcb6cd
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: SettingsButtons
@@ -2512,6 +2521,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 1c7ce7fc9ea535507c6dbe84277a380c
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: Advisor
   platform: 19
   scenePathNames:
   - Assets/Scenes/LoadScene.unity

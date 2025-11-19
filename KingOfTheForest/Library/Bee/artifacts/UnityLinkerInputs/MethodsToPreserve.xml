@@ -1,5 +1,8 @@
 <linker>
 	<assembly fullname="Assembly-CSharp" ignoreIfMissing="1">
+		<type fullname="Advisor">
+			<method name="continueButtonPressed"/>
+		</type>
 		<type fullname="Building">
 			<method name="NoDestroy"/>
 			<method name="NoDestroy"/>
@@ -48,6 +51,7 @@
 		</type>
 		<type fullname="SettingsButtons">
 			<method name="changeDifficulty"/>
+			<method name="changeTutorial"/>
 		</type>
 	</assembly>
 	<assembly fullname="Unity.RenderPipelines.Core.Runtime" ignoreIfMissing="1">

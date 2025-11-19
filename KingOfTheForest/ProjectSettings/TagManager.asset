@@ -50,6 +50,9 @@ TagManager:
   - name: HUD
     uniqueID: 914549247
     locked: 0
+  - name: TextBox
+    uniqueID: 352365083
+    locked: 0
   - name: Overlay
     uniqueID: 1219704987
     locked: 0

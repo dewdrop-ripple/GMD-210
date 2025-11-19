@@ -31,12 +31,15 @@ public class GameManager : MonoBehaviour
     public bool nightScreenOpen = false;
     public bool buildingOverlayOpen = false;
     public bool currentlyBuilding = false;
+    public bool tutorialTextOpen = false;
+    public bool bannedFromMining = false;
 
     public bool canScroll = true;
 
     // Game objects to access
     public GameObject resource;
     public Building startingHouse;
+    public Advisor advisor;
 
     // So that I can quickly change this for testing purposes
     private const int WIN_POPULATION = 500;
@@ -163,6 +166,8 @@ public class GameManager : MonoBehaviour
     public Button b5;
     public Button b6;
 
+    public Button nextDay;
+
     // Set settings object
     private void Awake()
     {
@@ -243,7 +248,7 @@ public class GameManager : MonoBehaviour
             if (money < 0) money = 0;
         }
 
-        if (buildMenuOpen || pauseOverlayOpen || nightScreenOpen || buildingOverlayOpen || currentlyBuilding)
+        if (buildMenuOpen || pauseOverlayOpen || nightScreenOpen || buildingOverlayOpen || currentlyBuilding || tutorialTextOpen || bannedFromMining)
         {
             demoMode = false;
         }
@@ -868,7 +873,7 @@ public class GameManager : MonoBehaviour
             // No win screen in free play
             if (!freePlay)
             {
-                winScreen.enabled = true;
+                advisor.gameWon();
             }
         }
         else if (state == 2)

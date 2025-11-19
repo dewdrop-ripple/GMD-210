@@ -19,6 +19,9 @@ public class Settings : MonoBehaviour
     public bool cPick = false;
     public bool cHammer = false;
 
+    // Tutorial on/off
+    public bool tutorialEnabled = true;
+
     // Load delay
     float timer = 0f;
 
