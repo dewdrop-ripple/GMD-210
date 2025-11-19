@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Resource : MonoBehaviour
@@ -25,10 +25,11 @@ public class Resource : MonoBehaviour
     public GameManager manager;
 
     // Object data to edit
-    public Collider2D colliderSystem;
+    public BoxCollider2D colliderSystem;
     public SpriteRenderer rendererSystem;
-    private Color spriteColor = Color.white;
+    //private Color spriteColor = Color.white;
     public Rigidbody2D rb;
+    public List<Sprite> sprites;
     private Vector2 size = new Vector2(1, 1);
 
     // The house the player is given at the start of the game
@@ -169,24 +170,26 @@ public class Resource : MonoBehaviour
         }
 
         //Colors to differentiate
-        Color newColor;
+        //Color newColor;
 
         // Turn red when colliding with something or ready to be destroyed
         if (isColliding || (isHovered && manager.demoMode && manager.food >= foodCost && Input.mousePosition.y < Screen.height - 300))
         {
-            float red = spriteColor.r * 1.75f;
-            float green = spriteColor.g * 1.75f;
-            float blue = spriteColor.b * 1.75f;
-            newColor = new Color(red, green, blue);
+            //float red = spriteColor.r * 1.75f;
+            //float green = spriteColor.g * 1.75f;
+            //float blue = spriteColor.b * 1.75f;
+            //newColor = new Color(red, green, blue);
+            rendererSystem.color = new Color(0.5f, 0.5f, 0.5f);
         }
         else
         {
-            newColor = spriteColor;
+            //newColor = spriteColor;
+            rendererSystem.color = Color.white;
         }
 
         // Set color and scale
-        rendererSystem.color = newColor;
-        transform.localScale = new Vector3(manager.scaleFactor * size.x, manager.scaleFactor * size.y, 1);
+        gameObject.transform.localScale = new Vector3(manager.scaleFactor, manager.scaleFactor, 1);
+        colliderSystem.size = new Vector3(manager.scaleFactor * size.x * 13, manager.scaleFactor * size.y * 13);
     }
 
     // When it collides with something, make a note
@@ -233,64 +236,66 @@ public class Resource : MonoBehaviour
     // 3-5 = S, M, L Rock
     private void UpdateStats()
     {
+        rendererSystem.sprite = sprites[typeID];
+
         switch (typeID)
         {
             case 0:
                 regenTime = (int)(2 * settings.difficultyScaler);
-                resourceMin = (int)(2 * (1 / settings.difficultyScaler));
-                resourceMax = (int)(5 * (1 / settings.difficultyScaler));
+                resourceMin = 2;
+                resourceMax = 5;
                 resourceType = 0;
-                spriteColor = new Color(.5f, 1f, .5f);
+                //spriteColor = new Color(.5f, 1f, .5f);
                 size = new Vector2(1, 1);
                 foodCost = 1;
                 break;
 
             case 1:
                 regenTime = (int)(3 * settings.difficultyScaler);
-                resourceMin = (int)(5 * (1 / settings.difficultyScaler));
-                resourceMax = (int)(8 * (1 / settings.difficultyScaler));
+                resourceMin = 5;
+                resourceMax = 8;
                 resourceType = 0;
-                spriteColor = new Color(.25f, .75f, .25f);
+                //spriteColor = new Color(.25f, .75f, .25f);
                 size = new Vector2(2, 2);
                 foodCost = 3;
                 break;
 
             case 2:
                 regenTime = (int)(5 * settings.difficultyScaler);
-                resourceMin = (int)(8 * (1 / settings.difficultyScaler));
-                resourceMax = (int)(12 * (1 / settings.difficultyScaler));
+                resourceMin = 8;
+                resourceMax = 12;
                 resourceType = 0;
-                spriteColor = new Color(0f, .5f, 0f);
+                //spriteColor = new Color(0f, .5f, 0f);
                 size = new Vector2(3, 3);
                 foodCost = 5;
                 break;
 
             case 3:
                 regenTime = (int)(3 * settings.difficultyScaler);
-                resourceMin = (int)(2 * (1 / settings.difficultyScaler));
-                resourceMax = (int)(5 * (1 / settings.difficultyScaler));
+                resourceMin = 2;
+                resourceMax = 5;
                 resourceType = 1;
-                spriteColor = new Color(.75f, .75f, .75f);
+                //spriteColor = new Color(.75f, .75f, .75f);
                 size = new Vector2(1, 2);
                 foodCost = 1;
                 break;
 
             case 4:
                 regenTime = (int)(5 * settings.difficultyScaler);
-                resourceMin = (int)(5 * (1 / settings.difficultyScaler));
-                resourceMax = (int)(8 * (1 / settings.difficultyScaler));
+                resourceMin = 5;
+                resourceMax = 8;
                 resourceType = 1;
-                spriteColor = new Color(.5f, .5f, .5f);
+                //spriteColor = new Color(.5f, .5f, .5f);
                 size = new Vector2(2, 3);
                 foodCost = 3;
                 break;
 
             case 5:
                 regenTime = (int)(7 * settings.difficultyScaler);
-                resourceMin = (int)(8 * (1 / settings.difficultyScaler));
-                resourceMax = (int)(12 * (1 / settings.difficultyScaler));
+                resourceMin = 8;
+                resourceMax = 12;
                 resourceType = 1;
-                spriteColor = new Color(.25f, .25f, .25f);
+                //spriteColor = new Color(.25f, .25f, .25f);
                 size = new Vector2(3, 4);
                 foodCost = 5;
                 break;

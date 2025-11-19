@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
     public Image vingette;
 
     // Since my grid size =/= unity grid size
-    public float scaleFactor = 0.2f;
+    public float scaleFactor = 0.05f;
     public int leftX = -20;
     public int rightX = 20;
     public int bottomY = -5;
@@ -201,7 +201,7 @@ public class GameManager : MonoBehaviour
     private void GenerateResources()
     {
         // Resources
-        for (int i = 0; i < 75; i++)
+        for (int i = 0; i < 120; i++)
         {
             // Instantiate
             GameObject r = Instantiate(resource);
@@ -409,7 +409,7 @@ public class GameManager : MonoBehaviour
         if (newFood < 0)
         {
             foodShortage = true;
-            popChange += (int)(newFood * (1 / settings.difficultyScaler)); // Subtract from population (+ b/c food is negative)
+            popChange += (int)(newFood *  settings.difficultyScaler); // Subtract from population (+ b/c food is negative)
             popChange -= (int)((float)population * 0.025);
             newFood = 0; // Reset
             foodChange = food;

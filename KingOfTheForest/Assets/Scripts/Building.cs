@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Building : MonoBehaviour
@@ -21,9 +21,11 @@ public class Building : MonoBehaviour
     public GameManager manager;
     
     // Object data to edit
-    private Color spriteColor = Color.white;
+    //private Color spriteColor = Color.white;
     public SpriteRenderer rendererSystem;
     public Rigidbody2D rb;
+    public BoxCollider2D colliderSystem;
+    public List<Sprite> sprites;
     private Vector3 location;
     private Vector2 size = new Vector2(1, 1);
 
@@ -158,7 +160,7 @@ public class Building : MonoBehaviour
                 manager.currentlyBuilding = false;
             }
 
-            // Build when right mouse button clicked
+            // Stop build when right mouse button clicked
             if (Input.GetMouseButtonDown(1))
             {
                 EndBuild(false);
@@ -213,24 +215,26 @@ public class Building : MonoBehaviour
         }
 
         //Colors to differentiate
-        Color newColor;
+        //Color newColor;
 
         // If colliding with something or hovered
         if (isColliding || (isHovered && canDestroy))
         {
-            float red = spriteColor.r * 1.75f;
-            float green = spriteColor.g * 1.75f;
-            float blue = spriteColor.b * 1.75f;
-            newColor = new Color(red, green, blue);
+            //float red = spriteColor.r * 1.75f;
+            //float green = spriteColor.g * 1.75f;
+            //float blue = spriteColor.b * 1.75f;
+            //newColor = new Color(red, green, blue);
+            rendererSystem.color = new Color(0.5f, 0.5f, 0.5f);
         }
         else
         {
-            newColor = spriteColor;
+            //newColor = spriteColor;
+            rendererSystem.color = Color.white;
         }
 
         // Set color and scale
-        rendererSystem.color = newColor;
-        transform.localScale = new Vector3(manager.scaleFactor * size.x, manager.scaleFactor * size.y, 1);
+        gameObject.transform.localScale = new Vector3(manager.scaleFactor, manager.scaleFactor, 1);
+        colliderSystem.size = new Vector3(manager.scaleFactor * size.x * 13, manager.scaleFactor * size.y * 13);
     }
 
     // Check if hovered
@@ -257,6 +261,7 @@ public class Building : MonoBehaviour
     public void setBuildingType(int type)
     {
         buildingArrayPosition = type;
+        rendererSystem.sprite = sprites[type];
 
         switch (type)
         {
@@ -265,7 +270,7 @@ public class Building : MonoBehaviour
                 woodCost = (int)(10 * settings.difficultyScaler);
                 foodCost = (int)(1 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Small Cottage?";
-                spriteColor = new Color(1.0f, 0.75f, 0.0f);
+                //spriteColor = new Color(1.0f, 0.75f, 0.0f);
                 size = new Vector2(3, 3);
                 break;
 
@@ -274,7 +279,7 @@ public class Building : MonoBehaviour
                 woodCost = (int)(40 * settings.difficultyScaler);
                 foodCost = (int)(3 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Family Home?";
-                spriteColor = new Color(0.75f, 0.5f, 0.0f);
+                //spriteColor = new Color(0.75f, 0.5f, 0.0f);
                 size = new Vector2(4, 4);
                 break;
 
@@ -283,7 +288,7 @@ public class Building : MonoBehaviour
                 woodCost = (int)(120 * settings.difficultyScaler);
                 foodCost = (int)(5 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Appartment Complex?";
-                spriteColor = new Color(0.5f, 0.25f, 0.0f);
+                //spriteColor = new Color(0.5f, 0.25f, 0.0f);
                 size = new Vector2(5, 5);
                 break;
 
@@ -292,7 +297,7 @@ public class Building : MonoBehaviour
                 woodCost = (int)(20 * settings.difficultyScaler);
                 foodCost = (int)(1 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Garden?";
-                spriteColor = new Color(.5f, 1f, .5f);
+                //spriteColor = new Color(.5f, 1f, .5f);
                 size = new Vector2(4, 4);
                 break;
 
@@ -301,7 +306,7 @@ public class Building : MonoBehaviour
                 woodCost = (int)(80 * settings.difficultyScaler);
                 foodCost = (int)(3 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Local Farm?";
-                spriteColor = new Color(.25f, .75f, .25f);
+                //spriteColor = new Color(.25f, .75f, .25f);
                 size = new Vector2(5, 5);
                 break;
 
@@ -310,7 +315,7 @@ public class Building : MonoBehaviour
                 woodCost = (int)(240 * settings.difficultyScaler);
                 foodCost = (int)(5 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Industrial Farm?";
-                spriteColor = new Color(0f, .5f, 0f);
+                //spriteColor = new Color(0f, .5f, 0f);
                 size = new Vector2(6, 6);
                 break;
 
@@ -319,8 +324,8 @@ public class Building : MonoBehaviour
                 woodCost = (int)(20 * settings.difficultyScaler);
                 foodCost = (int)(1 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Trade Post?";
-                spriteColor = new Color(1f, .5f, .5f);
-                size = new Vector2(1, 2);
+                //spriteColor = new Color(1f, .5f, .5f);
+                size = new Vector2(2, 1);
                 break;
 
             case 7:
@@ -328,8 +333,8 @@ public class Building : MonoBehaviour
                 woodCost = (int)(80 * settings.difficultyScaler);
                 foodCost = (int)(3 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Local Market?";
-                spriteColor = new Color(.75f, .25f, .25f);
-                size = new Vector2(2, 3);
+                //spriteColor = new Color(.75f, .25f, .25f);
+                size = new Vector2(3, 2);
                 break;
 
             case 8:
@@ -337,8 +342,8 @@ public class Building : MonoBehaviour
                 woodCost = (int)(240 * settings.difficultyScaler);
                 foodCost = (int)(5 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Bank?";
-                spriteColor = new Color(.5f, 0f, 0f);
-                size = new Vector2(3, 4);
+                //spriteColor = new Color(.5f, 0f, 0f);
+                size = new Vector2(4, 3);
                 break;
 
             case 9:
@@ -346,7 +351,7 @@ public class Building : MonoBehaviour
                 woodCost = 0;
                 foodCost = (int)(1 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Archer Tower?";
-                spriteColor = new Color(.75f, .75f, .75f);
+                //spriteColor = new Color(.75f, .75f, .75f);
                 size = new Vector2(1, 1);
                 break;
 
@@ -355,7 +360,7 @@ public class Building : MonoBehaviour
                 woodCost = 0;
                 foodCost = (int)(3 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Army Barrack?";
-                spriteColor = new Color(.5f, .5f, .5f);
+                //spriteColor = new Color(.5f, .5f, .5f);
                 size = new Vector2(2, 2);
                 break;
 
@@ -364,7 +369,7 @@ public class Building : MonoBehaviour
                 woodCost = 0;
                 foodCost = (int)(5 * settings.difficultyScaler);
                 waitText.text = "Are you sure you want to destroy this Keep?";
-                spriteColor = new Color(.25f, .25f, .25f);
+                //spriteColor = new Color(.25f, .25f, .25f);
                 size = new Vector2(3, 3);
                 break;
         }

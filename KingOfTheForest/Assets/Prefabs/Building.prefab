@@ -113,11 +113,26 @@ MonoBehaviour:
   built: 0
   manager: {fileID: 0}
   rendererSystem: {fileID: 6102994503985942301}
-  rb: {fileID: 0}
+  rb: {fileID: -36598791439056547}
+  colliderSystem: {fileID: 710130315506090819}
+  sprites:
+  - {fileID: -1457691768944094420, guid: c39a8af179e3d894fadbf30cce4ae673, type: 3}
+  - {fileID: 390005366861826929, guid: 2fc70afc64404e545baa4a79aa49f6bb, type: 3}
+  - {fileID: 9033087819742478030, guid: 314c65939a223c641917d09aeb3442a4, type: 3}
+  - {fileID: 6485421569625746397, guid: cbc9d57f785e5fc41bc93aca83790fc6, type: 3}
+  - {fileID: 8241706267504876408, guid: a708cb1b045027a40b6afe678b8a198b, type: 3}
+  - {fileID: 5912689556745595525, guid: 6c6c0f5ab683ac74999dff9831cc7947, type: 3}
+  - {fileID: -5778082761511802080, guid: 6875eef5ed87e2547960be6365acb87a, type: 3}
+  - {fileID: 525293641900699116, guid: 20d9ec0e5d1cd7f4381dc8283be86d23, type: 3}
+  - {fileID: -6940925288529919831, guid: d8ee996b636938545b562a7df390aaba, type: 3}
+  - {fileID: -8431681715332149015, guid: b34477191ff753a42bd86767a4fd33a9, type: 3}
+  - {fileID: 8261061533996840941, guid: 5c513c4a9807aa643a17bb9970b9727f, type: 3}
+  - {fileID: 1937352585716068373, guid: 8ee87b8f9f0c15a42b3483959d69002a, type: 3}
   wait: {fileID: 2796219369026812031}
   waitText: {fileID: 3990816755759431058}
   buildMenu: {fileID: 0}
   settings: {fileID: 0}
+  textBox: {fileID: 0}
 --- !u!61 &710130315506090819
 BoxCollider2D:
   m_ObjectHideFlags: 0

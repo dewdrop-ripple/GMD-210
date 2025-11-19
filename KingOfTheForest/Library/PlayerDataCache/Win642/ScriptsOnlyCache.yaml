@@ -430,8 +430,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 50
       Script: {instanceID: 0}
-    - Class: 58
-      Script: {instanceID: 0}
     - Class: 61
       Script: {instanceID: 0}
     - Class: 81
@@ -788,7 +786,7 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
-      Hash: ee6344e52b8454ccf6fe9eeb4d7bab64
+      Hash: a74c0a25fe2d920ef43ac6655babb245
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: Building
@@ -1826,7 +1824,7 @@ ScriptsOnlyBuild:
     className: PanelRaycaster
   - hash:
       serializedVersion: 2
-      Hash: bbdb47c0ccee8d8f00a888a7b3f06a1b
+      Hash: d4d1d536533bf59b8d09c5f0baf66ee7
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: Resource
