@@ -22,6 +22,28 @@ public class Settings : MonoBehaviour
     // Tutorial on/off
     public bool tutorialEnabled = true;
 
+    // Villager data
+    public float maxTargetDistance = 5.0f;
+    public int foodGeneration = 1;
+    public int moneyGeneration = 1;
+    public int populationIncrease = 1;
+    public int vFoodCap = 5;
+    public int vMoneyCap = 5;
+    public int vPopulationCap = 3;
+    public float actionDelay = 2.0f;
+    public float vSpeed = 100.0f;
+
+    // Bandit Data
+    public int bFoodCap = 3; // The amount of food 1 bandit can steal
+    public int bWoodCap = 3; // The amount of wood 1 bandit can steal
+    public int bStoneCap = 3; // The amount of stone 1 bandit can steal
+    public int bMoneyCap = 3; // The amount of money 1 bandit can steal
+    public int buildingsCap = 1; // The number of buildings 1 bandit can help destroy
+    public float buildingDestructionTime = 5.0f; // How long it takes to destroy a building
+    public int buildingDestructionThreshhold = 3; // How many bandits are needed to destroy a building
+    public float destructionWaitTime = 15.0f; // How long a bandit will wait for other bandits to come help destroy a building 
+    public float bSpeed = 100.0f;
+
     // Load delay
     float timer = 0f;
 

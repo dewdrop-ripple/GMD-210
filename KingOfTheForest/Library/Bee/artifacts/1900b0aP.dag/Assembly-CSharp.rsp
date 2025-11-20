@@ -366,6 +366,7 @@
 "Assets/Scripts/GameManager.cs"
 "Assets/Scripts/HUD.cs"
 "Assets/Scripts/MenuButtons.cs"
+"Assets/Scripts/NPC.cs"
 "Assets/Scripts/Resource.cs"
 "Assets/Scripts/Settings.cs"
 "Assets/Scripts/SettingsButtons.cs"

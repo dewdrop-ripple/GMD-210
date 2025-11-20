@@ -54,4 +54,53 @@ MonoBehaviour:
   defense: 0
   isDay: 1
   canTrade: 0
+  freePlay: 0
+  demoMode: 1
+  buildMenuOpen: 0
+  pauseOverlayOpen: 0
+  nightScreenOpen: 0
+  buildingOverlayOpen: 0
+  currentlyBuilding: 0
+  tutorialTextOpen: 0
+  bannedFromMining: 0
+  canScroll: 1
+  resource: {fileID: 6344319906926876570, guid: 8ca45224ffada454388a4572e3d16dcc, type: 3}
+  villager: {fileID: 5920569571292057837, guid: f1dfc2844db702247a9e96c853249e58, type: 3}
+  startingHouse: {fileID: 0}
+  advisor: {fileID: 0}
   buildings: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  buildingsList: []
+  resourceList: []
+  NPCsList: []
+  nightOverlay: {fileID: 0}
+  nText: {fileID: 0}
+  nPeople: {fileID: 0}
+  nFood: {fileID: 0}
+  nMoney: {fileID: 0}
+  attackOverlay: {fileID: 0}
+  aText: {fileID: 0}
+  aPeople: {fileID: 0}
+  aWood: {fileID: 0}
+  aStone: {fileID: 0}
+  aFood: {fileID: 0}
+  aMoney: {fileID: 0}
+  aBuildings: {fileID: 0}
+  pauseOverlay: {fileID: 0}
+  winScreen: {fileID: 0}
+  loseScreen: {fileID: 0}
+  buildMenu: {fileID: 0}
+  vingette: {fileID: 0}
+  scaleFactor: 0.05
+  leftX: -20
+  rightX: 20
+  bottomY: -5
+  topY: 5
+  textBox: {fileID: 0}
+  settings: {fileID: 0}
+  b1: {fileID: 0}
+  b2: {fileID: 0}
+  b3: {fileID: 0}
+  b4: {fileID: 0}
+  b5: {fileID: 0}
+  b6: {fileID: 0}
+  nextDay: {fileID: 0}

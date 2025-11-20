@@ -518,7 +518,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 3.2999878, y: 19.839966}
+  m_AnchoredPosition: {x: 3.3000488, y: 19.839966}
   m_SizeDelta: {x: 86.44946, y: 215.9029}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &86320839
@@ -1558,7 +1558,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -195.20001, y: -53}
+  m_AnchoredPosition: {x: -195.19995, y: -53}
   m_SizeDelta: {x: -898.85, y: 70.13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &252796509
@@ -7731,7 +7731,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HUD
   manager: {fileID: 443162750}
-  dayNightTracker: {fileID: 518759789}
   dayNumber: {fileID: 1303839405}
   population: {fileID: 1736920395}
   wood: {fileID: 1779147698}
@@ -12598,7 +12597,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -54, y: 33.61}
+  m_AnchoredPosition: {x: -54, y: 33.609985}
   m_SizeDelta: {x: 59.159973, y: 53.5}
   m_Pivot: {x: 0.21048985, y: 0.5}
 --- !u!114 &1862293386

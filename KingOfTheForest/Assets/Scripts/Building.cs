@@ -106,6 +106,8 @@ public class Building : MonoBehaviour
             textBox.addText("-10 food");
         }
 
+        manager.buildingsList.Remove(this);
+
         // Destroy
         GameObject.Destroy(gameObject);
     }

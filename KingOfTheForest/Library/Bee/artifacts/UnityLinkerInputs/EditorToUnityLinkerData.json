@@ -153,6 +153,13 @@
             ]
         },
         {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "NPC",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
             "managedAssemblyName": "",
             "nativeClass": "PhysicsManager",
             "fullManagedTypeName": "",
@@ -404,6 +411,15 @@
                 "Assets/Scenes/LoadScene.unity",
                 "Assets/Scenes/MainMenu.unity",
                 "Assets/Scenes/Settings.unity"
+            ]
+        },
+        {
+            "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "CircleCollider2D",
+            "fullManagedTypeName": "UnityEngine.CircleCollider2D",
+            "moduleName": "Physics2D",
+            "usedInScenes": [
+                "Assets/Scenes/KingdomScene.unity"
             ]
         },
         {

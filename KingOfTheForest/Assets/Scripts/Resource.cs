@@ -126,6 +126,16 @@ public class Resource : MonoBehaviour
     // Manage Respawn
     public void Update()
     {
+        // Check if it is properly on the list
+        if (isDestroyed && manager.resourceList.Contains(this))
+        {
+            manager.resourceList.Remove(this);
+        }
+        if (!isDestroyed && !manager.resourceList.Contains(this))
+        {
+            manager.resourceList.Add(this);
+        }
+
         // Check if it has been recently spawned in
         if (!isPlaced)
         {

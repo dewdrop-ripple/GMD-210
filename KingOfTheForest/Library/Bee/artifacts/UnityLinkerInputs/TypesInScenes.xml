@@ -8,6 +8,7 @@
 		<type fullname="GameManager" preserve="nothing"/>
 		<type fullname="HUD" preserve="nothing"/>
 		<type fullname="MenuButtons" preserve="nothing"/>
+		<type fullname="NPC" preserve="nothing"/>
 		<type fullname="Resource" preserve="nothing"/>
 		<type fullname="Settings" preserve="nothing"/>
 		<type fullname="SettingsButtons" preserve="nothing"/>
@@ -116,6 +117,7 @@
 		<type fullname="UnityEngine.Camera" preserve="nothing"/>
 		<type fullname="UnityEngine.Canvas" preserve="nothing"/>
 		<type fullname="UnityEngine.CanvasRenderer" preserve="nothing"/>
+		<type fullname="UnityEngine.CircleCollider2D" preserve="nothing"/>
 		<type fullname="UnityEngine.Collider2D" preserve="nothing"/>
 		<type fullname="UnityEngine.Component" preserve="nothing"/>
 		<type fullname="UnityEngine.ComputeShader" preserve="nothing"/>

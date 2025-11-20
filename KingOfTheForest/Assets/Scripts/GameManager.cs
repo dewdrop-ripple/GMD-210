@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
 
     // Game objects to access
     public GameObject resource;
+    public GameObject villager;
     public Building startingHouse;
     public Advisor advisor;
 
@@ -55,8 +56,10 @@ public class GameManager : MonoBehaviour
     private int[] prevBuildings = new int[12];
     private int lameDays = 0;
 
-    // List of all building objects
+    // Lists of all objects
     public List<Building> buildingsList;
+    public List<Resource> resourceList;
+    public List<NPC> NPCsList;
 
     // So that I can quickly adjust building stats for testing purposes
     private const int SMALL_HOUSE_CAPACITY = 5;
@@ -212,6 +215,7 @@ public class GameManager : MonoBehaviour
             GameObject r = Instantiate(resource);
 
             // Set variables
+            resourceList.Add(r.GetComponent<Resource>());
             r.GetComponent<Resource>().manager = this;
             r.GetComponent<Resource>().startingHouse = startingHouse;
             r.GetComponent<Resource>().typeID = resourceNumber % 6;
@@ -231,7 +235,12 @@ public class GameManager : MonoBehaviour
         float vingetteOpacity = (100.0f - ((float)food * 3.0f)) / 100.0f;
         if (vingetteOpacity < 0) { vingetteOpacity = 0; }
         vingette.color = new Color(0, 0, 0, vingetteOpacity);
-        Debug.Log(vingetteOpacity);
+
+        if (NPCsList.Count < population / 4 && NPCsList.Count < 25)
+        {
+            GameObject v = Instantiate(villager);
+            NPCsList.Add(v.GetComponent<NPC>());
+        }
 
         // Cheats
         if (Input.GetKeyDown(KeyCode.B)) { cheats = !cheats; }
