@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour
     public List<Building> buildingsList;
     public List<Resource> resourceList;
     public List<NPC> NPCsList;
+    public List<NPC> banditsList;
 
     // So that I can quickly adjust building stats for testing purposes
     private const int SMALL_HOUSE_CAPACITY = 5;
@@ -79,6 +80,8 @@ public class GameManager : MonoBehaviour
     private int consecSafeNights = 0;
     private int consecBadNights = 0;
 
+    public int attackStrength;
+
     // All possible nightly states for display text
     private bool goodMoney = false;
     private bool goodFood = false;
@@ -94,7 +97,7 @@ public class GameManager : MonoBehaviour
     private bool lame = false;
 
     // Cheats
-    private bool cheats = false;
+    public bool cheats = false;
 
     // Night overlay data
     public Canvas nightOverlay;
@@ -236,7 +239,7 @@ public class GameManager : MonoBehaviour
         if (vingetteOpacity < 0) { vingetteOpacity = 0; }
         vingette.color = new Color(0, 0, 0, vingetteOpacity);
 
-        if (NPCsList.Count < population / 4 && NPCsList.Count < 25)
+        if (NPCsList.Count < population / 4 && NPCsList.Count < 25 && isDay)
         {
             GameObject v = Instantiate(villager);
             NPCsList.Add(v.GetComponent<NPC>());
@@ -522,9 +525,6 @@ public class GameManager : MonoBehaviour
     {
         nightOverlay.enabled = false;
         attackOverlay.enabled = true;
-
-        // Set strength
-        int attackStrength;
 
         // If tiny pop, don't bother
         if (population <= 10 && day < 5)

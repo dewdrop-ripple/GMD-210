@@ -1,8 +1,13 @@
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.Rendering;
+//
+// Coded by Jordan Coolbeth
+// Last Modified 11/23/2025
+// Coded for CSI-281 Final Project
+//
 
+using System.Collections.Generic;
+using UnityEngine;
+
+// Used to declare what object an NPC is currently trying to interact with
 public enum TargetObject
 {
     None,
@@ -11,14 +16,26 @@ public enum TargetObject
     Defense, 
     Farm, 
     Villager, 
-    Bandit
+    Bandit,
+    BuildingToDestroy
 }
 
+// Used to declare what kind of NPC this is
 public enum NPCType
 {
     None,
     Villager,
     Bandit
+}
+
+// Used to declare what a bandit is currently trying to steal
+public enum StealTarget
+{
+    None,
+    Wood,
+    Stone,
+    Food,
+    Money
 }
 
 public class NPC : MonoBehaviour
@@ -27,6 +44,7 @@ public class NPC : MonoBehaviour
     public GameManager gameManager;
     public Settings settings;
 
+    // NPC type
     NPCType type = NPCType.Villager;
 
     // For movement
@@ -51,11 +69,29 @@ public class NPC : MonoBehaviour
     int moneyCollected = 0;
     int peopleMade = 0;
 
-    // Set objects to necessary objects
+    // For hiding
+    public bool isHiding = false;
+
+    // For changing state
+    public Collider2D colliderSystem;
+    public SpriteRenderer renderSystem;
+
+    // For bandits only
+    StealTarget currentStealTarget = StealTarget.None;
+    bool currentlyLeaving = false;
+
+    // Sprites
+    public Sprite villager;
+    public Sprite bandit;
+
+    // Set base data
     private void Awake()
     {
+        // Set objects
         settings = GameObject.Find("Settings").GetComponent<Settings>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        // Set size and location
         transform.localScale = new Vector3(gameManager.scaleFactor, gameManager.scaleFactor, 1.0f);
         targetLocation = transform.position;
         baseSize = transform.localScale;
@@ -63,105 +99,235 @@ public class NPC : MonoBehaviour
 
     private void Update()
     {
+        // Keep track of time
         timer += Time.deltaTime;
 
+        // Set sprite
+        if (type == NPCType.Villager)
+        {
+            renderSystem.sprite = villager;
+        }
+        else
+        {
+            renderSystem.sprite = bandit;
+        }
+
+        // Reset necessary data during the oposite time
         if (!gameManager.isDay)
         {
             foodCollected = 0;
             moneyCollected = 0;
             peopleMade = 0;
         }
+        else
+        {
+            isHiding = false;
+        }
 
+        // Dissappear and turn of collisions
+        if (isHiding)
+        {
+            //colliderSystem.enabled = false;
+            renderSystem.enabled = false;
+        }
+        else
+        {
+            //colliderSystem.enabled = true;
+            renderSystem.enabled = true;
+        }
+
+        // When done with interaction animation
         if (timer >= stopInteractingAt && interacting)
         {
             interacting = false;
             interactWhenFound = TargetObject.None;
 
-            switch (interactionType)
+            // For villagers
+            if (type == NPCType.Villager)
             {
-                case (TargetObject.Farm):
-                    gameManager.food += getFoodGeneration();
-                    foodCollected++;
-                    break;
+                switch (interactionType)
+                {
+                    // Collect food at farms
+                    case (TargetObject.Farm):
+                        gameManager.food += getFoodGeneration();
+                        foodCollected++;
+                        break;
 
-                case (TargetObject.TradePost):
-                    gameManager.money += getMoneyGeneration();
-                    moneyCollected++;
-                    break;
+                    // Collect money at trade posts
+                    case (TargetObject.TradePost):
+                        gameManager.money += getMoneyGeneration();
+                        moneyCollected++;
+                        break;
 
-                case (TargetObject.Villager):
-                    if (gameManager.population < gameManager.maxPopulation)
-                    {
-                        gameManager.population += getPopulationIncrease();
-                        peopleMade++;
-                    }
-                    break;
+                    // Have a child
+                    case (TargetObject.Villager):
+                        if (gameManager.population < gameManager.maxPopulation)
+                        {
+                            gameManager.population += getPopulationIncrease();
+                            peopleMade++;
+                        }
+                        break;
+
+                    // Hide in a house
+                    case (TargetObject.House):
+                        isHiding = true;
+                        break;
+    
+                    // Attack a bandit
+                    case (TargetObject.Bandit):
+                        int winChance = 100 * gameManager.defense / (gameManager.defense + gameManager.attackStrength);
+                        bool win = Random.Range(0, 100) <= winChance;
+
+                        if (win)
+                            findNearest(TargetObject.Bandit).GetComponent<NPC>().kill();
+                        else
+                            kill();
+
+                        break;
+                }
+            }
+
+            // For bandits
+            if (type == NPCType.Bandit)
+            {
+                switch(interactionType)
+                {
+                    // Destroy a building
+                    case (TargetObject.BuildingToDestroy):
+                        findNearest(TargetObject.BuildingToDestroy).GetComponent<Building>().AttackBuilding();
+                        break;
+
+                    // Steal from a trade post
+                    case (TargetObject.TradePost):
+                        switch(currentStealTarget)
+                        {
+                            case(StealTarget.Wood):
+                                if (gameManager.wood > 0)
+                                    gameManager.wood--;
+                                break;
+
+                            case (StealTarget.Stone):
+                                if (gameManager.stone > 0)
+                                    gameManager.stone--;
+                                break;
+
+                            case (StealTarget.Money):
+                                if (gameManager.money > 0)
+                                    gameManager.money--;
+                                break;
+                        }
+                        break;
+
+                    // Steal from a farm
+                    case (TargetObject.Farm):
+                        if (gameManager.food > 0)
+                            gameManager.food--;
+                        break;
+                }
             }
         }
 
         if (shouldMove) takeStep();
 
+        // Play animation
         if (interacting)
         {
-            if (animationDirection < 200)
+            if (animationDirection < 50)
             {
-                transform.localScale = new Vector3(transform.localScale.x - (Time.deltaTime / 10), transform.localScale.y - (Time.deltaTime / 10), 1);
+                transform.localScale = new Vector3(transform.localScale.x + (Time.deltaTime / 5), transform.localScale.y + (Time.deltaTime / 5), 1);
                 animationDirection++;
             }
             else
             {
-                transform.localScale = new Vector3(transform.localScale.x + (Time.deltaTime / 10), transform.localScale.y + (Time.deltaTime / 10), 1);
+                transform.localScale = new Vector3(transform.localScale.x - (Time.deltaTime / 5), transform.localScale.y - (Time.deltaTime / 5), 1);
                 animationDirection++;
-                if (animationDirection > 400) animationDirection = 0;
+                if (animationDirection > 100) animationDirection = 0;
             }
         }
         else
         {
             transform.localScale = new Vector3(gameManager.scaleFactor, gameManager.scaleFactor, 1.0f);
+            animationDirection = 0;
         }
 
+        // Wander randomly (for testing)
         if (!interacting && !shouldMove)
         {
-            int random = Random.Range(0, 4);
+            int random = Random.Range(0, 10);
 
             if (random == 0)
             {
                 MoveToRandomLocation();
-                Debug.Log("Random Movement");
             }
-            else if (random == 1 && foodCollected < getFoodCap())
+            else if (random == 7 && foodCollected < getFoodCap())
             {
                 findAndInteract(TargetObject.Farm);
             }
-            else if (random == 2 && moneyCollected < getMoneyCap())
+            else if (random == 8 && moneyCollected < getMoneyCap())
             {
                 findAndInteract(TargetObject.TradePost);
             }
-            else if (random == 3 && peopleMade < getPopulationCap())
+            else if (random == 9 && peopleMade < getPopulationCap())
             {
                 findAndInteract(TargetObject.Villager);
             }
         }
+
+        // Use number to play certain actions (for testing)
+        if(gameManager.cheats)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1)) {
+                MoveToRandomLocation();
+                //Debug.Log("Random Movement");
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                findAndInteract(TargetObject.Farm);
+                //Debug.Log("Interact with farm");
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                findAndInteract(TargetObject.TradePost);
+                //Debug.Log("Interact with trade post");
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                findAndInteract(TargetObject.Villager);
+                //Debug.Log("Interact with villager");
+            }
+        }
     }
 
+    // Accepts a give location and tells the NPC to move to that location
+    // If any coordinates are out of bounds it will move them in bounds
     public void MoveTo(Vector2 location)
     {
         if (location.x > gameManager.rightX) { location.x = gameManager.rightX; }
         if (location.x < gameManager.leftX) { location.x = gameManager.leftX; }
-        if (location.y > gameManager.topY) { location.x = gameManager.topY; }
-        if (location.y < gameManager.bottomY) { location.x = gameManager.bottomY; }
+        if (location.y > gameManager.topY) { location.y = gameManager.topY; }
+        if (location.y < gameManager.bottomY) { location.y = gameManager.bottomY; }
         targetLocation = location;
+        //Debug.Log("Moving from " + transform.position + " to " + location);
         shouldMove = true;
     }
 
+    // Take one step in the direction of the current targeted location
     private void takeStep()
     {
         Vector2 targetVector = new Vector2(targetLocation.x - transform.position.x, targetLocation.y - transform.position.y);
+        //Debug.Log("Target Vector: " + targetVector);
         float distanceTotal = Mathf.Sqrt(targetVector.x * targetVector.x + targetVector.y * targetVector.y);
+        //Debug.Log("Distance: " + distanceTotal);
 
-        if (distanceTotal < 1.0f)
+        //Debug.Log("Speed = " + Screen.width + " / 50000 = " + getSpeed());
+
+        if (distanceTotal < (getSpeed() * 5))
         {
             shouldMove = false;
+            if (currentlyLeaving)
+            {
+                kill();
+            }
             if (interactWhenFound != TargetObject.None)
             {
                 interact(interactWhenFound);
@@ -169,24 +335,42 @@ public class NPC : MonoBehaviour
             return;
         }
 
-        float stepLength = Screen.width * getSpeed();
-        Vector2 movement = new Vector2(targetVector.x / (distanceTotal /  stepLength), targetVector.y / (distanceTotal / (stepLength)));
+        Vector2 movement = new Vector2((targetVector.x / distanceTotal) * getSpeed(), (targetVector.y / distanceTotal) * getSpeed());
         transform.position = new Vector2(transform.position.x + movement.x, transform.position.y + movement.y);
+        //Debug.Log("Step taken - New location: " + transform.position);
     }
 
+    // Move to a random location in range
     public void MoveToRandomLocation()
     {
         float angle = Random.Range(0, 6.28f);
-        float distance = Random.Range(0, getMaxTargetDistance());
-        Vector2 randomLocation = new Vector2(Mathf.Cos(angle) * distance, Mathf.Sin(angle) * distance);
+        float distance = Random.Range(0, getMaxTargetDistance() * getSpeed());
+        Vector2 randomLocation = new Vector2(transform.position.x + (Mathf.Cos(angle) * distance), transform.position.y + (Mathf.Sin(angle) * distance));
         MoveTo(randomLocation);
     }
 
+    // Returns a reference to the nearest object of a given type
     public GameObject findNearest(TargetObject target)
     {
         GameObject foundObject = null;
 
-        if (target == TargetObject.Villager || target == TargetObject.Bandit)
+        if (target == TargetObject.BuildingToDestroy)
+        {
+            if (gameManager.buildingsList.Count < 1) { return null; }
+
+            float minDistance = getDistance(gameManager.buildingsList[0].gameObject);
+            foundObject = gameManager.buildingsList[0].gameObject;
+            for (int i = 1; i < gameManager.buildingsList.Count; i++)
+            {
+                float checkDistance = getDistance(gameManager.buildingsList[i].gameObject);
+                if (checkDistance < minDistance)
+                {
+                    minDistance = checkDistance;
+                    foundObject = gameManager.buildingsList[i].gameObject;
+                }
+            }
+        }
+        else if (target == TargetObject.Villager || target == TargetObject.Bandit)
         {
             List<GameObject> allObjects = new List<GameObject>();
 
@@ -195,12 +379,16 @@ public class NPC : MonoBehaviour
                 switch(target)
                 {
                     case (TargetObject.Villager):
-                        if (gameManager.NPCsList[i].type == NPCType.Villager && gameManager.NPCsList[i] != this)
+                        if (gameManager.NPCsList[i].type == NPCType.Villager && gameManager.NPCsList[i] != this && !gameManager.NPCsList[i].isHiding)
+                            allObjects.Add(gameManager.NPCsList[i].gameObject);
+                        else if (gameManager.NPCsList[i].type != NPCType.Villager && !gameManager.NPCsList[i].isHiding)
                             allObjects.Add(gameManager.NPCsList[i].gameObject);
                         break;
 
                     case (TargetObject.Bandit):
                         if (gameManager.NPCsList[i].type == NPCType.Bandit && gameManager.NPCsList[i] != this)
+                            allObjects.Add(gameManager.NPCsList[i].gameObject);
+                        else if (gameManager.NPCsList[i].type != NPCType.Bandit)
                             allObjects.Add(gameManager.NPCsList[i].gameObject);
                         break;
                 }
@@ -268,6 +456,7 @@ public class NPC : MonoBehaviour
         return foundObject;
     }
 
+    // Returns the distance between this object and another
     public float getDistance(GameObject other)
     {
         Vector3 otherLocation = other.transform.position;
@@ -276,13 +465,19 @@ public class NPC : MonoBehaviour
         return distanceTotal;
     }
 
+    // Triggers and interaction between the NPC and a target
+    // Will not work if the nearest instance of that target is more than five steps away
     public void interact(TargetObject target)
     {
+        if (getDistance(findNearest(target)) > (getSpeed() * 5))
+            return;
+
         interacting = true;
         stopInteractingAt = timer + getActionDelay();
         interactionType = target;
     }
 
+    // Finds the nearest instance of a target and automatically interacts upon reaching it
     public void findAndInteract(TargetObject target)
     {
         GameObject toFind = findNearest(target);
@@ -295,11 +490,45 @@ public class NPC : MonoBehaviour
         }
     }
 
+    // Immediately kill this npc
+    public void kill()
+    {
+        if (type == NPCType.Villager)
+        {
+            gameManager.NPCsList.Remove(this);
+            gameManager.population--;
+            Destroy(gameObject);
+        }
+        else
+        {
+            gameManager.banditsList.Remove(this);
+            Destroy(gameObject);
+        }
+    }
+
+    // Used by bandits
+    // Walk to the edge of the map and despawn
+    public void leaveVillage()
+    {
+        Vector2 placeToLeave = new Vector2(0, 0);
+
+        if (transform.position.y < 0) placeToLeave.y = gameManager.bottomY;
+        else placeToLeave.y = gameManager.topY;
+
+        if (transform.position.x < 0) placeToLeave.x = gameManager.leftX;
+        else placeToLeave.x = gameManager.rightX;
+
+        MoveTo(placeToLeave);
+    }
+
+    // Set what the NPC wants to steal right now
+    public void wantToSteal(StealTarget target) { currentStealTarget = target; }
+
     // Change the current NPC type
     private void setType(NPCType newType) { type = newType; }
 
     // Use these to access necessary variables from gameManager
-    public float getMaxTargetDistance() { return settings.maxTargetDistance; }
+    public int getMaxTargetDistance() { return settings.maxTargetDistanceSteps; }
     public int getFoodGeneration() { return settings.foodGeneration; }
     public int getMoneyGeneration() { return settings.moneyGeneration; }
     public int getPopulationIncrease() { return settings.populationIncrease; }

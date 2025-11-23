@@ -156,6 +156,25 @@ MonoBehaviour:
   cAxe: 0
   cPick: 0
   cHammer: 0
+  tutorialEnabled: 1
+  maxTargetDistanceSteps: 100
+  foodGeneration: 1
+  moneyGeneration: 1
+  populationIncrease: 1
+  vFoodCap: 5
+  vMoneyCap: 5
+  vPopulationCap: 3
+  actionDelay: 2
+  vSpeed: 0.0564
+  bFoodCap: 3
+  bWoodCap: 4
+  bStoneCap: 3
+  bMoneyCap: 3
+  buildingsCap: 1
+  buildingDestructionTime: 5
+  buildingDestructionThreshhold: 3
+  destructionWaitTime: 15
+  bSpeed: 0.0564
 --- !u!4 &130040535
 Transform:
   m_ObjectHideFlags: 0

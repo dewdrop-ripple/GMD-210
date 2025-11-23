@@ -1256,7 +1256,7 @@ ScriptsOnlyBuild:
     className: StateMachine
   - hash:
       serializedVersion: 2
-      Hash: 7882e4a2b493e930600488e5e7fd1113
+      Hash: f450816e43d2e3a2b8573855ab3b42b3
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: NPC
@@ -1346,7 +1346,7 @@ ScriptsOnlyBuild:
     className: MacroScriptableObject
   - hash:
       serializedVersion: 2
-      Hash: 374ebf126aff1d13756e4f50c534d7ba
+      Hash: 1c02a009e82bc341d1b997e19a355c85
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: GameManager
@@ -1496,7 +1496,7 @@ ScriptsOnlyBuild:
     className: ProbeVolume
   - hash:
       serializedVersion: 2
-      Hash: 00ed81df6db344d489ea4e4334024751
+      Hash: be5c05e7c1398161232e7d1806674efb
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: Settings

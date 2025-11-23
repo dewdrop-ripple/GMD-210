@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 public class Settings : MonoBehaviour
@@ -23,7 +24,7 @@ public class Settings : MonoBehaviour
     public bool tutorialEnabled = true;
 
     // Villager data
-    public float maxTargetDistance = 5.0f;
+    public int maxTargetDistanceSteps = 100;
     public int foodGeneration = 1;
     public int moneyGeneration = 1;
     public int populationIncrease = 1;
@@ -31,7 +32,7 @@ public class Settings : MonoBehaviour
     public int vMoneyCap = 5;
     public int vPopulationCap = 3;
     public float actionDelay = 2.0f;
-    public float vSpeed = 100.0f;
+    public float vSpeed = 0.01f; //(float)Screen.width / 50000;
 
     // Bandit Data
     public int bFoodCap = 3; // The amount of food 1 bandit can steal
@@ -42,7 +43,7 @@ public class Settings : MonoBehaviour
     public float buildingDestructionTime = 5.0f; // How long it takes to destroy a building
     public int buildingDestructionThreshhold = 3; // How many bandits are needed to destroy a building
     public float destructionWaitTime = 15.0f; // How long a bandit will wait for other bandits to come help destroy a building 
-    public float bSpeed = 100.0f;
+    public float bSpeed = 0.01f; //(float)Screen.width / 50000;
 
     // Load delay
     float timer = 0f;
@@ -51,6 +52,28 @@ public class Settings : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
+
+        difficultyScaler = 1.25f;
+
+        maxTargetDistanceSteps = 200;
+        foodGeneration = 1;
+        moneyGeneration = 1;
+        populationIncrease = 1;
+        vFoodCap = 5;
+        vMoneyCap = 5;
+        vPopulationCap = 1;
+        actionDelay = 2.0f;
+        vSpeed = 0.01f;
+
+        bFoodCap = 3; 
+        bWoodCap = 3; 
+        bStoneCap = 3;
+        bMoneyCap = 3;
+        buildingsCap = 1;
+        buildingDestructionTime = 5.0f;
+        buildingDestructionThreshhold = 3;
+        destructionWaitTime = 15.0f;
+        bSpeed = 0.01f;
     }
 
     private void Update()

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6716098998372221003}
   - component: {fileID: -1671812439957291890}
   m_Layer: 0
-  m_Name: Villager
+  m_Name: NPC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,6 +134,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Villager
   gameManager: {fileID: 0}
   settings: {fileID: 0}
+  isHiding: 0
+  colliderSystem: {fileID: -1671812439957291890}
+  renderSystem: {fileID: 768762090384885324}
+  villager: {fileID: -203661239432679192, guid: 875a0493b39519d428122fdc4d8989c4, type: 3}
+  bandit: {fileID: -1897662275881480441, guid: a1f4dcff7ff9e1d40bea5a352dc3c38a, type: 3}
 --- !u!58 &-1671812439957291890
 CircleCollider2D:
   m_ObjectHideFlags: 0
