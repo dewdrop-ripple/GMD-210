@@ -141,6 +141,12 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
+    - UnityEngine.UI.Mask
+    - UnityEngine.UI.ScrollRect
+    - UnityEngine.UI.Scrollbar
+    - UnityEngine.UI.Slider
+    - UnityEngine.UI.Toggle
+    - UnityEngine.UI.VerticalLayoutGroup
   serializedClasses:
     Unity.InputSystem:
     - UnityEngine.InputSystem.InputAction
@@ -254,6 +260,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Navigation
     - UnityEngine.UI.ScrollRect/ScrollRectEvent
     - UnityEngine.UI.Scrollbar/ScrollEvent
+    - UnityEngine.UI.Slider/SliderEvent
     - UnityEngine.UI.SpriteState
     - UnityEngine.UI.Toggle/ToggleEvent
   methodsToPreserve:
@@ -418,7 +425,7 @@ ScriptsOnlyBuild:
     methodName: changeDifficulty
   - assembly: Assembly-CSharp
     fullTypeName: SettingsButtons
-    methodName: changeTutorial
+    methodName: resetToDefault
   - assembly: Assembly-CSharp
     fullTypeName: MenuButtons
     methodName: GoToScene
@@ -734,6 +741,8 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 16084}
     - Class: 114
+      Script: {instanceID: 16742}
+    - Class: 114
       Script: {instanceID: 16940}
     - Class: 114
       Script: {instanceID: 17456}
@@ -742,11 +751,17 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 19848}
     - Class: 114
+      Script: {instanceID: 19858}
+    - Class: 114
       Script: {instanceID: 20982}
+    - Class: 114
+      Script: {instanceID: 22108}
     - Class: 114
       Script: {instanceID: 22708}
     - Class: 114
       Script: {instanceID: 24284}
+    - Class: 114
+      Script: {instanceID: 26218}
     - Class: 114
       Script: {instanceID: 26800}
     - Class: 114
@@ -754,7 +769,11 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 26910}
     - Class: 114
+      Script: {instanceID: 27638}
+    - Class: 114
       Script: {instanceID: 27726}
+    - Class: 114
+      Script: {instanceID: 28148}
     - Class: 114
       Script: {instanceID: 28168}
     - Class: 115
@@ -2474,7 +2493,7 @@ ScriptsOnlyBuild:
     className: Toggle
   - hash:
       serializedVersion: 2
-      Hash: 2882b4ffd23a0a5fe68ad29551fcb6cd
+      Hash: 50aa12d03cc34ee1fee6b8d27f705aea
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: SettingsButtons

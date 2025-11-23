@@ -274,6 +274,7 @@ public class Building : MonoBehaviour
                 waitText.text = "Are you sure you want to destroy this Small Cottage?";
                 //spriteColor = new Color(1.0f, 0.75f, 0.0f);
                 size = new Vector2(3, 3);
+                rendererSystem.sortingLayerName = "StepUnder";
                 break;
 
             case 1:
@@ -283,6 +284,7 @@ public class Building : MonoBehaviour
                 waitText.text = "Are you sure you want to destroy this Family Home?";
                 //spriteColor = new Color(0.75f, 0.5f, 0.0f);
                 size = new Vector2(4, 4);
+                rendererSystem.sortingLayerName = "StepUnder";
                 break;
 
             case 2:
@@ -292,6 +294,7 @@ public class Building : MonoBehaviour
                 waitText.text = "Are you sure you want to destroy this Appartment Complex?";
                 //spriteColor = new Color(0.5f, 0.25f, 0.0f);
                 size = new Vector2(5, 5);
+                rendererSystem.sortingLayerName = "StepUnder";
                 break;
 
             case 3:
@@ -301,6 +304,7 @@ public class Building : MonoBehaviour
                 waitText.text = "Are you sure you want to destroy this Garden?";
                 //spriteColor = new Color(.5f, 1f, .5f);
                 size = new Vector2(4, 4);
+                rendererSystem.sortingLayerName = "StepOver";
                 break;
 
             case 4:
@@ -310,6 +314,7 @@ public class Building : MonoBehaviour
                 waitText.text = "Are you sure you want to destroy this Local Farm?";
                 //spriteColor = new Color(.25f, .75f, .25f);
                 size = new Vector2(5, 5);
+                rendererSystem.sortingLayerName = "StepOver";
                 break;
 
             case 5:
@@ -319,6 +324,7 @@ public class Building : MonoBehaviour
                 waitText.text = "Are you sure you want to destroy this Industrial Farm?";
                 //spriteColor = new Color(0f, .5f, 0f);
                 size = new Vector2(6, 6);
+                rendererSystem.sortingLayerName = "StepOver";
                 break;
 
             case 6:
@@ -328,6 +334,7 @@ public class Building : MonoBehaviour
                 waitText.text = "Are you sure you want to destroy this Trade Post?";
                 //spriteColor = new Color(1f, .5f, .5f);
                 size = new Vector2(2, 1);
+                rendererSystem.sortingLayerName = "StepUnder";
                 break;
 
             case 7:
@@ -337,6 +344,7 @@ public class Building : MonoBehaviour
                 waitText.text = "Are you sure you want to destroy this Local Market?";
                 //spriteColor = new Color(.75f, .25f, .25f);
                 size = new Vector2(3, 2);
+                rendererSystem.sortingLayerName = "StepUnder";
                 break;
 
             case 8:
@@ -346,6 +354,7 @@ public class Building : MonoBehaviour
                 waitText.text = "Are you sure you want to destroy this Bank?";
                 //spriteColor = new Color(.5f, 0f, 0f);
                 size = new Vector2(4, 3);
+                rendererSystem.sortingLayerName = "StepUnder";
                 break;
 
             case 9:
@@ -355,6 +364,7 @@ public class Building : MonoBehaviour
                 waitText.text = "Are you sure you want to destroy this Archer Tower?";
                 //spriteColor = new Color(.75f, .75f, .75f);
                 size = new Vector2(1, 1);
+                rendererSystem.sortingLayerName = "StepUnder";
                 break;
 
             case 10:
@@ -364,6 +374,7 @@ public class Building : MonoBehaviour
                 waitText.text = "Are you sure you want to destroy this Army Barrack?";
                 //spriteColor = new Color(.5f, .5f, .5f);
                 size = new Vector2(2, 2);
+                rendererSystem.sortingLayerName = "StepUnder";
                 break;
 
             case 11:
@@ -373,6 +384,7 @@ public class Building : MonoBehaviour
                 waitText.text = "Are you sure you want to destroy this Keep?";
                 //spriteColor = new Color(.25f, .25f, .25f);
                 size = new Vector2(3, 3);
+                rendererSystem.sortingLayerName = "StepUnder";
                 break;
         }
     }

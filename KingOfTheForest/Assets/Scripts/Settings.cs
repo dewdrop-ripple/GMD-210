@@ -52,28 +52,6 @@ public class Settings : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
-
-        difficultyScaler = 1.25f;
-
-        maxTargetDistanceSteps = 200;
-        foodGeneration = 1;
-        moneyGeneration = 1;
-        populationIncrease = 1;
-        vFoodCap = 5;
-        vMoneyCap = 5;
-        vPopulationCap = 1;
-        actionDelay = 2.0f;
-        vSpeed = 0.01f;
-
-        bFoodCap = 3; 
-        bWoodCap = 3; 
-        bStoneCap = 3;
-        bMoneyCap = 3;
-        buildingsCap = 1;
-        buildingDestructionTime = 5.0f;
-        buildingDestructionThreshhold = 3;
-        destructionWaitTime = 15.0f;
-        bSpeed = 0.01f;
     }
 
     private void Update()

@@ -258,6 +258,7 @@ public class Resource : MonoBehaviour
                 //spriteColor = new Color(.5f, 1f, .5f);
                 size = new Vector2(1, 1);
                 foodCost = 1;
+                rendererSystem.sortingLayerName = "StepUnder";
                 break;
 
             case 1:
@@ -268,6 +269,7 @@ public class Resource : MonoBehaviour
                 //spriteColor = new Color(.25f, .75f, .25f);
                 size = new Vector2(2, 2);
                 foodCost = 3;
+                rendererSystem.sortingLayerName = "StepUnder";
                 break;
 
             case 2:
@@ -278,6 +280,7 @@ public class Resource : MonoBehaviour
                 //spriteColor = new Color(0f, .5f, 0f);
                 size = new Vector2(3, 3);
                 foodCost = 5;
+                rendererSystem.sortingLayerName = "StepUnder";
                 break;
 
             case 3:
@@ -288,6 +291,7 @@ public class Resource : MonoBehaviour
                 //spriteColor = new Color(.75f, .75f, .75f);
                 size = new Vector2(1, 2);
                 foodCost = 1;
+                rendererSystem.sortingLayerName = "StepOver";
                 break;
 
             case 4:
@@ -298,6 +302,7 @@ public class Resource : MonoBehaviour
                 //spriteColor = new Color(.5f, .5f, .5f);
                 size = new Vector2(2, 3);
                 foodCost = 3;
+                rendererSystem.sortingLayerName = "StepOver";
                 break;
 
             case 5:
@@ -308,6 +313,7 @@ public class Resource : MonoBehaviour
                 //spriteColor = new Color(.25f, .25f, .25f);
                 size = new Vector2(3, 4);
                 foodCost = 5;
+                rendererSystem.sortingLayerName = "StepOver";
                 break;
         }
     }

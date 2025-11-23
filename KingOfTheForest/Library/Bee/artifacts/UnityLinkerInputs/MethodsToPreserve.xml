@@ -51,7 +51,7 @@
 		</type>
 		<type fullname="SettingsButtons">
 			<method name="changeDifficulty"/>
-			<method name="changeTutorial"/>
+			<method name="resetToDefault"/>
 		</type>
 	</assembly>
 	<assembly fullname="Unity.RenderPipelines.Core.Runtime" ignoreIfMissing="1">

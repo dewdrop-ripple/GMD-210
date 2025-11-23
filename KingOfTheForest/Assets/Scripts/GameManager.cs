@@ -242,6 +242,7 @@ public class GameManager : MonoBehaviour
         if (NPCsList.Count < population / 4 && NPCsList.Count < 25 && isDay)
         {
             GameObject v = Instantiate(villager);
+            v.GetComponent<SpriteRenderer>().sortingLayerName = "NPC"; 
             NPCsList.Add(v.GetComponent<NPC>());
         }
 

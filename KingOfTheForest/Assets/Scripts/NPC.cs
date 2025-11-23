@@ -338,6 +338,9 @@ public class NPC : MonoBehaviour
         Vector2 movement = new Vector2((targetVector.x / distanceTotal) * getSpeed(), (targetVector.y / distanceTotal) * getSpeed());
         transform.position = new Vector2(transform.position.x + movement.x, transform.position.y + movement.y);
         //Debug.Log("Step taken - New location: " + transform.position);
+
+        int angle = (int) ((180 / Mathf.PI) * Mathf.Atan2 (movement.x, movement.y)) + 90;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
     // Move to a random location in range

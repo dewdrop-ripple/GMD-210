@@ -41,6 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: StepOver
+    uniqueID: 275049003
+    locked: 0
+  - name: NPC
+    uniqueID: 4271774573
+    locked: 0
+  - name: StepUnder
+    uniqueID: 476886651
+    locked: 0
   - name: Vingette
     uniqueID: 2624624821
     locked: 0
