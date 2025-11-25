@@ -33,10 +33,6 @@ public class Villager : MonoBehaviour
     public Collider2D colliderSystem;
     public SpriteRenderer renderSystem;
 
-    // Sprites
-    public Sprite villager;
-    public Sprite bandit;
-
     // Set base data
     private void Awake()
     {
