@@ -359,6 +359,7 @@
 -analyzer:"C:/Program Files/Unity/Hub/Editor/6000.2.8f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 -analyzer:"C:/Program Files/Unity/Hub/Editor/6000.2.8f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.UIToolkit.SourceGenerator.dll"
 "Assets/Scripts/Advisor.cs"
+"Assets/Scripts/Bandit.cs"
 "Assets/Scripts/Building.cs"
 "Assets/Scripts/BuildMenu.cs"
 "Assets/Scripts/CameraController.cs"
@@ -366,11 +367,11 @@
 "Assets/Scripts/GameManager.cs"
 "Assets/Scripts/HUD.cs"
 "Assets/Scripts/MenuButtons.cs"
-"Assets/Scripts/NPC.cs"
 "Assets/Scripts/Resource.cs"
 "Assets/Scripts/Settings.cs"
 "Assets/Scripts/SettingsButtons.cs"
 "Assets/Scripts/TextBox.cs"
+"Assets/Scripts/Villager.cs"
 -langversion:9.0
 /deterministic
 /optimize+

@@ -66,11 +66,12 @@
     <Compile Include="Assets\Scripts\BuildMenu.cs" />
     <Compile Include="Assets\Scripts\Resource.cs" />
     <Compile Include="Assets\Scripts\FadeFromBlack.cs" />
-    <Compile Include="Assets\Scripts\NPC.cs" />
+    <Compile Include="Assets\Scripts\Villager.cs" />
     <Compile Include="Assets\Scripts\Settings.cs" />
     <Compile Include="Assets\Scripts\Advisor.cs" />
     <Compile Include="Assets\Scripts\SettingsButtons.cs" />
     <Compile Include="Assets\Scripts\MenuButtons.cs" />
+    <Compile Include="Assets\Scripts\Bandit.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\HUD.cs" />

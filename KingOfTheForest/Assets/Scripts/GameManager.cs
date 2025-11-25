@@ -5,6 +5,36 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+// Used to declare what object an NPC is currently trying to interact with
+public enum TargetObject
+{
+    None,
+    House,
+    TradePost,
+    Defense,
+    Farm,
+    Villager,
+    Bandit,
+    BuildingToDestroy
+}
+
+// Used to declare what kind of NPC this is
+public enum NPCType
+{
+    None,
+    Villager,
+    Bandit
+}
+
+// Used to declare what a bandit is currently trying to steal
+public enum StealTarget
+{
+    None,
+    Wood,
+    Stone,
+    Food,
+    Money
+}
 public class GameManager : MonoBehaviour
 {
     // Player Stats
@@ -59,8 +89,8 @@ public class GameManager : MonoBehaviour
     // Lists of all objects
     public List<Building> buildingsList;
     public List<Resource> resourceList;
-    public List<NPC> NPCsList;
-    public List<NPC> banditsList;
+    public List<Villager> NPCsList;
+    public List<Bandit> banditsList;
 
     // So that I can quickly adjust building stats for testing purposes
     private const int SMALL_HOUSE_CAPACITY = 5;
@@ -243,7 +273,7 @@ public class GameManager : MonoBehaviour
         {
             GameObject v = Instantiate(villager);
             v.GetComponent<SpriteRenderer>().sortingLayerName = "NPC"; 
-            NPCsList.Add(v.GetComponent<NPC>());
+            NPCsList.Add(v.GetComponent<Villager>());
         }
 
         // Cheats

@@ -516,10 +516,10 @@ RectTransform:
   - {fileID: 886316784}
   m_Father: {fileID: 2120494034}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 3.3000488, y: 19.839966}
-  m_SizeDelta: {x: 86.44946, y: 215.9029}
+  m_SizeDelta: {x: 1166.4495, y: 215.9029}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &86320839
 MonoBehaviour:
@@ -14804,6 +14804,10 @@ PrefabInstance:
       propertyPath: resource
       value: 
       objectReference: {fileID: 6344319906926876570, guid: 8ca45224ffada454388a4572e3d16dcc, type: 3}
+    - target: {fileID: 1402177541705663479, guid: 20a9ed205b6e23f4ca9e055f5f2271bc, type: 3}
+      propertyPath: villager
+      value: 
+      objectReference: {fileID: 5920569571292057837, guid: e8fc47b87795ffe40aa6b16586de7741, type: 3}
     - target: {fileID: 1402177541705663479, guid: 20a9ed205b6e23f4ca9e055f5f2271bc, type: 3}
       propertyPath: vingette
       value: 
