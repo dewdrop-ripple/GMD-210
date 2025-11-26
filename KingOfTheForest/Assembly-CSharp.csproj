@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\Resource.cs" />
     <Compile Include="Assets\Scripts\FadeFromBlack.cs" />
     <Compile Include="Assets\Scripts\Villager.cs" />
+    <Compile Include="Assets\Scripts\BehaviorTree.cs" />
     <Compile Include="Assets\Scripts\Settings.cs" />
     <Compile Include="Assets\Scripts\Advisor.cs" />
     <Compile Include="Assets\Scripts\SettingsButtons.cs" />

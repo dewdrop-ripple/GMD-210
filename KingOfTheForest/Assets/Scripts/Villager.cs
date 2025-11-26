@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BehaviorTreeLib;
 using UnityEngine;
 
 public class Villager : MonoBehaviour
@@ -33,6 +34,101 @@ public class Villager : MonoBehaviour
     public Collider2D colliderSystem;
     public SpriteRenderer renderSystem;
 
+    // variables for Behavior Trees
+    BehaviorTree tree;
+
+    [SerializeField] Vector2 destination;
+    bool hasPath = false;
+
+    // Strategies
+
+    //public class MoveToLocation : IStrategy {
+    //    readonly Vector2 location;
+    //    Transform villager;
+    //    readonly float speed;
+    //    public MoveToLocation(Vector2 location, Transform villager, float speed) {
+    //        this.location = location;
+    //        this.villager = villager;
+    //        this.speed = speed;
+    //    }
+    //
+    //    public Node.Status Process() {
+    //        if (Vector3.Distance(location, villager.position) < 0.1) {
+    //            Debug.Log("Success");
+    //
+    //            return Node.Status.SUCCESS;
+    //        }
+    //
+    //        Vector2 targetVector = new Vector2(location.x - villager.position.x, location.y - villager.position.y);
+    //        float distanceTotal = Mathf.Sqrt(targetVector.x * targetVector.x + targetVector.y * targetVector.y);
+    //
+    //        Vector2 movement = new Vector2((targetVector.x / distanceTotal) * speed, (targetVector.y / distanceTotal) * speed);
+    //        villager.position = new Vector2(villager.position.x + movement.x, villager.position.y + movement.y);
+    //
+    //        int angle = (int)((180 / Mathf.PI) * Mathf.Atan2(movement.x, movement.y)) + 90;
+    //        villager.rotation = Quaternion.Euler(0, 0, angle);
+    //
+    //        Debug.Log(location);
+    //        return Node.Status.RUNNING;
+    //    }
+    //
+    //    public void Reset() { }
+    //}
+    //
+    //public class MoveToRandomLocation : IStrategy {
+    //    Transform villager;
+    //    readonly float speed;
+    //    readonly float maxDistance;
+    //    readonly float xBound;
+    //    readonly float yBound;
+    //    bool locationMade = false;
+    //    public MoveToRandomLocation(Transform villager, float speed, float maxDistance, float xBound, float yBound) {
+    //        this.villager = villager;
+    //        this.speed = speed;
+    //        this.maxDistance = maxDistance;
+    //        this.xBound = xBound;
+    //        this.yBound = yBound;
+    //    }
+    //
+    //    public Node.Status Process() {
+    //        Vector2 target = new Vector2(0f, 0f);
+    //        if (!locationMade) {
+    //            locationMade = true;
+    //            float xLoc = Random.Range(-(float)maxDistance, (float)maxDistance) + villager.position.x;
+    //            float yLoc = Random.Range(-(float)maxDistance, (float)maxDistance) + villager.position.y;
+    //
+    //            if (xLoc > xBound) { xLoc = xBound; }
+    //            if (xLoc < -xBound) { xLoc = -xBound; }
+    //            if (yLoc > yBound) { yLoc = yBound; }
+    //            if (yLoc < -yBound) { yLoc = -yBound; }
+    //
+    //            target = new Vector2(xLoc, yLoc);
+    //        }
+    //        Debug.Log(target);
+    //        Debug.Log(Vector3.Distance(target, villager.position));
+    //
+    //        if (Vector3.Distance(new Vector3(target.x, target.y, villager.position.z), villager.position) < 0.1) {
+    //            Debug.Log("Success");
+    //
+    //            locationMade = false;
+    //            return Node.Status.SUCCESS;
+    //        }
+    //
+    //        Vector2 targetVector = new Vector2(target.x - villager.position.x, target.y - villager.position.y);
+    //        float distanceTotal = Mathf.Sqrt(targetVector.x * targetVector.x + targetVector.y * targetVector.y);
+    //
+    //        Vector2 movement = new Vector2((targetVector.x / distanceTotal) * speed, (targetVector.y / distanceTotal) * speed);
+    //        villager.position = new Vector2(villager.position.x + movement.x, villager.position.y + movement.y);
+    //
+    //        int angle = (int)((180 / Mathf.PI) * Mathf.Atan2(movement.x, movement.y)) + 90;
+    //        villager.rotation = Quaternion.Euler(0, 0, angle);
+    //        
+    //        return Node.Status.RUNNING;
+    //    }
+    //
+    //    public void Reset() { }
+    //}
+    
     // Set base data
     private void Awake()
     {
@@ -43,12 +139,27 @@ public class Villager : MonoBehaviour
         // Set size and location
         transform.localScale = new Vector3(gameManager.scaleFactor, gameManager.scaleFactor, 1.0f);
         baseSize = transform.localScale;
+
+        // build tree
+        tree = new BehaviorTree("Villager");
+
+        Leaf moveToLocation = new Leaf("MoveToLocation", new Move(() => MoveToward(destination), destination, transform));
+
+        tree.AddChild(moveToLocation);
     }
 
     private void Update()
     {
         // Keep track of time
         timer += Time.deltaTime;
+
+        // process
+        if (!hasPath) {
+            hasPath = true;
+            destination = GetRandomLocation();
+            Debug.Log(destination);
+        }
+        tree.Process();
 
         // Reset necessary data during the oposite time
         if (!gameManager.isDay)
@@ -145,13 +256,7 @@ public class Villager : MonoBehaviour
 
     // Accepts a give location and tells the NPC to move to that location
     // If any coordinates are out of bounds it will move them in bounds
-    public void MoveToward(Vector2 location)
-    {
-        if (location.x > gameManager.rightX) { location.x = gameManager.rightX; }
-        if (location.x < gameManager.leftX) { location.x = gameManager.leftX; }
-        if (location.y > gameManager.topY) { location.y = gameManager.topY; }
-        if (location.y < gameManager.bottomY) { location.y = gameManager.bottomY; }
-
+    public void MoveToward(Vector2 location) {
         Vector2 targetVector = new Vector2(location.x - transform.position.x, location.y - transform.position.y);
         float distanceTotal = Mathf.Sqrt(targetVector.x * targetVector.x + targetVector.y * targetVector.y);
 
@@ -160,6 +265,49 @@ public class Villager : MonoBehaviour
 
         int angle = (int)((180 / Mathf.PI) * Mathf.Atan2(movement.x, movement.y)) + 90;
         transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        if (Vector2.Distance(transform.position, location) < 0.1) {
+            transform.position = new Vector3(location.x, location.y, transform.position.z);
+            hasPath = false;
+        }
+    }
+
+    //public void MoveToward(Vector2 target) {
+    //    StartCoroutine(MoveTowardOverTime(target));
+    //}
+    //
+    //public System.Collections.IEnumerator MoveTowardOverTime(Vector2 location)
+    //{
+    //    while (Vector2.Distance(transform.position, location) > 0.1) {// while not there yet
+    //        Vector2 targetVector = new Vector2(location.x - transform.position.x, location.y - transform.position.y);
+    //        float distanceTotal = Mathf.Sqrt(targetVector.x * targetVector.x + targetVector.y * targetVector.y);
+    //
+    //        Vector2 movement = new Vector2((targetVector.x / distanceTotal) * getSpeed(), (targetVector.y / distanceTotal) * getSpeed());
+    //        transform.position = new Vector2(transform.position.x + movement.x, transform.position.y + movement.y);
+    //
+    //        int angle = (int)((180 / Mathf.PI) * Mathf.Atan2(movement.x, movement.y)) + 90;
+    //        transform.rotation = Quaternion.Euler(0, 0, angle);
+    //
+    //        yield return null;
+    //    }
+    //
+    //    Debug.Log("Done Moving");
+    //    transform.position = new Vector3(location.x, location.y, transform.position.z);
+    //
+    //    hasPath = false;
+    //}
+
+    public Vector2 GetRandomLocation() {
+        float xLoc = Random.Range(-(float)getMaxTargetDistance() * getSpeed(), (float)getMaxTargetDistance() * getSpeed()) + transform.position.x;
+        float yLoc = Random.Range(-(float)getMaxTargetDistance() * getSpeed(), (float)getMaxTargetDistance() * getSpeed()) + transform.position.y;
+
+        // keeps it inbound
+        if (xLoc > gameManager.rightX) { xLoc = gameManager.rightX; }
+        if (xLoc < -gameManager.rightX) { xLoc = -gameManager.rightX; }
+        if (yLoc > gameManager.topY) { yLoc = gameManager.topY; }
+        if (yLoc < -gameManager.topY) { yLoc = -gameManager.topY; }
+
+        return new Vector2(xLoc, yLoc);
     }
 
     // Returns a reference to the nearest object of a given type
