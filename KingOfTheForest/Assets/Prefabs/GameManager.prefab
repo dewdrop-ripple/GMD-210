@@ -65,13 +65,16 @@ MonoBehaviour:
   bannedFromMining: 0
   canScroll: 1
   resource: {fileID: 6344319906926876570, guid: 8ca45224ffada454388a4572e3d16dcc, type: 3}
-  villager: {fileID: 5920569571292057837, guid: f1dfc2844db702247a9e96c853249e58, type: 3}
+  villager: {fileID: 5920569571292057837, guid: e8fc47b87795ffe40aa6b16586de7741, type: 3}
   startingHouse: {fileID: 0}
   advisor: {fileID: 0}
   buildings: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   buildingsList: []
   resourceList: []
   NPCsList: []
+  banditsList: []
+  attackStrength: 0
+  cheats: 0
   nightOverlay: {fileID: 0}
   nText: {fileID: 0}
   nPeople: {fileID: 0}

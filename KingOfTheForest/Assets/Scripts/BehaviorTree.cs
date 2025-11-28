@@ -179,7 +179,16 @@ namespace BehaviorTreeLib {
             this.predicate = predicate;
         }
 
-        public Node.Status Process() => predicate() ? Node.Status.SUCCESS : Node.Status.FAILURE;
+        public Node.Status Process() {
+            bool result = predicate();
+            if (result) {
+                Debug.Log("Condition Passed!");
+                return Node.Status.SUCCESS;
+            } else {
+                Debug.Log("Condition Failed...");
+                return Node.Status.FAILURE;
+            }
+        }
     }
 
     public class ActionStrategy : IStrategy {
@@ -197,19 +206,39 @@ namespace BehaviorTreeLib {
     }
 
     public class Move : IStrategy {
-        readonly Action doSomething;
+        readonly Action moveToward;
         readonly Vector2 location;
         readonly Transform npc;
 
-        public Move(Action doSomething, Vector2 location, Transform npc) {
-            this.doSomething = doSomething;
+        public Move(Action moveToward, Vector2 location, Transform npc) {
+            this.moveToward = moveToward;
             this.location = location;
             this.npc = npc;
         }
 
         public Node.Status Process() {
-            doSomething();
+            moveToward();
             if (Vector2.Distance(location, npc.position) > 0.1f) {
+                return Node.Status.RUNNING;
+            }
+            Debug.Log("arrived at location"); // this never shows up thats the problem
+            return Node.Status.SUCCESS;
+        }
+    }
+
+    public class InteractWithObject : IStrategy {
+        readonly Action interact;
+        readonly int duration;
+        readonly int timeTaken;
+        public InteractWithObject(Action interact, int duration, int timeTaken) {
+            this.interact = interact;
+            this.duration = duration;
+            this.timeTaken = timeTaken;
+        }
+
+        public Node.Status Process() {
+            if (timeTaken < duration) {
+                interact();
                 return Node.Status.RUNNING;
             }
             return Node.Status.SUCCESS;
