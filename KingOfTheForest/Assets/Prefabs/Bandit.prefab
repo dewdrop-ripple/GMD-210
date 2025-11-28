@@ -168,3 +168,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3b73437b9f98544c91d2b44342af5a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bandit
+  gameManager: {fileID: 0}
+  settings: {fileID: 0}
+  isHiding: 0
+  colliderSystem: {fileID: 0}
+  renderSystem: {fileID: 768762090384885324}
+  villager: {fileID: 0}
+  bandit: {fileID: 0}
