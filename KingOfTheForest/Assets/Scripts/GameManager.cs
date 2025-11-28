@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
     // Game objects to access
     public GameObject resource;
     public GameObject villager;
+    public GameObject bandit;
     public Building startingHouse;
     public Advisor advisor;
 
@@ -146,6 +147,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI aMoney;
     public TextMeshProUGUI aBuildings;
 
+    // Night Fade
+    public Canvas nightFade;
+
     // "Pause" Menu
     public Canvas pauseOverlay;
 
@@ -219,6 +223,7 @@ public class GameManager : MonoBehaviour
         pauseOverlay.enabled = false;
         winScreen.enabled = false;
         loseScreen.enabled = false;
+        nightFade.enabled = false;
 
         // Start with 1 small house and nothing else
         buildings[0] = 1;
@@ -274,6 +279,11 @@ public class GameManager : MonoBehaviour
             GameObject v = Instantiate(villager);
             v.GetComponent<SpriteRenderer>().sortingLayerName = "NPC"; 
             NPCsList.Add(v.GetComponent<Villager>());
+        }
+
+        if (!isDay && banditsList.Count < 1)
+        {
+            StartNewDay();
         }
 
         // Cheats
@@ -409,7 +419,7 @@ public class GameManager : MonoBehaviour
     // Calculate nightly changes based on current stats
     public void NightlyResourceChange()
     {
-        nightOverlay.enabled = true;
+        //nightOverlay.enabled = true;
 
         // Check if player did nothing that day
         bool didNothing = true;
@@ -522,11 +532,16 @@ public class GameManager : MonoBehaviour
             lame = true;
         }
 
+        popChange /= 3;
+        moneyChange /= 3;
+        foodChange /= 3;    
+
         // Actually change stats
         food += foodChange;
         money += moneyChange;
         population += popChange;
 
+        /*
         if (population <= 3) { popTiny = true; }
 
         // Update text
@@ -549,6 +564,7 @@ public class GameManager : MonoBehaviour
         else if (goodMoney) { nText.SetText(nightTextOptions[1]); }
         else if (popGrowthSmall) { nText.SetText(nightTextOptions[4]); }
         else { nText.SetText(nightTextOptions[0]); }
+        */
     }
 
     // Calculate effects of attack based on current stats
@@ -611,6 +627,7 @@ public class GameManager : MonoBehaviour
 
         //Debug.Log("Attack Strength = ((" + population + " - (2.5 * " + defense + ") + (" + day + " / 3 ) + " + numBuildings + ") * " + ((Mathf.Cos(day + 3.14f) + 2) * 0.5) + " * " + settings.difficultyScaler + " * " + Mathf.Pow(attackStrength, 0.9f) + " = " + attackStrength);
 
+        /*
         // Variables
         int peopleKilled = 0;
         int woodStolen = 0;
@@ -758,6 +775,7 @@ public class GameManager : MonoBehaviour
         else if (scaredOff) { aText.SetText(attackTextOptions[1]); }
         else if (bigAttack) { aText.SetText(attackTextOptions[3]); }
         else { aText.SetText(attackTextOptions[2]); }
+        */
     }
 
     // Trade functions
@@ -881,7 +899,8 @@ public class GameManager : MonoBehaviour
     // Start end of day
     public void EndDay()
     {
-        nightScreenOpen = true;
+        //nightScreenOpen = true;
+        nightFade.enabled = true;
 
         // Reset text options
         isDay = false;
@@ -898,13 +917,25 @@ public class GameManager : MonoBehaviour
         overpopulated = false;
         lame = false;
 
-        // Start nightly resource change
+        Attack();
         NightlyResourceChange();
+
+        if (banditsList.Count < attackStrength / 4 && banditsList.Count < 25)
+        {
+            GameObject v = Instantiate(bandit);
+            v.GetComponent<SpriteRenderer>().sortingLayerName = "NPC";
+            banditsList.Add(v.GetComponent<Bandit>());
+        }
+
+        // Start nightly resource change
+        //NightlyResourceChange();
     }
 
     // New day
     public void StartNewDay()
     {
+        nightFade.enabled = false;
+
         // Has the player won or lost the game?
         int state = CheckWin();
 
@@ -927,13 +958,13 @@ public class GameManager : MonoBehaviour
         }
 
         // Close menu
-        attackOverlay.enabled = false;
+        //attackOverlay.enabled = false;
 
         // New day
         isDay = true;
         day++;
 
-        nightScreenOpen = false;
+        //nightScreenOpen = false;
     }
 
     // Start free play mode
