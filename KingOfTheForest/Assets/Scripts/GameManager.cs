@@ -920,7 +920,14 @@ public class GameManager : MonoBehaviour
         Attack();
         NightlyResourceChange();
 
-        if (banditsList.Count < attackStrength / 4 && banditsList.Count < 25)
+        for (int i = 0; i < 2; i++)
+        {
+            GameObject v = Instantiate(bandit);
+            v.GetComponent<SpriteRenderer>().sortingLayerName = "NPC";
+            banditsList.Add(v.GetComponent<Bandit>());
+        }
+
+        while (banditsList.Count < attackStrength / 4 && banditsList.Count < 25)
         {
             GameObject v = Instantiate(bandit);
             v.GetComponent<SpriteRenderer>().sortingLayerName = "NPC";
