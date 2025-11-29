@@ -37,15 +37,14 @@ public class Villager : MonoBehaviour
     // variables for Behavior Trees
     BehaviorTree tree;
 
-    Vector2 randomDestination;
-    Vector2 objectLocation;
+    Vector2 destination;
 
     bool hasPath = false;
     bool farmNearby = false;
     bool tradeNearby = false;
     bool villagerNearby = false;
 
-    int interactionTime = 100; // how long (in frames) it takes to interact
+    int interactionTime = 200; // how long (in frames) it takes to interact
     int interactionTimeTaken = 0;
     
     // Set base data
@@ -63,48 +62,48 @@ public class Villager : MonoBehaviour
         tree = new BehaviorTree("Villager");
 
         Selector timeOfDay = new Selector("Time");
-
+        
         Sequence day = new Sequence("Day");
         day.AddChild(new Leaf("IsDay", new Condition(() => currentlyDay())));
-
+        
         Sequence interactFarm = new Sequence("InteractFarm", 30);
         interactFarm.AddChild(new Leaf("FarmNearby", new Condition(() => farmNearby)));
-        //interactFarm.AddChild(new Leaf("FoodNotMaxed", new Condition(() => foodNotMaxed)));
-        interactFarm.AddChild(new Leaf("MoveToFarm", new Move(() => MoveToward(objectLocation), objectLocation, transform)));
-        interactFarm.AddChild(new Leaf("GetFood", new InteractWithObject(() => Gather(TargetObject.Farm, interactionTimeTaken), interactionTime, interactionTimeTaken)));
-        interactFarm.AddChild(new Leaf("LeaveFarm", new Move(() => MoveToward(randomDestination), randomDestination, transform)));
-
+        interactFarm.AddChild(new Leaf("FoodNotMaxed", new Condition(() => (foodCollected < getFoodCap()))));
+        interactFarm.AddChild(new Leaf("MoveToFarm", new Move(MoveToward, () => GetObjectLocation(TargetObject.Farm), transform)));
+        interactFarm.AddChild(new Leaf("GetFood", new InteractWithObject(() => Gather(TargetObject.Farm, interactionTime))));
+        interactFarm.AddChild(new Leaf("LeaveFarm", new Move(MoveToward, () => GetRandomLocation(transform, 2f), transform)));
+        
         Sequence interactTrade = new Sequence("InteractTrade", 20);
         interactTrade.AddChild(new Leaf("TradeNearby", new Condition(() => tradeNearby)));
         //interactTrade.AddChild(new Leaf("MoneyNotMaxed", new Condition(() => moneyNotMaxed)));
-        interactTrade.AddChild(new Leaf("MoveToTrade", new Move(() => MoveToward(objectLocation), objectLocation, transform)));
-        //interactTrade.AddChild(new Leaf("GetMoney", new Interact blah blah;
-        interactTrade.AddChild(new Leaf("LeaveTrade", new Move(() => MoveToward(randomDestination), randomDestination, transform)));
-
+        interactTrade.AddChild(new Leaf("MoveToTrade", new Move(MoveToward, () => GetObjectLocation(TargetObject.TradePost), transform)));
+        interactTrade.AddChild(new Leaf("GetMoney", new InteractWithObject(() => Gather(TargetObject.TradePost, interactionTime))));
+        interactTrade.AddChild(new Leaf("LeaveTrade", new Move(MoveToward, () => GetRandomLocation(transform, 2f), transform)));
+        
         Sequence interactVillager = new Sequence("InteractVillager", 10);
         interactVillager.AddChild(new Leaf("VillagerNearby", new Condition(() => villagerNearby)));
         //interactVillager.AddChild(new Leaf("PopNotMaxed", new Condition(() => popNotMaxed)));
-        interactVillager.AddChild(new Leaf("MoveToVillager", new Move(() => MoveToward(objectLocation), objectLocation, transform)));
-        //interactVillager.AddChild(new Leaf("GetPop", new Interact blah blah;
-        interactVillager.AddChild(new Leaf("LeaveVillager", new Move(() => MoveToward(randomDestination), randomDestination, transform)));
-
-        Leaf wander = new Leaf("Wander", new Move(() => MoveToward(randomDestination), randomDestination, transform));
-
+        interactVillager.AddChild(new Leaf("MoveToVillager", new Move(MoveToward, () => GetObjectLocation(TargetObject.Villager), transform)));
+        interactVillager.AddChild(new Leaf("GetVillager", new InteractWithObject(() => Gather(TargetObject.Villager, interactionTime))));
+        interactVillager.AddChild(new Leaf("LeaveVillager", new Move(MoveToward, () => GetRandomLocation(transform, 2f), transform)));
+        
+        Leaf wander = new Leaf("Wander", new Move(MoveToward, () => GetRandomLocation(transform, 1f), transform));
+        
         Selector dayRoutine = new Selector("DayRoutine");
         dayRoutine.AddChild(interactFarm);
         dayRoutine.AddChild(interactTrade);
         dayRoutine.AddChild(interactVillager);
         dayRoutine.AddChild(wander);
-
+        
         day.AddChild(dayRoutine);
-
+        
         Sequence night = new Sequence("Night");
         night.AddChild(new Leaf("IsNight", new Condition(() => !currentlyDay())));
         // night stuff here
-
+        
         timeOfDay.AddChild(day);
         timeOfDay.AddChild(night);
-
+        
         tree.AddChild(timeOfDay);
     }
 
@@ -113,27 +112,21 @@ public class Villager : MonoBehaviour
         // Keep track of time
         timer += Time.deltaTime;
 
-        // process
-        if (!hasPath) {
-            hasPath = true;
-            randomDestination = GetRandomLocation(transform, 1f);
-            if (checkForNearby(TargetObject.Villager)) {
-                villagerNearby = true;
-                objectLocation = findNearest(TargetObject.Villager).transform.position;
-                randomDestination = GetRandomLocation(findNearest(TargetObject.Villager).transform, 2f);
-            }
-            if (checkForNearby(TargetObject.TradePost)) {
-                tradeNearby = true;
-                objectLocation = findNearest(TargetObject.TradePost).transform.position;
-                randomDestination = GetRandomLocation(findNearest(TargetObject.TradePost).transform, 2f);
-            }
-            if (checkForNearby(TargetObject.Farm)) {
-                farmNearby = true;
-                objectLocation = findNearest(TargetObject.Farm).transform.position;
-                randomDestination = GetRandomLocation(findNearest(TargetObject.Farm).transform, 2f);
-            }
+        
+        if (checkForNearby(TargetObject.Villager)) {
+            villagerNearby = true;
         }
-        tree.Process();
+        if (checkForNearby(TargetObject.TradePost)) {
+            tradeNearby = true;
+        }
+        if (checkForNearby(TargetObject.Farm)) {
+            farmNearby = true;
+        }
+
+        Node.Status status = tree.Process();
+        if (status != Node.Status.RUNNING) {
+            tree.Reset();
+        }
 
         // Reset necessary data during the oposite time
         if (!gameManager.isDay)
@@ -228,35 +221,32 @@ public class Villager : MonoBehaviour
         }
     }
 
-    public void Gather(TargetObject target, int time) {
+    public bool Gather(TargetObject target, int time) {
         interactionTimeTaken++;
-        if (time > 0) {
-            return;
+        if (interactionTimeTaken < time) {
+            return false;
         }
         switch (target){
             case (TargetObject.Farm):
                 gameManager.food += getFoodGeneration();
+                foodCollected += getFoodGeneration();
                 break;
             case (TargetObject.TradePost):
                 gameManager.money += getMoneyGeneration();
+                moneyCollected += getFoodGeneration();
                 break;
             case (TargetObject.Villager):
                 gameManager.population += getPopulationIncrease();
+                peopleMade += getFoodGeneration();
                 break;
         }
+        interactionTimeTaken = 0;
+        return true;
     }
 
     // Accepts a give location and tells the NPC to move to that location
     // If any coordinates are out of bounds it will move them in bounds
     public void MoveToward(Vector2 location) {
-        if (Vector2.Distance(transform.position, location) < 0.1) {
-            transform.position = new Vector3(location.x, location.y, transform.position.z);
-            hasPath = false;
-            farmNearby = false;
-            tradeNearby = false;
-            villagerNearby = false;
-            return;
-        }
 
         interactionTimeTaken = 0;
         Vector2 targetVector = new Vector2(location.x - transform.position.x, location.y - transform.position.y);
@@ -268,10 +258,20 @@ public class Villager : MonoBehaviour
         int angle = (int)((180 / Mathf.PI) * Mathf.Atan2(movement.x, movement.y)) + 90;
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
+        if (Vector2.Distance(transform.position, location) < 0.1) {
+            transform.position = new Vector3(location.x, location.y, transform.position.z);
+            hasPath = false;
+            farmNearby = false;
+            tradeNearby = false;
+            villagerNearby = false;
+        }
     }
 
     // gets a random location within villager's range
     public Vector2 GetRandomLocation(Transform origin, float distanceModifier) {
+        if (hasPath) {
+            return destination;
+        }
         float xPos = Random.Range(-(float)getMaxTargetDistance() * getSpeed() * distanceModifier, (float)getMaxTargetDistance() * getSpeed() * distanceModifier) + origin.position.x;
         float yPos = Random.Range(-(float)getMaxTargetDistance() * getSpeed() * distanceModifier, (float)getMaxTargetDistance() * getSpeed() * distanceModifier) + origin.position.y;
 
@@ -281,7 +281,19 @@ public class Villager : MonoBehaviour
         if (yPos > gameManager.topY) { yPos = gameManager.topY; }
         if (yPos < -gameManager.topY) { yPos = -gameManager.topY; }
 
-        return new Vector2(xPos, yPos);
+        destination = new Vector2(xPos, yPos);
+        hasPath = true;
+        return destination;
+    }
+
+    public Vector2 GetObjectLocation(TargetObject target) {
+        if (hasPath) {
+            return destination;
+        }
+        destination = findNearest(target).transform.position;
+        Debug.Log(destination);
+        hasPath = true;
+        return destination;
     }
 
     // Returns a reference to the nearest object of a given type
@@ -418,7 +430,6 @@ public class Villager : MonoBehaviour
         if (getDistance(findNearest(target)) > (getSpeed() * getMaxTargetDistance())) {
             return false;
         }
-        hasPath = true;
         return true;
     }
 

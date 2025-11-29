@@ -182,10 +182,11 @@ namespace BehaviorTreeLib {
         public Node.Status Process() {
             bool result = predicate();
             if (result) {
-                Debug.Log("Condition Passed!");
+                Debug.Log("condition passed");
                 return Node.Status.SUCCESS;
             } else {
-                Debug.Log("Condition Failed...");
+                Debug.Log("condition failed");
+
                 return Node.Status.FAILURE;
             }
         }
@@ -206,39 +207,40 @@ namespace BehaviorTreeLib {
     }
 
     public class Move : IStrategy {
-        readonly Action moveToward;
-        readonly Vector2 location;
+        readonly Action<Vector2> moveToward;
+        readonly Func<Vector2> getLocation;
+        Vector2 location;
         readonly Transform npc;
 
-        public Move(Action moveToward, Vector2 location, Transform npc) {
+        public Move(Action<Vector2> moveToward, Func<Vector2> getLocation, Transform npc) {
             this.moveToward = moveToward;
-            this.location = location;
+            this.getLocation = getLocation;
             this.npc = npc;
         }
 
         public Node.Status Process() {
-            moveToward();
+            location = getLocation();
+            moveToward(location);
             if (Vector2.Distance(location, npc.position) > 0.1f) {
                 return Node.Status.RUNNING;
             }
-            Debug.Log("arrived at location"); // this never shows up thats the problem
+            Debug.Log("arrived at Location");
             return Node.Status.SUCCESS;
         }
     }
 
     public class InteractWithObject : IStrategy {
-        readonly Action interact;
+        readonly Func<bool> interact;
         readonly int duration;
         readonly int timeTaken;
-        public InteractWithObject(Action interact, int duration, int timeTaken) {
+        public InteractWithObject(Func<bool> interact) {
             this.interact = interact;
             this.duration = duration;
             this.timeTaken = timeTaken;
         }
 
         public Node.Status Process() {
-            if (timeTaken < duration) {
-                interact();
+            if (!interact()) {
                 return Node.Status.RUNNING;
             }
             return Node.Status.SUCCESS;
