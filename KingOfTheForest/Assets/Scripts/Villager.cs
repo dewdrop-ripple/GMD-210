@@ -44,8 +44,14 @@ public class Villager : MonoBehaviour
     bool tradeNearby = false;
     bool villagerNearby = false;
 
-    int interactionTime = 200; // how long (in frames) it takes to interact
+    bool defenseNearby = false;
+    bool houseNearby = false;
+    bool banditNearby = false;
+
+    int interactionTime = 100; // how long (in frames) it takes to interact
     int interactionTimeTaken = 0;
+
+    bool canAttack = false;
     
     // Set base data
     private void Awake()
@@ -57,6 +63,9 @@ public class Villager : MonoBehaviour
         // Set size and location
         transform.localScale = new Vector3(gameManager.scaleFactor, gameManager.scaleFactor, 1.0f);
         baseSize = transform.localScale;
+
+        // get interaction time
+        interactionTime = (int)(interactionTime * getActionDelay()); 
 
         // build tree
         tree = new BehaviorTree("Villager");
@@ -75,14 +84,14 @@ public class Villager : MonoBehaviour
         
         Sequence interactTrade = new Sequence("InteractTrade", 20);
         interactTrade.AddChild(new Leaf("TradeNearby", new Condition(() => tradeNearby)));
-        //interactTrade.AddChild(new Leaf("MoneyNotMaxed", new Condition(() => moneyNotMaxed)));
+        interactTrade.AddChild(new Leaf("MoneyNotMaxed", new Condition(() => (moneyCollected < getMoneyCap()))));
         interactTrade.AddChild(new Leaf("MoveToTrade", new Move(MoveToward, () => GetObjectLocation(TargetObject.TradePost), transform)));
         interactTrade.AddChild(new Leaf("GetMoney", new InteractWithObject(() => Gather(TargetObject.TradePost, interactionTime))));
         interactTrade.AddChild(new Leaf("LeaveTrade", new Move(MoveToward, () => GetRandomLocation(transform, 2f), transform)));
         
         Sequence interactVillager = new Sequence("InteractVillager", 10);
         interactVillager.AddChild(new Leaf("VillagerNearby", new Condition(() => villagerNearby)));
-        //interactVillager.AddChild(new Leaf("PopNotMaxed", new Condition(() => popNotMaxed)));
+        interactVillager.AddChild(new Leaf("PopNotMaxed", new Condition(() => (peopleMade < getPopulationCap()))));
         interactVillager.AddChild(new Leaf("MoveToVillager", new Move(MoveToward, () => GetObjectLocation(TargetObject.Villager), transform)));
         interactVillager.AddChild(new Leaf("GetVillager", new InteractWithObject(() => Gather(TargetObject.Villager, interactionTime))));
         interactVillager.AddChild(new Leaf("LeaveVillager", new Move(MoveToward, () => GetRandomLocation(transform, 2f), transform)));
@@ -99,8 +108,54 @@ public class Villager : MonoBehaviour
         
         Sequence night = new Sequence("Night");
         night.AddChild(new Leaf("IsNight", new Condition(() => !currentlyDay())));
+
         // night stuff here
-        
+        Selector nightRoutine = new Selector("NightRoutine");
+
+        UntilFail hide = new UntilFail("Hide");
+        hide.AddChild(new Leaf("IsHiding", new Condition(() => isHiding)));
+
+        Sequence attackRoutine = new Sequence("AttackRoutine");
+        attackRoutine.AddChild(new Leaf("CanAttack", new Condition(() => canAttack)));
+
+        Sequence attack = new Sequence("Attack");
+        attack.AddChild(new Leaf("BanditNearby", new Condition(() => banditNearby)));
+        attack.AddChild(new Leaf("MoveToBandit", new Move(MoveToward, () => GetBanditLocation(), transform)));
+        //attack.AddChild( attack bandit ?????
+
+        Selector canAttackRoutine = new Selector("CanAttackRoutine");
+        canAttackRoutine.AddChild(attack);
+        canAttackRoutine.AddChild(wander);
+
+        attackRoutine.AddChild(canAttackRoutine);
+
+        Sequence search = new Sequence("Search");
+        search.AddChild(new Leaf("CantAttack", new Condition(() => !canAttack)));
+
+        Selector searchRoutine = new Selector("SearchRoutine");
+
+        Sequence defense = new Sequence("Defense");
+        defense.AddChild(new Leaf("DefenseInRange", new Condition(() => defenseNearby)));
+        defense.AddChild(new Leaf("MoveToDefense", new Move(MoveToward, () => GetObjectLocation(TargetObject.Defense), transform)));
+        defense.AddChild(new Leaf("StartAttacking", new ActionStrategy(() => startAttacking())));
+
+        Sequence house = new Sequence("House");
+        house.AddChild(new Leaf("HouseInRange", new Condition(() => houseNearby)));
+        house.AddChild(new Leaf("MoveToHouse", new Move(MoveToward, () => GetObjectLocation(TargetObject.House), transform)));
+        house.AddChild(new Leaf("StartHiding", new ActionStrategy(() => startHiding())));
+
+        searchRoutine.AddChild(defense);
+        searchRoutine.AddChild(house);
+        searchRoutine.AddChild(wander);
+
+        search.AddChild(searchRoutine);
+
+        nightRoutine.AddChild(hide);
+        nightRoutine.AddChild(attackRoutine);
+        nightRoutine.AddChild(search);
+
+        night.AddChild(nightRoutine);
+
         timeOfDay.AddChild(day);
         timeOfDay.AddChild(night);
         
@@ -112,15 +167,26 @@ public class Villager : MonoBehaviour
         // Keep track of time
         timer += Time.deltaTime;
 
-        
-        if (checkForNearby(TargetObject.Villager)) {
-            villagerNearby = true;
-        }
-        if (checkForNearby(TargetObject.TradePost)) {
-            tradeNearby = true;
-        }
-        if (checkForNearby(TargetObject.Farm)) {
-            farmNearby = true;
+        if (gameManager.isDay) {
+            if (checkForNearby(TargetObject.Villager)) {
+                villagerNearby = true;
+            }
+            if (checkForNearby(TargetObject.TradePost)) {
+                tradeNearby = true;
+            }
+            if (checkForNearby(TargetObject.Farm)) {
+                farmNearby = true;
+            }
+        } else {
+            if (checkForNearby(TargetObject.Bandit)) {
+                banditNearby = true;
+            }
+            if (checkForNearby(TargetObject.Defense)) {
+                defenseNearby = true;
+            }
+            if (checkForNearby(TargetObject.House)) {
+                houseNearby = true;
+            }
         }
 
         Node.Status status = tree.Process();
@@ -129,15 +195,16 @@ public class Villager : MonoBehaviour
         }
 
         // Reset necessary data during the oposite time
-        if (!gameManager.isDay)
+        if (gameManager.isDay)
+        {
+            isHiding = false;
+            canAttack = false;
+        }
+        else
         {
             foodCollected = 0;
             moneyCollected = 0;
             peopleMade = 0;
-        }
-        else
-        {
-            isHiding = false;
         }
 
         // Dissappear and turn of collisions
@@ -244,6 +311,14 @@ public class Villager : MonoBehaviour
         return true;
     }
 
+    public void startHiding() {
+        isHiding = true;
+    }
+
+    public void startAttacking() {
+        canAttack = true;
+    }
+
     // Accepts a give location and tells the NPC to move to that location
     // If any coordinates are out of bounds it will move them in bounds
     public void MoveToward(Vector2 location) {
@@ -291,8 +366,16 @@ public class Villager : MonoBehaviour
             return destination;
         }
         destination = findNearest(target).transform.position;
-        Debug.Log(destination);
         hasPath = true;
+        return destination;
+    }
+
+    public Vector2 GetBanditLocation() {
+        destination = findNearest(TargetObject.Bandit).transform.position;
+        hasPath = true;
+        if (destination == null|| Vector2.Distance(destination, transform.position) > 0.1) {
+            destination = transform.position;
+        }
         return destination;
     }
 

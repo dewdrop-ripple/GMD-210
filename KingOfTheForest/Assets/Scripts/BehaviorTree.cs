@@ -20,7 +20,6 @@ namespace BehaviorTreeLib {
                 Reset();
                 return Status.FAILURE;
             }
-
             return Status.RUNNING;
         }
     }
@@ -182,11 +181,8 @@ namespace BehaviorTreeLib {
         public Node.Status Process() {
             bool result = predicate();
             if (result) {
-                Debug.Log("condition passed");
                 return Node.Status.SUCCESS;
             } else {
-                Debug.Log("condition failed");
-
                 return Node.Status.FAILURE;
             }
         }
@@ -200,7 +196,6 @@ namespace BehaviorTreeLib {
         }
 
         public Node.Status Process() {
-            Debug.Log("Processing");
             doSomething();
             return Node.Status.SUCCESS;
         }
@@ -220,23 +215,21 @@ namespace BehaviorTreeLib {
 
         public Node.Status Process() {
             location = getLocation();
-            moveToward(location);
+            if (Vector2.Distance(location, npc.position) < 0.1f) {
+                return Node.Status.SUCCESS;
+            }
+                moveToward(location);
             if (Vector2.Distance(location, npc.position) > 0.1f) {
                 return Node.Status.RUNNING;
             }
-            Debug.Log("arrived at Location");
             return Node.Status.SUCCESS;
         }
     }
 
     public class InteractWithObject : IStrategy {
         readonly Func<bool> interact;
-        readonly int duration;
-        readonly int timeTaken;
         public InteractWithObject(Func<bool> interact) {
             this.interact = interact;
-            this.duration = duration;
-            this.timeTaken = timeTaken;
         }
 
         public Node.Status Process() {
