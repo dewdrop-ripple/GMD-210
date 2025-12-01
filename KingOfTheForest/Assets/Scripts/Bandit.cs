@@ -162,7 +162,6 @@ public class Bandit : MonoBehaviour
     // If any coordinates are out of bounds it will move them in bounds
     public void MoveToward(Vector2 location)
     {
-        interactionTimeTaken = 0;
         Vector2 targetVector = new Vector2(location.x - transform.position.x, location.y - transform.position.y);
         float distanceTotal = Mathf.Sqrt(targetVector.x * targetVector.x + targetVector.y * targetVector.y);
 
@@ -181,7 +180,6 @@ public class Bandit : MonoBehaviour
 
     public Vector2 GetObjectLocation(TargetObject target)
     {
-        Debug.Log("Going");
         if (hasPath)
         {
             return destination;
