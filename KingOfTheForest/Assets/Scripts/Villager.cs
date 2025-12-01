@@ -121,7 +121,6 @@ public class Villager : MonoBehaviour
         Sequence attack = new Sequence("Attack");
         attack.AddChild(new Leaf("BanditNearby", new Condition(() => banditNearby)));
         attack.AddChild(new Leaf("MoveToBandit", new Move(MoveToward, () => GetBanditLocation(), transform)));
-        //attack.AddChild( attack bandit ?????
 
         Selector canAttackRoutine = new Selector("CanAttackRoutine");
         canAttackRoutine.AddChild(attack);

@@ -5,6 +5,7 @@
 //
 
 using System.Collections.Generic;
+using BehaviorTreeLib;
 using UnityEngine;
 
 public class Bandit : MonoBehaviour
@@ -24,9 +25,10 @@ public class Bandit : MonoBehaviour
     Vector2 baseSize;
 
     // To make sure it's not doing too much
-    int foodCollected = 0;
-    int moneyCollected = 0;
-    int peopleMade = 0;
+    int stoneStolen = 0;
+    int woodStolen = 0;
+    int moneyStolen = 0;
+    int foodStolen = 0;
 
     // For hiding
     public bool isHiding = false;
@@ -43,6 +45,18 @@ public class Bandit : MonoBehaviour
     public Sprite villager;
     public Sprite bandit;
 
+    // variables for behavior tree
+    BehaviorTree tree;
+
+    Vector2 destination;
+
+    bool hasPath = false;
+
+    int interactionTime = 100; // how long (in frames) it takes to interact
+    int interactionTimeTaken = 0;
+
+
+
     // Set base data
     private void Awake()
     {
@@ -53,97 +67,94 @@ public class Bandit : MonoBehaviour
         // Set size and location
         transform.localScale = new Vector3(gameManager.scaleFactor, gameManager.scaleFactor, 1.0f);
         baseSize = transform.localScale;
+
+        // get interaction time
+        interactionTime = (int)(interactionTime * getActionDelay());
+
+        // build tree
+        tree = new BehaviorTree("BanditTree");
+
+        Selector timeOfDay = new Selector("TimeOfDay");
+
+        Sequence night = new Sequence("Night");
+        night.AddChild(new Leaf("isNight", new Condition(() => !currentlyDay())));
+        //timeOfDay.AddChild(new Leaf("isDay", new Condition(() => currentlyDay())));
+
+        Selector nightRoutine = new Selector("NightRoutine");
+
+        Leaf tradePostExists = new Leaf("TradePostExists", new Condition(() => (findNearest(TargetObject.TradePost) != null)));
+        Leaf moveToTradePost = new Leaf("MoveToTradePost", new Move(MoveToward, () => GetObjectLocation(TargetObject.TradePost), transform));
+        Leaf onTradePost = new Leaf("OnTradePost", new Condition(() => (Vector2.Distance(findNearest(TargetObject.TradePost).transform.position, transform.position) < 0.1)));
+
+        Leaf farmExists = new Leaf("FarmExists", new Condition(() => (findNearest(TargetObject.Farm) != null)));
+
+        // Steal Stone
+        Sequence stealStone = new Sequence("StealStone");
+        stealStone.AddChild(new Leaf("StoneNotMaxed", new Condition(() => ((stoneStolen < getStoneCap()) && (gameManager.stone > 0)))));
+        stealStone.AddChild(tradePostExists);
+        stealStone.AddChild(moveToTradePost);
+        stealStone.AddChild(tradePostExists);
+        stealStone.AddChild(onTradePost);
+        stealStone.AddChild(new Leaf("GetStone", new InteractWithObject(() => Steal(StealTarget.Stone, interactionTime))));
+
+        Sequence stealWood = new Sequence("StealWood");
+        stealWood.AddChild(new Leaf("WoodNotMaxed", new Condition(() => ((woodStolen < getWoodCap()) && (gameManager.wood > 0)))));
+        stealWood.AddChild(tradePostExists);
+        stealWood.AddChild(moveToTradePost);
+        stealWood.AddChild(tradePostExists);
+        stealWood.AddChild(onTradePost);
+        stealWood.AddChild(new Leaf("GetStone", new InteractWithObject(() => Steal(StealTarget.Wood, interactionTime))));
+
+        Sequence stealMoney = new Sequence("StealMoney");
+        stealMoney.AddChild(new Leaf("MoneyNotMaxed", new Condition(() => ((moneyStolen < getMoneyCap()) && (gameManager.money > 0)))));
+        stealMoney.AddChild(tradePostExists);
+        stealMoney.AddChild(moveToTradePost);
+        stealMoney.AddChild(tradePostExists);
+        stealMoney.AddChild(onTradePost);
+        stealMoney.AddChild(new Leaf("GetMoney", new InteractWithObject(() => Steal(StealTarget.Money, interactionTime))));
+
+        Sequence stealFood = new Sequence("StealFood");
+        stealFood.AddChild(new Leaf("FoodNotMaxed", new Condition(() => ((foodStolen < getFoodCap()) && (gameManager.food > 0)))));
+        stealFood.AddChild(farmExists);
+        stealFood.AddChild(new Leaf("MoveToFarm", new Move(MoveToward, () => GetObjectLocation(TargetObject.Farm), transform)));
+        stealFood.AddChild(farmExists);
+        stealFood.AddChild(new Leaf("OnFarm", new Condition(() => (Vector2.Distance(findNearest(TargetObject.Farm).transform.position, transform.position) < 0.1))));
+        stealFood.AddChild(new Leaf("GetFood", new InteractWithObject(() => Steal(StealTarget.Food, interactionTime))));
+
+        // Destroy Building
+
+        // Leave
+
+        nightRoutine.AddChild(stealStone);
+        nightRoutine.AddChild(stealWood);
+        nightRoutine.AddChild(stealMoney);
+        nightRoutine.AddChild(stealFood);
+
+        night.AddChild(nightRoutine);
+
+        timeOfDay.AddChild(night);
+
+        tree.AddChild(timeOfDay);
     }
 
     private void Update()
     {
-        // Keep track of time
-        timer += Time.deltaTime;
+            // Keep track of time
+            timer += Time.deltaTime;
 
-        // Reset necessary data during the oposite time
-        if (!gameManager.isDay)
+        //if (findNearest(TargetObject.Villager) == null)
+        //{
+        //    Debug.Log("Villager Found");
+        //}
+        //else if (Vector2.Distance(findNearest(TargetObject.Villager).transform.position, transform.position) < 0.5f)
+        //{
+        //    kill();
+        //}
+
+        Node.Status status = tree.Process();
+        if (status != Node.Status.RUNNING)
         {
-            foodCollected = 0;
-            moneyCollected = 0;
-            peopleMade = 0;
-        }
-        else
-        {
-            isHiding = false;
-        }
-
-        // Dissappear and turn of collisions
-        if (isHiding)
-        {
-            //colliderSystem.enabled = false;
-            renderSystem.enabled = false;
-        }
-        else
-        {
-            //colliderSystem.enabled = true;
-            renderSystem.enabled = true;
-        }
-
-        // When done with interaction animation
-        if (timer >= stopInteractingAt && interacting)
-        {
-            interacting = false;
-
-            switch (interactionType)
-            {
-                // Destroy a building
-                case (TargetObject.BuildingToDestroy):
-                    findNearest(TargetObject.BuildingToDestroy).GetComponent<Building>().AttackBuilding();
-                    break;
-
-                // Steal from a trade post
-                case (TargetObject.TradePost):
-                    switch (currentStealTarget)
-                    {
-                        case (StealTarget.Wood):
-                            if (gameManager.wood > 0)
-                                gameManager.wood--;
-                            break;
-
-                        case (StealTarget.Stone):
-                            if (gameManager.stone > 0)
-                                gameManager.stone--;
-                            break;
-
-                        case (StealTarget.Money):
-                            if (gameManager.money > 0)
-                                gameManager.money--;
-                            break;
-                    }
-                    break;
-
-                // Steal from a farm
-                case (TargetObject.Farm):
-                    if (gameManager.food > 0)
-                        gameManager.food--;
-                    break;
-            }
-        }
-
-        // Play animation
-        if (interacting)
-        {
-            if (animationDirection < 50)
-            {
-                transform.localScale = new Vector3(transform.localScale.x + (Time.deltaTime / 5), transform.localScale.y + (Time.deltaTime / 5), 1);
-                animationDirection++;
-            }
-            else
-            {
-                transform.localScale = new Vector3(transform.localScale.x - (Time.deltaTime / 5), transform.localScale.y - (Time.deltaTime / 5), 1);
-                animationDirection++;
-                if (animationDirection > 100) animationDirection = 0;
-            }
-        }
-        else
-        {
-            transform.localScale = new Vector3(gameManager.scaleFactor, gameManager.scaleFactor, 1.0f);
-            animationDirection = 0;
+            tree.Reset();
         }
     }
 
@@ -151,11 +162,7 @@ public class Bandit : MonoBehaviour
     // If any coordinates are out of bounds it will move them in bounds
     public void MoveToward(Vector2 location)
     {
-        if (location.x > gameManager.rightX) { location.x = gameManager.rightX; }
-        if (location.x < gameManager.leftX) { location.x = gameManager.leftX; }
-        if (location.y > gameManager.topY) { location.y = gameManager.topY; }
-        if (location.y < gameManager.bottomY) { location.y = gameManager.bottomY; }
-
+        interactionTimeTaken = 0;
         Vector2 targetVector = new Vector2(location.x - transform.position.x, location.y - transform.position.y);
         float distanceTotal = Mathf.Sqrt(targetVector.x * targetVector.x + targetVector.y * targetVector.y);
 
@@ -164,6 +171,54 @@ public class Bandit : MonoBehaviour
 
         int angle = (int)((180 / Mathf.PI) * Mathf.Atan2(movement.x, movement.y)) + 90;
         transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        if (Vector2.Distance(transform.position, location) < 0.1)
+        {
+            transform.position = new Vector3(location.x, location.y, transform.position.z);
+            hasPath = false;
+        }
+    }
+
+    public Vector2 GetObjectLocation(TargetObject target)
+    {
+        Debug.Log("Going");
+        if (hasPath)
+        {
+            return destination;
+        }
+        destination = findNearest(target).transform.position;
+        hasPath = true;
+        return destination;
+    }
+
+    public bool Steal(StealTarget target, int time)
+    {
+        interactionTimeTaken++;
+        if (interactionTimeTaken < time)
+        {
+            return false;
+        }
+        switch (target)
+        {
+            case (StealTarget.Stone):
+                gameManager.stone -= 1;
+                stoneStolen++;
+                break;
+            case (StealTarget.Wood):
+                gameManager.wood -= 1;
+                woodStolen++;
+                break;
+            case (StealTarget.Money):
+                gameManager.money -= 1;
+                moneyStolen++;
+                break;
+            case (StealTarget.Food):
+                gameManager.food -= 1;
+                foodStolen++;
+                break;
+        }
+        interactionTimeTaken = 0;
+        return true;
     }
 
     // Returns a reference to the nearest object of a given type
@@ -289,18 +344,6 @@ public class Bandit : MonoBehaviour
         Vector2 connectingVector = new Vector2(otherLocation.x - transform.position.x, otherLocation.y - transform.position.y);
         float distanceTotal = Mathf.Sqrt(connectingVector.x * connectingVector.x + connectingVector.y * connectingVector.y);
         return distanceTotal;
-    }
-
-    // Triggers and interaction between the NPC and a target
-    // Will not work if the nearest instance of that target is more than five steps away
-    public void interact(TargetObject target)
-    {
-        if (getDistance(findNearest(target)) > (getSpeed() * 5))
-            return;
-
-        interacting = true;
-        stopInteractingAt = timer + getActionDelay();
-        interactionType = target;
     }
 
     // Immediately kill this npc
