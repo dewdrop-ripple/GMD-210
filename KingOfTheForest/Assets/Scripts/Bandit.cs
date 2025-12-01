@@ -124,11 +124,15 @@ public class Bandit : MonoBehaviour
         // Destroy Building
 
         // Leave
+        Sequence leave = new Sequence("Leave");
+        leave.AddChild(new Leaf("MoveToEdge", new Move(MoveToward, () => GetObjectLocation(TargetObject.Edge), transform)));
+        leave.AddChild(new Leaf("Disappear", new ActionStrategy(() => kill())));
 
         nightRoutine.AddChild(stealStone);
         nightRoutine.AddChild(stealWood);
         nightRoutine.AddChild(stealMoney);
         nightRoutine.AddChild(stealFood);
+        nightRoutine.AddChild(leave);
 
         night.AddChild(nightRoutine);
 
@@ -142,14 +146,14 @@ public class Bandit : MonoBehaviour
             // Keep track of time
             timer += Time.deltaTime;
 
-        //if (findNearest(TargetObject.Villager) == null)
-        //{
-        //    Debug.Log("Villager Found");
-        //}
-        //else if (Vector2.Distance(findNearest(TargetObject.Villager).transform.position, transform.position) < 0.5f)
-        //{
-        //    kill();
-        //}
+        if (findNearest(TargetObject.Villager) == null)
+        {
+            
+        }
+        else if (Vector2.Distance(findNearest(TargetObject.Villager).transform.position, transform.position) < 0.5f)
+        {
+            kill();
+        }
 
         Node.Status status = tree.Process();
         if (status != Node.Status.RUNNING)
@@ -182,6 +186,11 @@ public class Bandit : MonoBehaviour
     {
         if (hasPath)
         {
+            return destination;
+        }
+        if (target == TargetObject.Edge)
+        {
+            destination = new Vector2(gameManager.leftX, gameManager.topY);
             return destination;
         }
         destination = findNearest(target).transform.position;

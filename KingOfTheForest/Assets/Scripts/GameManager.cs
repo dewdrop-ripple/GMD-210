@@ -15,7 +15,8 @@ public enum TargetObject
     Farm,
     Villager,
     Bandit,
-    BuildingToDestroy
+    BuildingToDestroy,
+    Edge
 }
 
 // Used to declare what kind of NPC this is
