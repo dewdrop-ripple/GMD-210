@@ -25,6 +25,7 @@ public class Advisor : MonoBehaviour
     public bool firstDayDone = false;
     public bool tradeDone = false;
     public bool populationMilestoneDone = false;
+    public bool playWinScene = false;
 
     // States
     public bool miningTutorialActive = false;
@@ -78,6 +79,11 @@ public class Advisor : MonoBehaviour
             gameManager.tutorialTextOpen = false;
             gameManager.bannedFromMining = false;
             gameManager.nextDay.enabled = true;
+        }
+
+        if (playWinScene)
+        {
+            winScene();
         }
     }
 
@@ -400,6 +406,11 @@ public class Advisor : MonoBehaviour
 
     public void gameWon()
     {
+        playWinScene = true;
+    }
+
+    public void winScene()
+    {
         textCanvas.enabled = true;
 
         switch (textTarget)
@@ -425,6 +436,7 @@ public class Advisor : MonoBehaviour
                 break;
 
             default:
+                playWinScene = false;
                 textCanvas.enabled = false;
                 gameManager.winScreen.enabled = true;
                 textTarget = 1;
