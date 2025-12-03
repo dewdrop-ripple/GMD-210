@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\assets\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\assets\\scripts\\hud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\hud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|c:\\users\\jorda\\source\\repos\\gmd-210\\kingoftheforest\\assets\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|c:\\users\\jorda\\source\\repos\\gmd-210\\kingoftheforest\\assets\\scripts\\advisor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\assets\\scripts\\advisor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\advisor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\assets\\scripts\\cameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\assets\\scripts\\hud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\hud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\assets\\scripts\\settingsbuttons.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -31,7 +31,7 @@
       "RelativeMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\resource.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|c:\\users\\jorda\\source\\repos\\gmd-210\\kingoftheforest\\assets\\scripts\\building.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\assets\\scripts\\building.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F5CA8041-E5D4-6B64-8DD7-0DB1CCE7824C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\building.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -58,11 +58,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Advisor.cs",
               "DocumentMoniker": "C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\Assets\\Scripts\\Advisor.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Advisor.cs",
@@ -70,18 +70,17 @@
               "RelativeToolTip": "Assets\\Scripts\\Advisor.cs",
               "ViewState": "AgIAAEoAAAAAAAAAAAAtwFYAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-19T21:47:07.201Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-19T21:47:07.201Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "GameManager.cs",
               "DocumentMoniker": "C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\Assets\\Scripts\\GameManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameManager.cs",
               "ToolTip": "C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\Assets\\Scripts\\GameManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\GameManager.cs",
-              "ViewState": "AgIAAKEAAAAAAAAAAAAAwKgAAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAAKMAAAAAAAAAAIBZwKgAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-18T21:05:44.366Z",
               "EditorCaption": ""
@@ -100,7 +99,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "CameraController.cs",
               "DocumentMoniker": "C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\Assets\\Scripts\\CameraController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\CameraController.cs",
@@ -108,8 +107,7 @@
               "RelativeToolTip": "Assets\\Scripts\\CameraController.cs",
               "ViewState": "AgIAAAQAAAAAAAAAAAAuwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-19T15:37:57.755Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-19T15:37:57.755Z"
             },
             {
               "$type": "Document",
@@ -121,8 +119,7 @@
               "RelativeToolTip": "Assets\\Scripts\\SettingsButtons.cs",
               "ViewState": "AgIAAFEAAAAAAAAAAAAgwF0AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-13T22:46:11.782Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-13T22:46:11.782Z"
             },
             {
               "$type": "Document",
@@ -134,8 +131,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Settings.cs",
               "ViewState": "AgIAADwAAAAAAAAAAAAYwBQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-13T22:45:56.771Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-13T22:45:56.771Z"
             },
             {
               "$type": "Document",
@@ -163,13 +159,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "HUD.cs",
               "DocumentMoniker": "C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\Assets\\Scripts\\HUD.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\HUD.cs",
               "ToolTip": "C:\\Users\\jorda\\Source\\Repos\\GMD-210\\KingOfTheForest\\Assets\\Scripts\\HUD.cs",
               "RelativeToolTip": "Assets\\Scripts\\HUD.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAAwBYAAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAABMAAAAAAAAAAAAzwBsAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-20T20:16:32.565Z",
               "EditorCaption": ""
@@ -184,8 +180,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Resource.cs",
               "ViewState": "AgIAAH4AAAAAAAAAAAAqwL0AAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-20T17:31:11.153Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-20T17:31:11.153Z"
             },
             {
               "$type": "Document",
@@ -209,8 +204,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Building.cs",
               "ViewState": "AgIAAJ0AAAAAAAAAAIBZwKIAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-20T14:05:07.885Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-20T14:05:07.885Z"
             }
           ]
         }

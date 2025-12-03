@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5ba4e75a1ca4c24cbd68aa947f18aef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Settings
-  difficultyScaler: 1
+  difficultyScaler: 1.25
   cursorTextureHand: {fileID: 2800000, guid: 7a251e4f4cf34da43aee88d9bdb3bf5c, type: 3}
   cursorTextureAxe: {fileID: 2800000, guid: 8a3cc2980dfd6d8449d5f647c439cfb2, type: 3}
   cursorTexturePick: {fileID: 2800000, guid: 35e8670f103d68e45aa51387954df907, type: 3}
@@ -156,6 +156,7 @@ MonoBehaviour:
   cAxe: 0
   cPick: 0
   cHammer: 0
+  tutorialEnabled: 1
 --- !u!4 &130040535
 Transform:
   m_ObjectHideFlags: 0

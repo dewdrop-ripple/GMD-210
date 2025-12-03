@@ -247,6 +247,16 @@ public class GameManager : MonoBehaviour
             money -= 100;
             if (money < 0) money = 0;
         }
+        if (Input.GetKeyDown(KeyCode.O) && cheats)
+        {
+            population -= 100;
+            if (population < 0) population = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.P) && cheats)
+        {
+            population += 100;
+            if (population > maxPopulation) population = maxPopulation;
+        }
 
         if (buildMenuOpen || pauseOverlayOpen || nightScreenOpen || buildingOverlayOpen || currentlyBuilding || tutorialTextOpen || bannedFromMining)
         {
