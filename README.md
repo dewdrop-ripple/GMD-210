@@ -16,9 +16,11 @@ To build a building, open the build menu, select the building, and click 'buy' (
 Cheat Codes:
 -----------------
     B - Enable/Disable Cheats. When cheats are enabled, trade is also enabled, regardless of what buildings are currently built.
-    N - +25 Food
-    M - +25 Money
-    K - -25 Food
-    L - -25 Money
+    N - +100 Food
+    M - +100 Money
+    P - +100 Population
+    K - -100 Food
+    L - -100 Money
+    O - -100 Population
 
   The rest of the game is played entirely using the mouse (clicking and dragging). The cheat codes are the only part of the game that uses the keyboard.
